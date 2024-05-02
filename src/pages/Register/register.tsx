@@ -11,31 +11,46 @@ function Register() {
   const [errors, setErrors] = useState({});
 
   const checkIdDuplicate = async () => {
-    // 서버에 아이디 중복 검사 요청
+    // 서버에 아이디 중복 검사 요청(임시)
     console.log('아이디 중복 검사 실행');
   };
   const checkNicknameDuplicate = async () => {
-    // 서버에 닉네임 중복 검사 요청
+    // 서버에 닉네임 중복 검사 요청(암시)
     console.log('닉네임 중복 검사 실행');
   };
 
   const sendEmailCode = async () => {
-    // 이메일 코드 보내기 요청
+    // 이메일 코드 보내기 요청(임시)
     console.log('이메일 코드 보냄');
   };
 
   const verifyEmailCode = async () => {
-    // 입력한 코드가 서버에서 보낸 코드와 일치하는지 검사
+    // 입력한 코드가 서버에서 보낸 코드와 일치하는지 검사(임시)
     console.log('이메일 코드 검증');
   };
 
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
+    
+    const newErrors = {};
+    if (!validateEmail(email)) {
+      newErrors.email = '유효한 이메일 주소를 입력해주세요.';
+    }
     if (password !== confirmPassword) {
-      setErrors({ ...errors, confirmPassword: '비밀번호가 일치하지 않습니다.' });
+      newErrors.confirmPassword = '비밀번호가 일치하지 않습니다.';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
+
     console.log('폼 제출', { id, password, nickname, email });
+    // 폼 제출 로직
   };
 
   return (
@@ -67,6 +82,8 @@ function Register() {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
+            {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+
             <h3>닉네임 설정</h3>
             <input
               placeholder="닉네임을 입력하세요"
@@ -77,6 +94,7 @@ function Register() {
             
             <h3>이메일 인증</h3>
             <input
+              type="email"
               placeholder="이메일을 입력하세요"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -89,6 +107,8 @@ function Register() {
               onChange={(e) => setEmailCode(e.target.value)}
             />
             <button onClick={verifyEmailCode}>인증번호 확인</button>
+
+            {errors.email && <p className="error">{errors.email}</p>}
 
             <button type="submit" className="signup-button">가입하기</button>
           </form>
