@@ -1,16 +1,7 @@
-import { RecoilRoot } from "recoil";
-import "./App.css";
-import { ThemePage } from "./pages/Theme/ThemePage";
-import ThemeProvider from "./pages/Theme/ThemeProvider";
+import './App.css';
 
 function App() {
-  return (
-    <RecoilRoot>
-      <ThemeProvider>
-        <ThemePage />
-      </ThemeProvider>
-    </RecoilRoot>
-  );
+    return <>코드이지</>;
 }
 
 export default App;
