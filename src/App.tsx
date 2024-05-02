@@ -5,11 +5,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
 import './App.css';
+// import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import Header from './Layout/Header/Header';
 
 function App() {
     return (
         <BrowserRouter>
-         <h1>코드이지</h1>
+          <Header />
           <Routes>
             <Route path="/" element={<Register />} />
             <Route path="/login" element={<Login />} />
