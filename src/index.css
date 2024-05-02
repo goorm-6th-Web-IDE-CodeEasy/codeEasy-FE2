@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'KoddiUDOnGothic-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/KoddiUDOnGothic-Regular.woff')
+      format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'KoddiUDOnGothic-Regular', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
