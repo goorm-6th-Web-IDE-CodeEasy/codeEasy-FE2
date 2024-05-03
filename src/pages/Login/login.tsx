@@ -23,6 +23,7 @@ const Login = () => {
             const response = await axios.post('http://localhost:8080/api/login', { username, password });
             localStorage.setItem('token', response.data.token); // 토큰 저장
             alert('로그인 성공!');
+            //메이페이지로 이동 (라우터 사용할 예정)
         } catch (error) {
             const errorMessage = error.response ? error.response.data.message : error.message;
             console.error('로그인 실패:', errorMessage);
@@ -45,7 +46,7 @@ const Login = () => {
                     </div>
                     <button type="submit">로그인</button>
                 </form>
-                <small>회원이 아니신가요?<a href="/">회원가입</a></small>
+                <small>회원이 아니신가요?<a href="/register">회원가입</a></small>
             </div>
         </div>
     );

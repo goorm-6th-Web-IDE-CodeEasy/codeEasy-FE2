@@ -22,7 +22,7 @@ const Register = () => {
     //백엔드 입력한 이메일 전송하기
     const sendVerificationCode = async () => {
         try {
-            await axios.post('http://localhost:8080/api/send-verification-code', { email: formData.email });
+            await axios.post('http://localhost:8080/api/register/send-certification', { email: formData.email });
             setVerificationCodeSent(true);
             alert('인증 코드가 이메일로 전송되었습니다.');
         } catch (error) {
@@ -33,11 +33,14 @@ const Register = () => {
     //백엔드 측 인증코드 검사
     const verifyCode = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/verify-code', { email: formData.email, verificationCode: formData.verificationCode });
-            if (response.data.verified) {
+            const response = await axios.post('http://localhost:8080/api/register/certificate-code', {
+                email: formData.email, 
+                verificationCode: formData.verificationCode
+            });
+            if (response.data) { // 서버가 true를 반환하면 인증 성공
                 setAvailability(prev => ({ ...prev, emailVerified: true }));
                 alert('이메일 인증 성공!');
-            } else {
+            } else { // 서버가 false를 반환하면 인증 실패
                 alert('인증 코드가 잘못되었습니다.');
             }
         } catch (error) {
@@ -50,7 +53,7 @@ const Register = () => {
     const checkAvailability = async (value, type) => {
         if (!value) return; // 값이 없으면 함수 종료
         try {
-            const response = await axios.get(`http://localhost:8080/api/check-${type}`, {
+            const response = await axios.get(`http://localhost:8080/api/${type}-check`, {
                 params: { [type]: value }
             });
             const { available } = response.data;
