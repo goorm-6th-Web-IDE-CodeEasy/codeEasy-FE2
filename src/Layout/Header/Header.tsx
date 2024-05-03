@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import './Header.scss'; // 스타일 시트 임포트
+import styles from './Header.module.scss'; // 스타일 시트 임포트
 
 const Header = () => {
     return (
         <>
-            <header className="header">
-                <nav className="nav-container">
-                    <div className="top-section">
-                        <Link to="/" className="logo">
+            <header className={styles.header}>
+                <nav className={styles.navContainer}>
+                    <div className={styles.topSection}>
+                        <Link to="/" className={styles.logo}>
                             <div>
                                 <svg
                                     width="102"
@@ -79,8 +79,8 @@ const Header = () => {
                                 </svg>
                             </div>
                         </Link>
-                        <div className="icons">
-                            <button className="volumeUp-icon">
+                        <div className={styles.icons}>
+                            <button className={styles.volumeUpIcon}>
                                 <svg
                                     width="45"
                                     height="40"
@@ -94,51 +94,51 @@ const Header = () => {
                                     />
                                 </svg>
                             </button>
-                            <button className="plus-icon">
+                            <button className={styles.plusIcon}>
                                 <svg
                                     width="30"
                                     height="30"
-                                    viewBox="0 0 23 28"
+                                    viewBox="0 0 16 16"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        d="M16.8649 17.5307H15.7991L15.4213 17.1005C17.0403 14.8694 17.8767 11.8256 17.418 8.59057C16.7839 4.16033 13.654 0.622506 9.87642 0.0806776C4.16963 -0.748001 -0.633243 4.92526 0.0683001 11.6662C0.527002 16.1284 3.52205 19.8255 7.27261 20.5745C10.0113 21.1164 12.5882 20.1283 14.4769 18.216L14.8412 18.6622V19.9212L20.575 26.694C21.1281 27.3474 22.032 27.3474 22.5851 26.694C23.1383 26.0406 23.1383 24.9729 22.5851 24.3195L16.8649 17.5307ZM8.77014 17.5307C5.41082 17.5307 2.69909 14.3276 2.69909 10.3595C2.69909 6.39138 5.41082 3.18822 8.77014 3.18822C12.1295 3.18822 14.8412 6.39138 14.8412 10.3595C14.8412 14.3276 12.1295 17.5307 8.77014 17.5307Z"
-                                        fill="white"
+                                        d="M8.12268 4V12.3298"
+                                        stroke="white"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                     />
                                     <path
-                                        d="M9.13867 6.55859V14.8884"
+                                        d="M4 8.16504H12.2446"
                                         stroke="white"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                     />
-                                    <path
-                                        d="M5.01562 10.7236H13.2602"
-                                        stroke="white"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
+                                    <circle cx="8" cy="8" r="7" stroke="white" strokeWidth="2" />
                                 </svg>
                             </button>
 
-                            <button className="minus-icon">
+                            <button className={styles.minusIcon}>
                                 <svg
-                                    width="23"
-                                    height="28"
-                                    viewBox="0 0 23 28"
+                                    width="30"
+                                    height="30"
+                                    viewBox="0 0 16 16"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        d="M16.8649 17.5307H15.7991L15.4213 17.1005C17.0403 14.8694 17.8767 11.8256 17.418 8.59057C16.7839 4.16033 13.654 0.622506 9.87642 0.0806776C4.16963 -0.748001 -0.633243 4.92526 0.0683001 11.6662C0.527002 16.1284 3.52205 19.8255 7.27261 20.5745C10.0113 21.1164 12.5882 20.1283 14.4769 18.216L14.8412 18.6622V19.9212L20.575 26.694C21.1281 27.3474 22.032 27.3474 22.5851 26.694C23.1383 26.0406 23.1383 24.9729 22.5851 24.3195L16.8649 17.5307ZM8.77014 17.5307C5.41082 17.5307 2.69909 14.3276 2.69909 10.3595C2.69909 6.39138 5.41082 3.18822 8.77014 3.18822C12.1295 3.18822 14.8412 6.39138 14.8412 10.3595C14.8412 14.3276 12.1295 17.5307 8.77014 17.5307Z"
-                                        fill="white"
+                                        d="M4 8.16504H12.2446"
+                                        stroke="white"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                     />
-                                    <path d="M5 11H13" stroke="white" stroke-width="2" stroke-linecap="round" />
+                                    <circle cx="8" cy="8" r="7" stroke="white" strokeWidth="2" />
                                 </svg>
                             </button>
-                            <button className="client-icon">
+                            <button className={styles.clientIcon}>
                                 <svg
                                     width="35"
                                     height="34"
@@ -146,7 +146,7 @@ const Header = () => {
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
-                                    <g clip-path="url(#clip0_87_659)">
+                                    <g clipPath="url(#clip0_87_659)">
                                         <path
                                             d="M17.4993 2.83301C9.4452 2.83301 2.91602 9.17564 2.91602 16.9997C2.91602 24.8237 9.4452 31.1663 17.4993 31.1663C25.5535 31.1663 32.0827 24.8237 32.0827 16.9997C32.0827 13.2424 30.5462 9.63909 27.8113 6.98233C25.0764 4.32556 21.3671 2.83301 17.4993 2.83301ZM17.4993 7.08301C19.9156 7.08301 21.8743 8.9858 21.8743 11.333C21.8743 13.6802 19.9156 15.583 17.4993 15.583C15.0831 15.583 13.1243 13.6802 13.1243 11.333C13.1243 8.9858 15.0831 7.08301 17.4993 7.08301ZM25.6952 22.893C23.7694 25.4124 20.7297 26.8976 17.4993 26.8976C14.269 26.8976 11.2293 25.4124 9.30352 22.893C9.0107 22.4726 8.97176 21.9322 9.20143 21.4763L9.50768 20.853C10.2294 19.3669 11.7683 18.4181 13.4598 18.4163H21.5389C23.2067 18.4185 24.7281 19.3415 25.4618 20.7963L25.7973 21.4622C26.0326 21.9219 25.9936 22.4693 25.6952 22.893Z"
                                             fill="white"
@@ -162,24 +162,24 @@ const Header = () => {
                         </div>
                     </div>
 
-                    <div className="menu">
+                    <div className={styles.menu}>
                         <div>
-                            <Link to="/home" className="menu-item">
+                            <Link to="/home" className={styles.menuItem}>
                                 홈
                             </Link>
-                            <Link to="/algorithm" className="menu-item">
+                            <Link to="/algorithm" className={styles.menuItem}>
                                 알고리즘
                             </Link>
-                            <Link to="/theme" className="menu-item">
+                            <Link to="/theme" className={styles.menuItem}>
                                 테마
                             </Link>
                         </div>
-                        <div className="user-section">
-                            <p className="greeting">안녕하세요, 게스트님</p>
-                            <Link to="/login" className="login-link">
+                        <div className={styles.userSection}>
+                            <p className={styles.greeting}>안녕하세요, 게스트님</p>
+                            <Link to="/login" className={styles.loginLink}>
                                 로그인
                             </Link>
-                            <Link to="/register" className="signup-link">
+                            <Link to="/register" className={styles.registerLink}>
                                 회원가입
                             </Link>
                         </div>

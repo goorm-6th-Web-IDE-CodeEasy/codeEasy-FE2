@@ -4,21 +4,21 @@
     top: 0;
     left: 0;
     z-index: 1000;
-    background-color: #000;
-    color: #fff;
+    background-color: var(--background-color, #16181c);
+    color: var(--font-color, #fff);
     padding: 10px 20px;
 }
 
-.top-section,
+.topSection,
 .menu,
-.user-section {
+.userSection {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-right: 10px;
 }
 
-.nav-container {
+.navContainer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -50,17 +50,17 @@
     justify-content: space-between;
 }
 
-.menu-item {
+.menuItem {
     margin-right: 10px;
 }
 
-//인사말과 로그인 부분
+// Greeting and login/signup links
 .greeting {
     margin-right: 10px;
 }
 
-.login-link,
-.signup-link {
+.loginLink,
+.registerLink {
     margin-left: 10px;
     text-decoration: none;
     color: #fff;
