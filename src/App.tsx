@@ -1,12 +1,13 @@
-import React from 'react';
-import './App.css';
-// import { HashRouter as Router, Route, Routes } from "react-router-dom";
-import Header from './Layout/Header/Header';
+import React from "react";
+import { RecoilRoot } from "recoil";
+import Header from "./Layout/Header/Header";
 
 function App() {
-    return (
-          <Header />
-      );
+  return (
+    <RecoilRoot>
+      <Header />
+    </RecoilRoot>
+  );
 }
 
 export default App;
