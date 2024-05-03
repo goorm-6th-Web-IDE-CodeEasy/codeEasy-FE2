@@ -4,8 +4,9 @@
     top: 0;
     left: 0;
     z-index: 1000;
-    background-color: var(--background-color, #16181c);
-    color: var(--font-color, #fff);
+    border-bottom: 1px solid #939393;
+    background-color: #252729;
+    color: #fff;
     padding: 10px 20px;
 }
 
@@ -15,7 +16,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 .navContainer {
@@ -27,13 +28,11 @@
 
 .logo {
     font-size: 24px;
-    color: #fff;
     text-decoration: none;
     margin-right: 20px;
 }
 
 .icons {
-    margin-right: 10px;
     display: flex;
 }
 
@@ -41,8 +40,17 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
-    padding: 3px;
+    padding: 5px;
 }
+
+// .themeSvg {
+//     stroke: var(--font-color, #ffffff);
+//     fill: var(--font-color, #ffffff);
+// }
+
+// .themeSvg2 {
+//     stroke: var(--font-color, #ffffff);
+// }
 
 .menu {
     display: flex;
@@ -52,9 +60,9 @@
 
 .menuItem {
     margin-right: 10px;
+    color: #ffffff;
 }
 
-// Greeting and login/signup links
 .greeting {
     margin-right: 10px;
 }
@@ -63,5 +71,5 @@
 .registerLink {
     margin-left: 10px;
     text-decoration: none;
-    color: #fff;
+    color: #ffffff;
 }
