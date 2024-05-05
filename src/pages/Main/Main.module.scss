@@ -1,3 +1,170 @@
+// 폰트 사이즈 변수
+$L: 41px; // Large
+$m: 28px; // Medium
+$ms: 21px; // Medium Small
+$s: 20px; // Small
+$xs: 16px; // Extra Small
+
+@font-face {
+  font-family: "Pretendard-Bold";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff")
+    format("woff");
+  font-weight: 800;
+  font-style: normal;
+}
+
 body {
-    padding-top: 100px; /* 헤더 고정되어있으므로 헤더 크기에 따라 조정 */
+  padding-top: 90px;
+  margin: 0;
+  overflow-x: hidden;
+  width: 100vw;
+  background-color: var(--background-color, #16181c);
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  color: var(--font-color, #fff);
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.mainSection {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  height: 100vh;
+  padding: 20px 0;
+  margin-bottom: 100px;
+
+  .h1Title {
+    font-family: "Pretendard-Bold";
+    font-size: $L;
+    line-height: 50px;
+    font-weight: 800;
+    margin-bottom: 10px;
+
+    span {
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+  }
+}
+
+.mainSection2 {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  padding: 20px 0;
+
+  .h1Title {
+    font-family: "Pretendard-Bold";
+    font-size: $L;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 50px;
+
+    span {
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+  }
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 20px;
+  line-height: 35px;
+  font-size: $ms;
+}
+
+.iconContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  flex: 1;
+  flex-wrap: wrap;
+  width: 50%;
+}
+
+.shortcut1,
+.shortcut2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 350px;
+}
+
+.faq {
+  padding-left: 7px;
+}
+
+//image size edit
+.toAlgorithm {
+  .mainAlgorithmImg {
+    width: 500px;
+    height: auto;
+    margin-left: 10px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mainSection,
+  .mainSection2 {
+    margin-bottom: 30px;
+
+    .h1Title {
+      font-size: $m;
+      line-height: 35px;
+
+      span {
+        font-size: $m;
+      }
+    }
+
+    .textContainer {
+      line-height: 25px;
+    }
+
+    .textContainer,
+    .iconContainer {
+      width: 100%;
+      font-size: $xs;
+    }
+
+    .iconContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+
+    .shortcut1 svg,
+    .shortcut2 svg {
+      width: 25%;
+      min-width: 100px;
+      height: auto;
+    }
+
+    .toAlgorithm .mainAlgorithmImg {
+      width: 200px;
+      height: auto;
+    }
+  }
 }
