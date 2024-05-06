@@ -1,9 +1,9 @@
 // 폰트 사이즈 변수
-$L: 41px; // Large
-$m: 28px; // Medium
-$ms: 21px; // Medium Small
-$s: 20px; // Small
-$xs: 16px; // Extra Small
+$L: 2.5625rem; // Large (41px)
+$m: 1.75rem; // Medium (28px)
+$ms: 1.3125rem; // Medium Small (21px)
+$s: 1.25rem; // Small (20px)
+$xs: 1rem; // Extra Small (16px)
 
 @font-face {
   font-family: "Pretendard-Bold";
@@ -31,47 +31,25 @@ body {
   justify-content: center;
 }
 
-.mainSection {
+.mainSection1,
+.mainSection2,
+.mainSection3 {
   display: flex;
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 95%;
-  height: 100vh;
-  padding: 20px 0;
-  margin-bottom: 100px;
+  height: 30vh;
+  padding: 1.25rem 0; // 20px 0
+  margin-bottom: 6.25rem; // 100px
 
   .h1Title {
     font-family: "Pretendard-Bold";
     font-size: $L;
-    line-height: 50px;
+    line-height: 3.125rem; // 50px
     font-weight: 800;
-    margin-bottom: 10px;
-
-    span {
-      font-family: inherit;
-      font-size: inherit;
-      font-weight: inherit;
-    }
-  }
-}
-
-.mainSection2 {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 95%;
-  padding: 20px 0;
-
-  .h1Title {
-    font-family: "Pretendard-Bold";
-    font-size: $L;
-    font-weight: 800;
-    margin-bottom: 10px;
-    line-height: 50px;
+    margin-bottom: 0.625rem; // 10px
 
     span {
       font-family: inherit;
@@ -84,10 +62,16 @@ body {
 .textContainer {
   display: flex;
   flex-direction: column;
-  width: 50%;
-  margin: 0 20px;
-  line-height: 35px;
+  width: 50vw;
+  margin: 0 1.25rem; // 0 20px
+  line-height: 2.1875rem; // 35px
   font-size: $ms;
+}
+
+.mainSection2 {
+  .textContainer {
+    margin-left: 3.125rem; // 50px
+  }
 }
 
 .iconContainer {
@@ -97,7 +81,12 @@ body {
   justify-content: space-around;
   flex: 1;
   flex-wrap: wrap;
-  width: 50%;
+}
+
+.mainSection1 {
+  .iconContainer {
+    margin-right: 3.75rem; // 60px
+  }
 }
 
 .shortcut1,
@@ -106,30 +95,53 @@ body {
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
-  max-width: 350px;
+  max-width: 21.875rem; // 350px
 }
 
 .faq {
-  padding-left: 7px;
+  padding-left: 0.4375rem; // 7px
 }
 
 //image size edit
 .toAlgorithm {
   .mainAlgorithmImg {
-    width: 500px;
+    width: 37.5rem; // 600px
     height: auto;
-    margin-left: 10px;
   }
 }
 
+.toSound svg {
+  width: 34.375rem; // 550px
+  height: auto;
+  margin-left: 0.625rem; // 10px
+}
+
+//텍스트 뒤 배경색상
+
+.bgMain {
+  background-color: #ff7b00; /* 배경 색상 */
+  color: rgb(255, 255, 255); /* 글자 색상 */
+}
+
+.bgAlgorithm {
+  background-color: #0077fd; /* 배경 색상 */
+  color: rgb(255, 255, 255); /* 글자 색상 */
+}
+
+.bgSound {
+  background-color: #ff7b00; /* 배경 색상 */
+  color: rgb(255, 255, 255); /* 글자 색상 */
+}
+
 @media (max-width: 1024px) {
-  .mainSection,
-  .mainSection2 {
-    margin-bottom: 30px;
+  .mainSection1,
+  .mainSection2,
+  .mainSection3 {
+    margin-bottom: 20px;
 
     .h1Title {
       font-size: $m;
-      line-height: 35px;
+      line-height: 2.1875rem; // 35px
 
       span {
         font-size: $m;
@@ -137,7 +149,7 @@ body {
     }
 
     .textContainer {
-      line-height: 25px;
+      line-height: 1.5625rem; // 25px
     }
 
     .textContainer,
@@ -158,13 +170,20 @@ body {
     .shortcut1 svg,
     .shortcut2 svg {
       width: 25%;
-      min-width: 100px;
+      min-width: 6.25rem;
       height: auto;
     }
 
     .toAlgorithm .mainAlgorithmImg {
-      width: 200px;
+      width: 12.5rem; // 200px
       height: auto;
+      margin-left: 1.25rem; // 20px
+    }
+
+    .toSound svg {
+      width: 17rem;
+      height: auto;
+      margin-right: 2.5rem; // 40px
     }
   }
 }

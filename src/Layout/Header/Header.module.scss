@@ -7,69 +7,62 @@
     border-bottom: 1px solid #16181c;
     background-color: #202227;
     color: #fff;
-    padding: 10px 20px;
-}
-
-.topSection,
-.menu,
-.userSection {
+    padding: 0.625rem 1.25rem; /* 10px 20px */
+  }
+  
+  .topSection,
+  .menu,
+  .userSection {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-right: 5px;
-}
-
-.navContainer {
+    margin: 0 1.125rem; /* 0 18px */
+  }
+  
+  .navContainer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-}
-
-.logo {
-    font-size: 24px;
+  }
+  
+  .logo {
+    font-size: 1.5rem; /* 24px */
+    color: #fff;
     text-decoration: none;
-    margin-right: 20px;
-}
-
-.icons {
+    margin-right: 1.25rem; /* 20px */
+  }
+  
+  .icons {
+    margin-right: 0.625rem; /* 10px */
     display: flex;
-}
-
-.icons button {
+  }
+  
+  .icons button {
     border: none;
     background-color: transparent;
     cursor: pointer;
-    padding: 5px;
-}
-
-// .themeSvg {
-//     stroke: var(--font-color, #ffffff);
-//     fill: var(--font-color, #ffffff);
-// }
-
-// .themeSvg2 {
-//     stroke: var(--font-color, #ffffff);
-// }
-
-.menu {
+    padding: 0.1875rem; /* 3px */
+  }
+  
+  .menu {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-
-.menuItem {
-    margin-right: 10px;
-    color: #ffffff;
-}
-
-.greeting {
-    margin-right: 10px;
-}
-
-.loginLink,
-.registerLink {
-    margin-left: 10px;
+  }
+  
+  .menuItem {
+    margin-right: 0.625rem; /* 10px */
+  }
+  
+  .greeting {
+    margin-right: 0.625rem; /* 10px */
+  }
+  
+  .loginLink,
+  .registerLink {
+    margin-left: 0.625rem; /* 10px */
     text-decoration: none;
-    color: #ffffff;
-}
+    color: #fff;
+  }
+  
