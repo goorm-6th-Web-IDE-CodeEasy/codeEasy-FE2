@@ -1,21 +1,34 @@
-import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
-import Header from './Layout/Header/Header';
-import Main from './pages/Main/Main';
+import React from "react";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import { RecoilRoot, useRecoilValue } from "recoil"; // RecoilRoot
+import { scaleState } from "./recoil/state/scaleState";
+import Header from "./Layout/Header/Header";
+import Main from "./pages/Main/Main";
 
 function App() {
-    return (
-        <RecoilRoot>
-            <HashRouter>
-                <Header />
-                <Routes>
-                    <Route path="/" element={<Main />} />
-                    {/* route 나중에 더 추가하기 알고리즘, 테마, 로그인, 회원가입*/}
-                </Routes>
-            </HashRouter>
-        </RecoilRoot>
-    );
+  return (
+    <RecoilRoot>// RecoilRoot import
+      <AppContent />
+    </RecoilRoot>
+  );
+}
+
+function AppContent() {
+  const scale = useRecoilValue(scaleState);
+
+  return (
+    <HashRouter>
+      <Header />
+      <div
+        style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
+      >
+        <Routes>
+          <Route path="/" element={<Main />} />
+          {/* 추가 라우트 경로들 */}
+        </Routes>
+      </div>
+    </HashRouter>
+  );
 }
 
 export default App;

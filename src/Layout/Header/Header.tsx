@@ -2,10 +2,22 @@ import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { soundState } from '../../recoil/state/soundState';
+import { scaleState } from '../../recoil/state/scaleState';
 import styles from './Header.module.scss'; // 스타일 시트 임포트
 
 const Header = () => {
     const [isVolumeOn, setVolumeOn] = useRecoilState(soundState); // useRecoilState 사용하여 전역 상태 관리
+    const [scale, setScale] = useRecoilState(scaleState); // 확대/축소 상태
+
+    // 화면 확대 함수
+    const increaseScale = () => {
+        setScale((scale) => scale * 1.1); // 10%씩 확대
+    };
+
+    // 화면 축소 함수
+    const decreaseScale = () => {
+        setScale((scale) => scale * 0.9); // 10%씩 축소
+    };
 
     // 음성 토글 함수
     const toggleVolume = () => {
@@ -133,7 +145,11 @@ const Header = () => {
                                     </svg>
                                 )}
                             </button>
-                            <button onMouseEnter={() => handleTTS('화면 크게하기')} className={styles.plusIcon}>
+                            <button
+                                onMouseEnter={() => handleTTS('화면 크게하기')}
+                                onClick={increaseScale}
+                                className={styles.plusIcon}
+                            >
                                 <svg
                                     width="30"
                                     height="30"
@@ -168,7 +184,11 @@ const Header = () => {
                                 </svg>
                             </button>
 
-                            <button onMouseEnter={() => handleTTS('화면 작게하기')} className={styles.minusIcon}>
+                            <button
+                                onMouseEnter={() => handleTTS('화면 작게하기')}
+                                onClick={decreaseScale}
+                                className={styles.minusIcon}
+                            >
                                 <svg
                                     width="30"
                                     height="30"
