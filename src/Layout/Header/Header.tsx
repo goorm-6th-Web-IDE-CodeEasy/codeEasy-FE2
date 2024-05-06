@@ -5,7 +5,7 @@ import { soundState } from '../../recoil/state/soundState';
 import styles from './Header.module.scss'; // 스타일 시트 임포트
 
 const Header = () => {
-    const [isVolumeOn, setVolumeOn] = useState(soundState);
+    const [isVolumeOn, setVolumeOn] = useRecoilState(soundState); // useRecoilState 사용하여 전역 상태 관리
 
     // 음성 토글 함수
     const toggleVolume = () => {
