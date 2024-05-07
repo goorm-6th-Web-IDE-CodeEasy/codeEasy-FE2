@@ -9,7 +9,6 @@ import Login from "./pages/Login/login";
 import Register from "./pages/Register/register";
 import { ThemePage } from './pages/Theme/ThemePage';
 
-
 function App() {
     return (
         <RecoilRoot>
