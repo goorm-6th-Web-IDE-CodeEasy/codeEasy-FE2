@@ -7,7 +7,7 @@ import Main from './pages/Main/Main';
 import Algorithm from './pages/Algorithm/Algorithm';
 import Login from "./pages/Login/login";
 import Register from "./pages/Register/register";
-import ThemePage from './pages/Theme/ThemePage';
+import { ThemePage } from './pages/Theme/ThemePage';
 
 
 function App() {
