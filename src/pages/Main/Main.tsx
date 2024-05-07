@@ -5,16 +5,15 @@ import { soundState } from "../../recoil/state/soundState";
 import styles from "./Main.module.scss";
 import mainAlgorithmImg from "../../assets/메인 문제풀이 이미지.png";
 
-const Main = () => {
-  const [isVolumeOn] = useRecoilState(soundState);
+const Main: React.FC = () =>{
+  const [isVolumeOn] = useRecoilState<boolean>(soundState);
 
-  const handleTTS = (text) => {
+  const handleTTS = (text: string): void => {
     if (isVolumeOn) {
       const speech = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.speak(speech);
     }
   };
-
   
   return (
     <div className={styles.container}>
