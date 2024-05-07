@@ -6,6 +6,8 @@ import Header from './Layout/Header/Header';
 import Main from './pages/Main/Main';
 import Algorithm from './pages/Algorithm/Algorithm';
 import { ThemePage } from "./pages/Theme/ThemePage";
+import Register from './pages/Register/register';
+import Login from './pages/Login/login';
 
 function App() {
     return (
