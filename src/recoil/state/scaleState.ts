@@ -1,6 +1,6 @@
-import { atom } from 'recoil';
+import { atom } from "recoil";
 
 export const scaleState = atom({
-    key: 'scaleState', // 고유 키
-    default: 1, // 기본값 1 (100%)
+  key: "scaleState", // 고유 키
+  default: 1, // 기본값 1 (100%)
 });
