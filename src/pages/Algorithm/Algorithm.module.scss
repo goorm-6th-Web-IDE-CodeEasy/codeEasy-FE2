@@ -1,0 +1,114 @@
+// 폰트 사이즈 변수
+$L: 2.5625rem; // Large (41px)
+$m: 1.75rem; // Medium (28px)
+$ms: 1.3125rem; // Medium Small (21px)
+$s: 1.25rem; // Small (20px)
+$xs: 1rem; // Extra Small (16px)
+
+@font-face {
+  font-family: "Pretendard-Bold";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff")
+    format("woff");
+  font-weight: 800;
+  font-style: normal;
+}
+
+body {
+  padding-top: 90px;
+  margin: 0;
+  overflow-x: hidden;
+  width: 100vw;
+  background-color: var(--background-color, #16181c);
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  color: var(--font-color, #fff);
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.mainSection {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  height: 30vh;
+  padding: 1.25rem 0; // 20px 0
+  margin-bottom: 6.25rem; // 100px
+
+  .h1Title {
+    font-family: "Pretendard-Bold";
+    font-size: $L;
+    line-height: 3.125rem; // 50px
+    font-weight: 800;
+    margin-bottom: 0.625rem; // 10px
+
+    span {
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+  }
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  margin: 0 1.25rem; // 0 20px
+  line-height: 2.1875rem; // 35px
+  font-size: $ms;
+}
+
+.iconContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .mainSection {
+    margin-bottom: 20px;
+
+    .h1Title {
+      font-size: $m;
+      line-height: 2.1875rem; // 35px
+
+      span {
+        font-size: $m;
+      }
+    }
+
+    .textContainer {
+      line-height: 1.5625rem; // 25px
+    }
+
+    .textContainer,
+    .iconContainer {
+      width: 100%;
+      font-size: $xs;
+    }
+
+    .iconContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      flex: 1;
+      flex-wrap: wrap;
+
+      svg {
+        width: 480px;
+      }
+    }
+  }
+}
