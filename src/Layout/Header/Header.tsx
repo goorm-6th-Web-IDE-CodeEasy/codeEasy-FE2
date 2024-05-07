@@ -1,43 +1,13 @@
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { soundState } from '../../recoil/state/soundState';
-import { scaleState } from '../../recoil/state/scaleState';
-import styles from './Header.module.scss'; // 스타일 시트 임포트
+import './Header.scss'; // 스타일 시트 임포트
 
 const Header = () => {
-    const [isVolumeOn, setVolumeOn] = useRecoilState(soundState); // useRecoilState 사용하여 전역 상태 관리
-    const [scale, setScale] = useRecoilState(scaleState); // 확대/축소 상태
-
-    // 화면 확대 함수
-    const increaseScale = () => {
-        setScale((scale) => scale * 1.1); // 10%씩 확대
-    };
-
-    // 화면 축소 함수
-    const decreaseScale = () => {
-        setScale((scale) => scale * 0.9); // 10%씩 축소
-    };
-
-    // 음성 토글 함수
-    const toggleVolume = () => {
-        setVolumeOn(!isVolumeOn);
-    };
-
-    // TTS 처리 함수
-    const handleTTS = (text) => {
-        if (isVolumeOn) {
-            const speech = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis.speak(speech);
-        }
-    };
-
     return (
         <>
-            <header className={styles.header}>
-                <nav className={styles.navContainer}>
-                    <div className={styles.topSection}>
-                        <Link to="/" className={styles.logo}>
+            <header className="header">
+                <nav className="nav-container">
+                    <div className="top-section">
+                        <Link to="/" className="logo">
                             <div>
                                 <svg
                                     width="102"
@@ -109,112 +79,66 @@ const Header = () => {
                                 </svg>
                             </div>
                         </Link>
-                        <div className={styles.icons}>
-                            <button
-                                className={styles.volumeUpIcon}
-                                onMouseEnter={() => handleTTS('소리 버튼')}
-                                onClick={toggleVolume}
-                            >
-                                {isVolumeOn ? (
-                                    <svg
-                                        width="45"
-                                        height="40"
-                                        viewBox="0 0 45 40"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M24.3947 8.33366V31.667C24.3947 32.5875 23.5544 33.3337 22.5177 33.3337H21.4103C20.9179 33.3318 20.446 33.1582 20.0964 32.8503L12.9076 26.467C11.8527 25.529 10.4214 25.0015 8.92847 25.0003C7.10401 25.0003 5.625 23.687 5.625 22.067V17.9337C5.625 16.3136 7.10401 15.0003 8.92847 15.0003C10.4214 14.9992 11.8527 14.4716 12.9076 13.5337L20.0964 7.15033C20.446 6.84242 20.9179 6.66883 21.4103 6.66699H22.5177C23.5544 6.66699 24.3947 7.41318 24.3947 8.33366ZM35.6565 11.217C35.476 11.0547 35.2366 10.9544 34.9808 10.9337C34.7203 10.9277 34.4687 11.0183 34.2863 11.1837L32.9537 12.367C32.6199 12.6866 32.6199 13.1807 32.9537 13.5003C36.5585 17.2426 36.5585 22.7581 32.9537 26.5003C32.6199 26.82 32.6199 27.314 32.9537 27.6337L34.2863 28.817C34.4687 28.9823 34.7203 29.0729 34.9808 29.067C35.2375 29.0492 35.478 28.9484 35.6565 28.7837C40.6145 23.7556 40.6145 16.2451 35.6565 11.217ZM29.7253 15.667C29.453 15.6578 29.1884 15.7482 28.9933 15.917L27.6606 17.117C27.3407 17.3945 27.2857 17.8339 27.5292 18.167C28.3543 19.2794 28.3543 20.7212 27.5292 21.8337C27.2857 22.1667 27.3407 22.6062 27.6606 22.8837L28.9933 24.0837C29.1903 24.2481 29.4554 24.3326 29.7253 24.317C29.9963 24.3018 30.248 24.1871 30.4198 24.0003C32.4219 21.63 32.4219 18.3707 30.4198 16.0003C30.2446 15.8147 29.9962 15.6954 29.7253 15.667Z"
-                                            fill="#FD841F"
-                                        />
-                                    </svg>
-                                ) : (
-                                    <svg
-                                        width="34"
-                                        height="40"
-                                        viewBox="0 0 34 26"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            clip-rule="evenodd"
-                                            d="M25.6606 9.30264C25.8831 9.0974 26.1847 8.98211 26.4991 8.98211C26.8135 8.98211 27.1151 9.0974 27.3376 9.30264L29.6632 11.4508L31.9888 9.30264C32.2137 9.10904 32.5112 9.00364 32.8186 9.00865C33.126 9.01366 33.4193 9.12869 33.6367 9.3295C33.854 9.53031 33.9786 9.80123 33.984 10.0852C33.9894 10.3691 33.8753 10.6439 33.6657 10.8517L31.3417 12.9999L33.6673 15.1481C33.8833 15.3549 34.0028 15.6318 33.9999 15.9192C33.9971 16.2066 33.8722 16.4814 33.6521 16.6845C33.432 16.8876 33.1343 17.0028 32.8232 17.0051C32.5121 17.0075 32.2124 16.8969 31.9888 16.6971L29.6632 14.5489L27.3376 16.6971C27.1127 16.8907 26.8152 16.9961 26.5078 16.9911C26.2004 16.9861 25.9071 16.8711 25.6897 16.6703C25.4723 16.4695 25.3478 16.1986 25.3424 15.9146C25.3369 15.6307 25.451 15.3559 25.6606 15.1481L27.9862 12.9999L25.6606 10.8517C25.4384 10.6462 25.3136 10.3676 25.3136 10.0772C25.3136 9.78672 25.4384 9.50815 25.6606 9.30264ZM18.6475 0.426331C20.4874 -0.694534 22.9395 0.525704 22.9395 2.56138V23.4384C22.9395 25.4755 20.4874 26.6943 18.6475 25.5734L9.15524 19.7938C9.09103 19.7542 9.01569 19.7329 8.9385 19.7324H4.3506C3.19675 19.7324 2.09016 19.309 1.27426 18.5553C0.458365 17.8017 0 16.7795 0 15.7136V10.2861C0 9.2203 0.458365 8.19812 1.27426 7.44446C2.09016 6.6908 3.19675 6.26739 4.3506 6.26739H8.9385C9.01606 6.26763 9.09199 6.24679 9.15682 6.20748L18.6475 0.426331Z"
-                                            fill="#FD841F"
-                                        />
-                                    </svg>
-                                )}
-                            </button>
-                            <button
-                                onMouseEnter={() => handleTTS('화면 크게하기')}
-                                onClick={increaseScale}
-                                className={styles.plusIcon}
-                            >
+                        <div className="icons">
+                            <button className="volumeUp-icon">
                                 <svg
-                                    width="30"
-                                    height="30"
-                                    viewBox="0 0 16 16"
+                                    width="45"
+                                    height="40"
+                                    viewBox="0 0 45 40"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        d="M8.12268 4V12.3298"
-                                        stroke="white"
-                                        className={styles.themeSvg}
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
+                                        d="M24.3947 8.33366V31.667C24.3947 32.5875 23.5544 33.3337 22.5177 33.3337H21.4103C20.9179 33.3318 20.446 33.1582 20.0964 32.8503L12.9076 26.467C11.8527 25.529 10.4214 25.0015 8.92847 25.0003C7.10401 25.0003 5.625 23.687 5.625 22.067V17.9337C5.625 16.3136 7.10401 15.0003 8.92847 15.0003C10.4214 14.9992 11.8527 14.4716 12.9076 13.5337L20.0964 7.15033C20.446 6.84242 20.9179 6.66883 21.4103 6.66699H22.5177C23.5544 6.66699 24.3947 7.41318 24.3947 8.33366ZM35.6565 11.217C35.476 11.0547 35.2366 10.9544 34.9808 10.9337C34.7203 10.9277 34.4687 11.0183 34.2863 11.1837L32.9537 12.367C32.6199 12.6866 32.6199 13.1807 32.9537 13.5003C36.5585 17.2426 36.5585 22.7581 32.9537 26.5003C32.6199 26.82 32.6199 27.314 32.9537 27.6337L34.2863 28.817C34.4687 28.9823 34.7203 29.0729 34.9808 29.067C35.2375 29.0492 35.478 28.9484 35.6565 28.7837C40.6145 23.7556 40.6145 16.2451 35.6565 11.217ZM29.7253 15.667C29.453 15.6578 29.1884 15.7482 28.9933 15.917L27.6606 17.117C27.3407 17.3945 27.2857 17.8339 27.5292 18.167C28.3543 19.2794 28.3543 20.7212 27.5292 21.8337C27.2857 22.1667 27.3407 22.6062 27.6606 22.8837L28.9933 24.0837C29.1903 24.2481 29.4554 24.3326 29.7253 24.317C29.9963 24.3018 30.248 24.1871 30.4198 24.0003C32.4219 21.63 32.4219 18.3707 30.4198 16.0003C30.2446 15.8147 29.9962 15.6954 29.7253 15.667Z"
+                                        fill="#FD841F"
+                                    />
+                                </svg>
+                            </button>
+                            <button className="plus-icon">
+                                <svg
+                                    width="30"
+                                    height="30"
+                                    viewBox="0 0 23 28"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M16.8649 17.5307H15.7991L15.4213 17.1005C17.0403 14.8694 17.8767 11.8256 17.418 8.59057C16.7839 4.16033 13.654 0.622506 9.87642 0.0806776C4.16963 -0.748001 -0.633243 4.92526 0.0683001 11.6662C0.527002 16.1284 3.52205 19.8255 7.27261 20.5745C10.0113 21.1164 12.5882 20.1283 14.4769 18.216L14.8412 18.6622V19.9212L20.575 26.694C21.1281 27.3474 22.032 27.3474 22.5851 26.694C23.1383 26.0406 23.1383 24.9729 22.5851 24.3195L16.8649 17.5307ZM8.77014 17.5307C5.41082 17.5307 2.69909 14.3276 2.69909 10.3595C2.69909 6.39138 5.41082 3.18822 8.77014 3.18822C12.1295 3.18822 14.8412 6.39138 14.8412 10.3595C14.8412 14.3276 12.1295 17.5307 8.77014 17.5307Z"
+                                        fill="white"
                                     />
                                     <path
-                                        d="M4 8.16504H12.2446"
+                                        d="M9.13867 6.55859V14.8884"
                                         stroke="white"
-                                        className={styles.themeSvg}
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
                                     />
-                                    <circle
-                                        cx="8"
-                                        cy="8"
-                                        r="7"
-                                        className={styles.themeSvg2}
+                                    <path
+                                        d="M5.01562 10.7236H13.2602"
                                         stroke="white"
-                                        strokeWidth="2"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
                                     />
                                 </svg>
                             </button>
 
-                            <button
-                                onMouseEnter={() => handleTTS('화면 작게하기')}
-                                onClick={decreaseScale}
-                                className={styles.minusIcon}
-                            >
+                            <button className="minus-icon">
                                 <svg
-                                    width="30"
-                                    height="30"
-                                    viewBox="0 0 16 16"
+                                    width="23"
+                                    height="28"
+                                    viewBox="0 0 23 28"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        d="M4 8.16504H12.2446"
-                                        stroke="white"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        className={styles.themeSvg}
+                                        d="M16.8649 17.5307H15.7991L15.4213 17.1005C17.0403 14.8694 17.8767 11.8256 17.418 8.59057C16.7839 4.16033 13.654 0.622506 9.87642 0.0806776C4.16963 -0.748001 -0.633243 4.92526 0.0683001 11.6662C0.527002 16.1284 3.52205 19.8255 7.27261 20.5745C10.0113 21.1164 12.5882 20.1283 14.4769 18.216L14.8412 18.6622V19.9212L20.575 26.694C21.1281 27.3474 22.032 27.3474 22.5851 26.694C23.1383 26.0406 23.1383 24.9729 22.5851 24.3195L16.8649 17.5307ZM8.77014 17.5307C5.41082 17.5307 2.69909 14.3276 2.69909 10.3595C2.69909 6.39138 5.41082 3.18822 8.77014 3.18822C12.1295 3.18822 14.8412 6.39138 14.8412 10.3595C14.8412 14.3276 12.1295 17.5307 8.77014 17.5307Z"
+                                        fill="white"
                                     />
-                                    <circle
-                                        cx="8"
-                                        cy="8"
-                                        r="7"
-                                        className={styles.themeSvg2}
-                                        stroke="white"
-                                        strokeWidth="2"
-                                    />
+                                    <path d="M5 11H13" stroke="white" stroke-width="2" stroke-linecap="round" />
                                 </svg>
                             </button>
-                            <button onMouseEnter={() => handleTTS('사용자 정보')} className={styles.clientIcon}>
+                            <button className="client-icon">
                                 <svg
                                     width="35"
                                     height="34"
@@ -222,16 +146,15 @@ const Header = () => {
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
-                                    <g clipPath="url(#clip0_87_659)">
+                                    <g clip-path="url(#clip0_87_659)">
                                         <path
-                                            className={styles.themeSvg}
                                             d="M17.4993 2.83301C9.4452 2.83301 2.91602 9.17564 2.91602 16.9997C2.91602 24.8237 9.4452 31.1663 17.4993 31.1663C25.5535 31.1663 32.0827 24.8237 32.0827 16.9997C32.0827 13.2424 30.5462 9.63909 27.8113 6.98233C25.0764 4.32556 21.3671 2.83301 17.4993 2.83301ZM17.4993 7.08301C19.9156 7.08301 21.8743 8.9858 21.8743 11.333C21.8743 13.6802 19.9156 15.583 17.4993 15.583C15.0831 15.583 13.1243 13.6802 13.1243 11.333C13.1243 8.9858 15.0831 7.08301 17.4993 7.08301ZM25.6952 22.893C23.7694 25.4124 20.7297 26.8976 17.4993 26.8976C14.269 26.8976 11.2293 25.4124 9.30352 22.893C9.0107 22.4726 8.97176 21.9322 9.20143 21.4763L9.50768 20.853C10.2294 19.3669 11.7683 18.4181 13.4598 18.4163H21.5389C23.2067 18.4185 24.7281 19.3415 25.4618 20.7963L25.7973 21.4622C26.0326 21.9219 25.9936 22.4693 25.6952 22.893Z"
                                             fill="white"
                                         />
                                     </g>
                                     <defs>
                                         <clipPath id="clip0_87_659">
-                                            <rect width="35" height="34" className={styles.themeSvg} fill="white" />
+                                            <rect width="35" height="34" fill="white" />
                                         </clipPath>
                                     </defs>
                                 </svg>
@@ -239,36 +162,24 @@ const Header = () => {
                         </div>
                     </div>
 
-                    <div className={styles.menu}>
+                    <div className="menu">
                         <div>
-                            <Link to="/" onMouseEnter={() => handleTTS('홈')} className={styles.menuItem}>
+                            <Link to="/home" className="menu-item">
                                 홈
                             </Link>
-                            <Link
-                                to="/algorithm"
-                                onMouseEnter={() => handleTTS('알고리즘')}
-                                className={styles.menuItem}
-                            >
+                            <Link to="/algorithm" className="menu-item">
                                 알고리즘
                             </Link>
-                            <Link
-                                to="/theme"
-                                onMouseEnter={() => handleTTS('테마 선택하기')}
-                                className={styles.menuItem}
-                            >
+                            <Link to="/theme" className="menu-item">
                                 테마
                             </Link>
                         </div>
-                        <div className={styles.userSection}>
-                            <p className={styles.greeting}>안녕하세요, 게스트님</p>
-                            <Link to="/login" onMouseEnter={() => handleTTS('로그인')} className={styles.loginLink}>
+                        <div className="user-section">
+                            <p className="greeting">안녕하세요, 게스트님</p>
+                            <Link to="/login" className="login-link">
                                 로그인
                             </Link>
-                            <Link
-                                to="/register"
-                                onMouseEnter={() => handleTTS('회원가입')}
-                                className={styles.registerLink}
-                            >
+                            <Link to="/register" className="signup-link">
                                 회원가입
                             </Link>
                         </div>

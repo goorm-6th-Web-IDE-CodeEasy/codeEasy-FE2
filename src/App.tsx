@@ -1,32 +1,24 @@
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import { RecoilRoot, useRecoilValue } from 'recoil'; // RecoilRoot
-import { scaleState } from './recoil/state/scaleState';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/register';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+
+import './App.css';
+// import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Header from './Layout/Header/Header';
-import Main from './pages/Main/Main';
 
 function App() {
     return (
-        <RecoilRoot>
-            <AppContent />
-        </RecoilRoot>
-    );
-}
-
-function AppContent() {
-    const scale = useRecoilValue(scaleState);
-
-    return (
-        <HashRouter>
-            <Header />
-            <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
-                <Routes>
-                    <Route path="/" element={<Main />} />
-                    {/* 추가 라우트 경로들 */}
-                </Routes>
-            </div>
-        </HashRouter>
-    );
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </BrowserRouter>
+      );
 }
 
 export default App;
