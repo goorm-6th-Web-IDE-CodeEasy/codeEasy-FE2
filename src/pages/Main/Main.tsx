@@ -15,6 +15,7 @@ const Main = () => {
     }
   };
 
+  
   return (
     <div className={styles.container}>
       <div className={styles.mainSection1}>
