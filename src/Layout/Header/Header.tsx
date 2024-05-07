@@ -233,7 +233,7 @@ const Header = () => {
           <div className={styles.menu}>
             <div>
               <Link
-                to="/home"
+                to="/"
                 onMouseEnter={() => handleTTS("홈")}
                 className={styles.menuItem}
               >
