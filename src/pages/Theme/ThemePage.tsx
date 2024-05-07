@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { ThemeState } from "./ThemeState";
 import "./ThemePage.scss";
 
+
 export const ThemePage: React.FC = () => {
   const theme = useRecoilValue(ThemeState);
   const themeClass = theme;
