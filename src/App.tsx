@@ -8,7 +8,6 @@ import Algorithm from './pages/Algorithm/Algorithm';
 import Login from "./pages/Login/login";
 import Register from "./pages/Register/register";
 import { ThemePage } from './pages/Theme/ThemePage';
-import { ThemeState } from './pages/Theme/ThemeState';
 
 function App() {
     return (
@@ -20,12 +19,12 @@ function App() {
 
 function AppContent() {
     const scale = useRecoilValue(scaleState);
-    const theme = useRecoilValue(ThemeState);
+
 
     return (
         <HashRouter>
             <Header />
-            <div className={`${theme}`} style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+            <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
                 <Routes>
                     <Route path="/" element={<Main />} />
                     <Route path="/algorithm" element={<Algorithm />} />
