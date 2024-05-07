@@ -14,7 +14,6 @@ $xs: 1rem; // Extra Small (16px)
 }
 
 body {
-  padding-top: 90px;
   margin: 0;
   overflow-x: hidden;
   width: 100vw;
@@ -23,6 +22,7 @@ body {
 }
 
 .container {
+  padding-top: 100px;
   display: flex;
   flex-direction: column;
   color: var(--font-color, #fff);
@@ -154,7 +154,6 @@ body {
   &:hover {
     background-color: hsl(212, 97%, 44%); // 마우스 오버 시 색상 변경
     transform: scale(1.02);
-
   }
 
   &:active {
