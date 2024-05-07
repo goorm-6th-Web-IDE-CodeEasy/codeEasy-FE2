@@ -1,7 +1,9 @@
 import './App.css';
 
 function App() {
-    return <>코드이지</>;
+  return (
+  );
+
 }
 
 export default App;
