@@ -4,7 +4,6 @@ $m: 1.75rem; // Medium (28px)
 $ms: 1.3125rem; // Medium Small (21px)
 $s: 1.25rem; // Small (20px)
 $xs: 1rem; // Extra Small (16px)
-@import '../../global.scss';
 
 @font-face {
   font-family: "Pretendard-Bold";
@@ -12,19 +11,6 @@ $xs: 1rem; // Extra Small (16px)
     format("woff");
   font-weight: 800;
   font-style: normal;
-}
-
-.light {
-  background-color: #ffffff;
-  color: #000000;
-}
-.dark {
-  background-color: #000000;
-  color: #ffffff;
-}
-.highcontrast {
-  background-color: #0000FF;
-  color: #FF9900;
 }
 
 body {
