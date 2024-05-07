@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { throttle } from 'lodash';
 import { soundState } from '../../recoil/state/soundState';
 import styles from './Main.module.scss';
 import mainAlgorithmImg from '../../assets/메인 문제풀이 이미지.png';
@@ -15,12 +16,12 @@ import Footer from '../../Layout/Footer/Footer'
 const Main: React.FC = () => {
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
 
-    const handleTTS = (text: string): void => {
-        if (isVolumeOn) {
-            const speech = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis.speak(speech);
-        }
-    };
+    const handleTTS = throttle((text: string) => {
+      if (isVolumeOn) {
+          const speech = new SpeechSynthesisUtterance(text);
+          window.speechSynthesis.speak(speech);
+      }
+  }, 2000); // 1초에 한 번만 호출되도록 제한
 
     return (
         <div className={styles.container}>

@@ -20,7 +20,8 @@ const AppContent: React.FC = () => {
 
     return (
         <HashRouter>
-            <Header />
+            <Header /> 
+            {/* 헤더 각각 페이지 컴포넌트에 나중에 따로 넣기 */}
             <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
                 <Routes>
                     <Route path="/" element={<Main />} />

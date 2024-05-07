@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { throttle } from 'lodash';
 import { useRecoilState } from 'recoil';
 import { soundState } from '../../recoil/state/soundState';
 import { scaleState } from '../../recoil/state/scaleState';
@@ -27,12 +28,12 @@ const Header: React.FC = () => {
         setVolumeOn(!isVolumeOn);
     };
 
-    const handleTTS = (text: string): void => {
-        if (isVolumeOn) {
-            const speech = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis.speak(speech);
-        }
-    };
+    const handleTTS = throttle((text: string) => {
+      if (isVolumeOn) {
+          const speech = new SpeechSynthesisUtterance(text);
+          window.speechSynthesis.speak(speech);
+      }
+  }, 2000); // 1초에 한 번만 호출되도록 제한
 
     return (
         <>
