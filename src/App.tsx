@@ -5,6 +5,7 @@ import { scaleState } from "./recoil/state/scaleState";
 import Header from "./Layout/Header/Header";
 import Main from "./pages/Main/Main";
 import Algorithm from "./pages/Algorithm/Algorithm";
+import { ThemePage } from "./pages/Theme/ThemePage";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function AppContent() {
       >
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/theme" element={<ThemePage />} />
+
           <Route path="/algorithm" element={<Algorithm />} />
 
           {/* 추가 라우트 경로들 */}
