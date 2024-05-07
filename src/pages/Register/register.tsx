@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './register.module.scss';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const Register = () => {
         }));
     };
 
-    //백엔드 입력한 이메일 전송하기
+    //백엔드 입력한 이메일 전송하기(3분)
     const sendVerificationCode = async () => {
         try {
             await axios.post('http://localhost:8080/api/register/send-certification', { email: formData.email });
@@ -131,7 +132,7 @@ const Register = () => {
                 </div>
                 <button type="submit">가입하기</button>
             </form>
-            <small>이미 회원이세요?<a href="/login">로그인</a></small>
+            <small>이미 회원이세요?<Link to="/login">로그인</Link></small>
         </div>
     </div>
     );
