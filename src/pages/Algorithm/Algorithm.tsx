@@ -1,7 +1,8 @@
 import React from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { soundState } from "../../recoil/state/soundState";
 import styles from "./Algorithm.module.scss";
+import { ThemeState } from "../Theme/ThemeState";
 
 const Algorithm = () => {
   const [isVolumeOn] = useRecoilState(soundState);
@@ -12,8 +13,9 @@ const Algorithm = () => {
       window.speechSynthesis.speak(speech);
     }
   };
-
+  const theme = useRecoilValue(ThemeState);
   return (
+    <div className={`${theme}`}>
     <div className={styles.container}>
       <div className={styles.mainSection}>
         <div className={styles.textContainer}>
@@ -692,6 +694,7 @@ const Algorithm = () => {
       <footer className="footer">
         <p>© 2024 Goorm 6th Aespa CodeEasy. All rights reserved.</p>
       </footer>
+    </div>
     </div>
   );
 };

@@ -1,9 +1,21 @@
+.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+.dark {
+  background-color: #000000;
+  color: #ffffff;
+}
+.highcontrast {
+  background-color: #0000FF;
+  color: #FF9900;
+}
 .background {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #fffefe;
+    //background-color: #fffefe;
   
     .container {
       display: flex;
