@@ -5,6 +5,7 @@ import { scaleState } from './recoil/state/scaleState';
 import Header from './Layout/Header/Header';
 import Main from './pages/Main/Main';
 import Algorithm from './pages/Algorithm/Algorithm';
+import { ThemePage } from "./pages/Theme/ThemePage";
 
 function App() {
     return (
@@ -26,12 +27,12 @@ function AppContent() {
                     <Route path="/algorithm" element={<Algorithm />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/theme" element={<ThemePage />} />
 
                     {/* 추가 라우트 경로들 */}
                 </Routes>
             </div>
         </HashRouter>
     );
-}
 
-export default App;
+    }
