@@ -96,6 +96,10 @@ body {
   justify-content: space-around;
   width: 100%;
   max-width: 21.875rem; // 350px
+
+  svg:hover {
+    transform: scale(1.05);
+  }
 }
 
 .faq {
@@ -133,6 +137,35 @@ body {
   color: rgb(255, 255, 255); /* 글자 색상 */
 }
 
+//버튼 스타일링
+.btnAlgorithm {
+  padding: 0.75rem 1.5rem; // 내부 여백
+  background-color: #0077fd; //나중에 변수로 바꾸기
+  border: none; // 테두리 없음
+  border-radius: 0.25rem; // 모서리 둥글기
+  color: #ffffff; // 텍스트 색상
+  font-size: $s; // 글자 크기
+  font-weight: 500; // 글자 두께
+  margin-top: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s; // 배경 색상 변화 애니메이션
+
+  &:hover {
+    background-color: hsl(212, 97%, 44%); // 마우스 오버 시 색상 변경
+    transform: scale(1.02);
+
+  }
+
+  &:active {
+    background-color: hsl(212, 100%, 36%); // 클릭 시 색상 변경
+  }
+
+  &:focus {
+    outline: none; // 포커스 시 외곽선 제거
+  }
+}
+
 @media (max-width: 1024px) {
   .mainSection1,
   .mainSection2,
@@ -146,6 +179,11 @@ body {
       span {
         font-size: $m;
       }
+    }
+
+    .btnAlgorithm {
+      font-size: $xs;
+      padding: 0.55rem 1.2rem; // 내부 여백
     }
 
     .textContainer {
@@ -181,7 +219,7 @@ body {
     }
 
     .toSound svg {
-      width: 17rem;
+      width: 17rem; // 200px
       height: auto;
       margin-right: 2.5rem; // 40px
     }
