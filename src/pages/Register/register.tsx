@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import axios from "axios";
-import styles from "./register.module.scss";
+import React, { useState } from 'react';
+import axios from 'axios';
+import styles from './register.module.scss';
+import { Link } from 'react-router-dom';
 import { ThemeState } from "../Theme/ThemeState";
 import { useRecoilValue } from "recoil";
 
@@ -27,29 +28,15 @@ const Register = () => {
       [name]: value,
     }));
   };
-
-  //백엔드 입력한 이메일 전송하기
-  const sendVerificationCode = async () => {
-    try {
-      await axios.post(
-        "http://localhost:8080/api/register/send-certification",
-        { email: formData.email }
-      );
-      setVerificationCodeSent(true);
-      alert("인증 코드가 이메일로 전송되었습니다.");
-    } catch (error) {
-      console.error("인증 코드 전송 실패:", error);
-      alert("인증 코드 전송에 실패했습니다.");
-    }
-  };
-  //백엔드 측 인증코드 검사
-  const verifyCode = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/api/register/certificate-code",
-        {
-          email: formData.email,
-          verificationCode: formData.verificationCode,
+    //백엔드 입력한 이메일 전송하기(3분)
+    const sendVerificationCode = async () => {
+        try {
+            await axios.post('http://localhost:8080/api/register/send-certification', { email: formData.email });
+            setVerificationCodeSent(true);
+            alert('인증 코드가 이메일로 전송되었습니다.');
+        } catch (error) {
+            console.error('인증 코드 전송 실패:', error);
+            alert('인증 코드 전송에 실패했습니다.');
         }
       );
       if (response.data) {
@@ -138,105 +125,39 @@ const Register = () => {
     <div className={`${theme}`}>
       <div className={styles.background}>
         <div className={styles.container}>
-          <h1>회원가입</h1>
-          <form onSubmit={handleSubmit} className={styles.form}>
-            <div className={styles.inputGroup}>
-              <label>아이디</label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleInputChange}
-                placeholder="아이디를 입력하세요"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => checkAvailability("username")}
-              >
-                아이디 중복 확인
-              </button>
-              {!availability.usernameAvailable && (
-                <div style={{ color: "red" }}>이미 사용 중인 아이디입니다.</div>
-              )}
-            </div>
-            <div className={styles.inputGroup}>
-              <label>비밀번호</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                placeholder="비밀번호를 입력하세요"
-                required
-              />
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                placeholder="비밀번호를 확인하세요"
-                required
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <label>닉네임</label>
-              <input
-                type="text"
-                name="nickname"
-                value={formData.nickname}
-                onChange={handleInputChange}
-                placeholder="닉네임을 입력하세요"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => checkAvailability("nickname")}
-              >
-                닉네임 중복 확인
-              </button>
-              {!availability.nicknameAvailable && (
-                <div style={{ color: "red" }}>이미 사용 중인 닉네임입니다.</div>
-              )}
-            </div>
-            <div className={styles.inputGroup}>
-              <label>이메일</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="이메일을 입력하세요"
-                required
-              />
-              <button
-                type="button"
-                onClick={sendVerificationCode}
-                disabled={verificationCodeSent}
-              >
-                인증 코드 전송
-              </button>
-              {verificationCodeSent && (
-                <>
-                  <input
-                    type="text"
-                    name="verificationCode"
-                    value={formData.verificationCode}
-                    onChange={handleInputChange}
-                    placeholder="인증 코드를 입력하세요"
-                    required
-                  />
-                  <button type="button" onClick={verifyCode}>
-                    인증 코드 확인
-                  </button>
-                </>
-              )}
-            </div>
-            <button type="submit">가입하기</button>
-          </form>
-          <small>
-            이미 회원이세요?<a href="/login">로그인</a>
-          </small>
+            <h1>회원가입</h1>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <div className={styles.inputGroup}>
+                    <label>아이디</label>
+                    <input type="text" name="username" value={formData.username} onChange={handleInputChange} placeholder="아이디를 입력하세요" required />
+                    <button type="button" onClick={() => checkAvailability('username')}>아이디 중복 확인</button>
+                    {!availability.usernameAvailable && <div style={{ color: 'red' }}>이미 사용 중인 아이디입니다.</div>}
+                </div>
+                <div className={styles.inputGroup}>
+                    <label>비밀번호</label>
+                    <input type="password" name="password" value={formData.password} onChange={handleInputChange} placeholder="비밀번호를 입력하세요" required />
+                    <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} placeholder="비밀번호를 확인하세요" required />
+                </div>
+                <div className={styles.inputGroup}>
+                    <label>닉네임</label>
+                    <input type="text" name="nickname" value={formData.nickname} onChange={handleInputChange} placeholder="닉네임을 입력하세요" required />
+                    <button type="button" onClick={() => checkAvailability('nickname')}>닉네임 중복 확인</button>
+                    {!availability.nicknameAvailable && <div style={{ color: 'red' }}>이미 사용 중인 닉네임입니다.</div>}
+                </div>
+                <div className={styles.inputGroup}>
+                    <label>이메일</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="이메일을 입력하세요" required />
+                    <button type="button" onClick={sendVerificationCode} disabled={verificationCodeSent}>인증 코드 전송</button>
+                    {verificationCodeSent && (
+                    <>
+                        <input type="text" name="verificationCode" value={formData.verificationCode} onChange={handleInputChange} placeholder="인증 코드를 입력하세요" required />
+                        <button type="button" onClick={verifyCode}>인증 코드 확인</button>
+                    </>
+                    )}
+                </div>
+                <button type="submit">가입하기</button>
+            </form>
+            <small>이미 회원이세요?<Link to="/login">로그인</Link></small>
         </div>
       </div>
     </div>

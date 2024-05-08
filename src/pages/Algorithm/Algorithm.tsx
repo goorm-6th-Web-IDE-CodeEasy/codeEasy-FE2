@@ -4,10 +4,10 @@ import { soundState } from "../../recoil/state/soundState";
 import styles from "./Algorithm.module.scss";
 import { ThemeState } from "../Theme/ThemeState";
 
-const Algorithm = () => {
-  const [isVolumeOn] = useRecoilState(soundState);
+const Algorithm: React.FC = () => {
+  const [isVolumeOn] = useRecoilState<boolean>(soundState);
 
-  const handleTTS = (text) => {
+  const handleTTS = (text: string): void => {
     if (isVolumeOn) {
       const speech = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.speak(speech);

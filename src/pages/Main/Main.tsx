@@ -7,18 +7,17 @@ import mainAlgorithmImg from "../../assets/메인 문제풀이 이미지.png";
 import { ThemeState } from "../Theme/ThemeState";
 import "./Main.module.scss";
 
-const Main = () => {
-  const theme = useRecoilValue(ThemeState);
 
-  const [isVolumeOn] = useRecoilState(soundState);
+const Main: React.FC = () =>{
+   const theme = useRecoilValue(ThemeState);
+  const [isVolumeOn] = useRecoilState<boolean>(soundState);
 
-  const handleTTS = (text) => {
+  const handleTTS = (text: string): void => {
     if (isVolumeOn) {
       const speech = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.speak(speech);
     }
   };
-
   
   return (
     <div className={`${theme}`}>

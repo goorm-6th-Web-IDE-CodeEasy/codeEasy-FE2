@@ -5,32 +5,31 @@ import { soundState } from "../../recoil/state/soundState";
 import { scaleState } from "../../recoil/state/scaleState";
 import styles from "./Header.module.scss"; // 스타일 시트 임포트
 
-const Header = () => {
-  const [isVolumeOn, setVolumeOn] = useRecoilState(soundState); // useRecoilState 사용하여 전역 상태 관리
-  const [scale, setScale] = useRecoilState(scaleState); // 확대/축소 상태
-
-  // 화면 확대 함수
-  const increaseScale = () => {
+const Header: React.FC = () => {
+ 
+  const [isVolumeOn, setVolumeOn] = useRecoilState<boolean>(soundState); // useRecoilState 사용하여 전역 상태 관리
+  const [scale, setScale] = useRecoilState<number>(scaleState); // 확대/축소 상태
+  
+  
+  const increaseScale = (): void => {
     setScale((scale) => scale * 1.1); // 10%씩 확대
   };
 
-  // 화면 축소 함수
-  const decreaseScale = () => {
+  const decreaseScale = (): void => {
     setScale((scale) => scale * 0.9); // 10%씩 축소
   };
 
-  // 음성 상태 토글 함수
-  const toggleVolume = () => {
+  const toggleVolume = (): void => {
     setVolumeOn(!isVolumeOn);
   };
 
-  // TTS 처리 함수
-  const handleTTS = (text) => {
+  const handleTTS = (text: string): void => {
     if (isVolumeOn) {
       const speech = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.speak(speech);
     }
   };
+
 
   return (
     <>
