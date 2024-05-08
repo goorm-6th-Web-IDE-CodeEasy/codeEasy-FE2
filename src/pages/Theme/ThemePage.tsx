@@ -1,8 +1,8 @@
-import React from "react";
-import ThemeSwitcher from "./ThemeSwitcher";
-import { useRecoilValue } from "recoil";
-import { ThemeState } from "./ThemeState";
-import "./ThemePage.scss";
+import React from 'react';
+import ThemeSwitcher from './ThemeSwitcher';
+import { useRecoilValue } from 'recoil';
+import { ThemeState } from './ThemeState';
+import './ThemePage.scss';
 
 export const ThemePage: React.FC = () => {
   const theme = useRecoilValue(ThemeState);
@@ -18,10 +18,5 @@ export const ThemePage: React.FC = () => {
             모드를 제공합니다.
           </p>
         </div>
-        <div className={`themeSwitch`}>
-          <ThemeSwitcher />
-        </div>
-      </div>
-    </div>
-  );
+    );
 };

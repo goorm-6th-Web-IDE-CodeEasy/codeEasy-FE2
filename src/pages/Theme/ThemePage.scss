@@ -3,14 +3,14 @@
     margin-bottom: 50px;
     display: flex;
     height: 720px;
-    flex-direction: column;    
+    flex-direction: column;
 }
 .themeTitle {
     width: 40%;
     h1 {
         width: 20%;
         margin-bottom: 20px;
-        background-color: #23C35E;
+        background-color: #23c35e;
     }
     p {
         margin-bottom: 20px;
@@ -24,13 +24,12 @@
 .light {
     background-color: #ffffff;
     color: #000000;
-  }
+}
 .dark {
     background-color: #000000;
     color: #ffffff;
-  }
+}
 .highcontrast {
-    background-color: #0000FF;
-    color: #FF9900;
-  }
-  
+    background-color: #0000ff;
+    color: #ff9900;
+}
