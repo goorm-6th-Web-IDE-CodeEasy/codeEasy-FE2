@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { soundState } from "../../recoil/state/soundState";
 import styles from "./Main.module.scss";
 import mainAlgorithmImg from "../../assets/메인 문제풀이 이미지.png";
+import { ThemeState } from "../Theme/ThemeState";
+import "./Main.module.scss";
+
 
 const Main: React.FC = () =>{
+   const theme = useRecoilValue(ThemeState);
   const [isVolumeOn] = useRecoilState<boolean>(soundState);
 
   const handleTTS = (text: string): void => {
@@ -16,7 +20,8 @@ const Main: React.FC = () =>{
   };
   
   return (
-    <div className={styles.container}>
+    <div className={`${theme}`}>
+    <div className={styles.container} >
       <div className={styles.mainSection1}>
         <div className={styles.textContainer}>
           <h1
@@ -874,6 +879,7 @@ const Main: React.FC = () =>{
       <footer className="footer">
         <p>© 2024 Goorm 6th Aespa CodeEasy. All rights reserved.</p>
       </footer>
+    </div>
     </div>
   );
 };

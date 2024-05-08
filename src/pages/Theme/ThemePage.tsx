@@ -6,10 +6,9 @@ import "./ThemePage.scss";
 
 export const ThemePage: React.FC = () => {
   const theme = useRecoilValue(ThemeState);
-  const themeClass = theme;
   return (
     <div>
-      <div className={`theme-page ${themeClass}`}>
+      <div className={`theme-page ${theme}`}>
         <div className={`themeTitle`}>
           <h1>테마 설정</h1>
           <p>
