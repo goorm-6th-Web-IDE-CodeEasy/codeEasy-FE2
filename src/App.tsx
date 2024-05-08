@@ -10,31 +10,33 @@ import Register from './pages/Register/register';
 import { ThemePage } from './pages/Theme/ThemePage';
 
 const App: React.FC = () => {
-  return (
-    <RecoilRoot>
-      <AppContent />
-    </RecoilRoot>
-  );
+    return (
+        <RecoilRoot>
+            <AppContent />
+        </RecoilRoot>
+    );
 };
 
-const AppContent: React.FC = () => {
-  const scale = useRecoilValue<number>(scaleState);
 
-  return (
-    <HashRouter>
-      <Header />
-      <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/algorithm" element={<Algorithm />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/theme" element={<ThemePage />} />
-          {/* 추가 라우트 경로들 */}
-        </Routes>
-      </div>
-    </HashRouter>
-  );
+const AppContent: React.FC = () => {
+    const scale = useRecoilValue<number>(scaleState);
+
+    return (
+        <HashRouter>
+            <Header />
+            {/* 헤더와 푸터 각 페이지마다 따로 넣기 */}
+            <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+                <Routes>
+                    <Route path="/" element={<Main />} />
+                    <Route path="/algorithm" element={<Algorithm />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/theme" element={<ThemePage />} />
+                    {/* 추가 라우트 경로들 */}
+                </Routes>
+            </div>
+        </HashRouter>
+    );
 };
 
 export default App;
