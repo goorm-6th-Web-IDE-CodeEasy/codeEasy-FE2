@@ -20,7 +20,7 @@ const Main: React.FC = () => {
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(speech);
         }
-    }, 3000);
+    }, 4000);
 
     return (
         <div className={styles.container}>
