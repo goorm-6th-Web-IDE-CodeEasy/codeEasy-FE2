@@ -4,7 +4,9 @@ import { soundState } from '../../recoil/state/soundState';
 import styles from './Algorithm.module.scss';
 import Footer from '../../Layout/Footer/Footer';
 import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
+import { ThemeState } from "../Theme/ThemeState";
 
+        
 const Algorithm: React.FC = () => {
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
 
@@ -34,6 +36,7 @@ const Algorithm: React.FC = () => {
             <Footer />
         </div>
     );
+
 };
 
 export default Algorithm;

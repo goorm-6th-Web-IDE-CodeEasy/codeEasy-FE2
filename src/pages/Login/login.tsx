@@ -7,24 +7,25 @@ import GithubButton from './GithubButton';
 import { Link } from 'react-router-dom';
 import { loggedInState } from '../../recoil/state/loggedInState';
 import { useSetRecoilState } from 'recoil';
-
+import { ThemeState } from "../Theme/ThemeState";
+import { useRecoilValue } from "recoil";
 const Login = () => {
     const setLoggedIn = useSetRecoilState(loggedInState);
     const [formData, setFormData] = useState({
         username: '', password: ''
     });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const { username, password } = formData;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const { username, password } = formData;
 
         try {
             const response = await axios.post('http://localhost:8080/api/login', { username, password });
@@ -38,8 +39,9 @@ const Login = () => {
             alert(`로그인 실패: ${errorMessage}`);
         }
     };
-
+const theme = useRecoilValue(ThemeState);
     return (
+      <div className={`${theme}`}>
         <div className={styles.background}>
             <div className={styles.container}>
                 <h1>로그인</h1>
@@ -62,8 +64,15 @@ const Login = () => {
                 </form>
                 <small>회원이 아니신가요?<Link to="/register">회원가입</Link></small>
             </div>
+            <button type="submit">로그인</button>
+          </form>
+          <small>
+            회원이 아니신가요?<a href="/register">회원가입</a>
+          </small>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Login;

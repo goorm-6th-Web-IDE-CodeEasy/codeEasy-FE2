@@ -6,6 +6,7 @@ import 고대비 from '../../assets/Theme/고대비.svg';
 import 라이트 from '../../assets/Theme/라이트.svg';
 import 다크 from '../../assets/Theme/다크.svg';
 
+
 const ThemeSwitcher: React.FC = () => {
     const [selectedTheme, setSelectedTheme] = useRecoilState(ThemeState); //Recoil 상태와 동기화
     const [checkedTheme, setCheckedTheme] = useState<ThemeMode>(selectedTheme); //테마 상태
