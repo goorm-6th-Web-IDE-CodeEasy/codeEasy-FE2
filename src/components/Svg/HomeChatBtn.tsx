@@ -12,30 +12,30 @@ export const HomeChatBtn = () => {
                 <path
                     d="M72.9994 192L39.0005 192L72.9994 234.175L107 192L72.9994 192Z"
                     stroke="#F25234"
-                    stroke-opacity="0.8"
-                    stroke-width="1.33333"
-                    stroke-miterlimit="10"
+                    strokeOpacity="0.8"
+                    strokeWidth="1.33333"
+                    strokeMiterlimit="10"
                 />
                 <path
                     d="M72.9994 214.608L39.0005 214.608L72.9994 256.782L107 214.608L72.9994 214.608Z"
                     stroke="#FBC410"
-                    stroke-opacity="0.8"
-                    stroke-width="1.33333"
-                    stroke-miterlimit="10"
+                    strokeOpacity="0.8"
+                    strokeWidth="1.33333"
+                    strokeMiterlimit="10"
                 />
                 <path
                     d="M72.9994 237.218L39.0005 237.218L72.9994 279.392L107 237.218L72.9994 237.218Z"
                     stroke="white"
-                    stroke-opacity="0.8"
-                    stroke-width="1.33333"
-                    stroke-miterlimit="10"
+                    strokeOpacity="0.8"
+                    strokeWidth="1.33333"
+                    strokeMiterlimit="10"
                 />
                 <path
                     d="M72.9994 259.826L39.0005 259.826L72.9994 302L107 259.826L72.9994 259.826Z"
                     stroke="#03A387"
-                    stroke-opacity="0.8"
-                    stroke-width="1.33333"
-                    stroke-miterlimit="10"
+                    strokeOpacity="0.8"
+                    strokeWidth="1.33333"
+                    strokeMiterlimit="10"
                 />
             </svg>
         </div>

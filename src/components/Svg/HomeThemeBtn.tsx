@@ -12,26 +12,26 @@ export const HomeThemeBtn = () => {
                 <path
                     d="M124 261.999V228L166.175 261.999L124 296V261.999Z"
                     stroke="#F25234"
-                    stroke-width="1.33333"
-                    stroke-miterlimit="10"
+                    strokeWidth="1.33333"
+                    strokeMiterlimit="10"
                 />
                 <path
                     d="M146.609 261.999V228L188.783 261.999L146.609 296V261.999Z"
                     stroke="#FBC410"
-                    stroke-width="1.33333"
-                    stroke-miterlimit="10"
+                    strokeWidth="1.33333"
+                    strokeMiterlimit="10"
                 />
                 <path
                     d="M169.217 261.999V228L211.391 261.999L169.217 296V261.999Z"
                     stroke="white"
-                    stroke-width="1.33333"
-                    stroke-miterlimit="10"
+                    strokeWidth="1.33333"
+                    strokeMiterlimit="10"
                 />
                 <path
                     d="M191.828 261.999V228L234.002 261.999L191.828 296V261.999Z"
                     stroke="#03A387"
-                    stroke-width="1.33333"
-                    stroke-miterlimit="10"
+                    strokeWidth="1.33333"
+                    strokeMiterlimit="10"
                 />
             </svg>
         </div>

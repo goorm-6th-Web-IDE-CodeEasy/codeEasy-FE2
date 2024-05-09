@@ -7,18 +7,18 @@ export const HeaderPlusBtn = () => {
                 <path
                     d="M8.12268 4V12.3298"
                     stroke="white"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 />
                 <path
                     d="M4 8.16504H12.2446"
                     stroke="white"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 />
-                <circle cx="8" cy="8" r="7" stroke="white" stroke-width="2" />
+                <circle cx="8" cy="8" r="7" stroke="white" strokeWidth="2" />
             </svg>
         </div>
     );
