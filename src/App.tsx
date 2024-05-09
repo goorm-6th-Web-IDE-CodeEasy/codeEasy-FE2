@@ -5,8 +5,8 @@ import { scaleState } from './recoil/state/scaleState'
 import Header from './Layout/Header/Header'
 import Main from './pages/Main/Main'
 import Algorithm from './pages/Algorithm/Algorithm'
-import Login from './pages/Login/Login'
-import Register from './pages/Register/Register'
+import Login from './pages/Login/login'
+import Register from './pages/Register/register'
 import { ThemePage } from './pages/Theme/ThemePage'
 const App: React.FC = () => {
     return (
