@@ -10,6 +10,7 @@ import { HomeChatBtn } from '../../components/Svg/HomeChatBtn';
 import { HomeFAQBtn } from '../../components/Svg/HomeFAQBtn';
 import { HomeSoundDrawing } from '../../components/Svg/HomeSoundDrawing';
 import Footer from '../../Layout/Footer/Footer';
+import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
 
 const Main: React.FC = () => {
@@ -20,10 +21,11 @@ const Main: React.FC = () => {
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(speech);
         }
-    }, 3000);
+    }, 2000);
 
     return (
         <div className={styles.container}>
+            <Header />
             <div className={styles.mainSection1}>
                 <div className={styles.textContainer}>
                     <h1

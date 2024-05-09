@@ -1,12 +1,13 @@
 .header {
-    position: fixed;
-    width: 100%;
+    position: sticky; /* fixed에서 sticky로 변경*/
     top: 0;
+    width: 100%;
     left: 0;
     z-index: 1000;
     border-bottom: 1px solid #16181c;
     background-color: #202227;
     color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 상단에 그림자 효과 추가 */
     padding: 0.625rem 1.25rem; /* 10px 20px */
 }
 

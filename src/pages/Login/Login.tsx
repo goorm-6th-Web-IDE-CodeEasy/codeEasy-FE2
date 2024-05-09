@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
 import axios from 'axios'
-import styles from './Login.module.scss'
+import styles from './login.module.scss'
 import GoogleButton from './GoogleButton'
 import KakaoButton from './KakaoButton'
 import GithubButton from './GithubButton'

@@ -13,26 +13,26 @@ export const HomeCodingTestBtn = () => {
                     d="M236 114.5C227.529 114.5 220 125.559 220 138C220 125.559 212.471 114.5 204 114.5C212.471 114.5 220 103.441 220 91C220 103.441 227.529 114.5 236 114.5Z"
                     fill="#FBC50F"
                 />
-                <path d="M248.676 304.122H249V147H248.676V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M230.934 304.122H231.256V147H230.934V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M213.189 304.122H213.513V164.425H213.189V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M195.453 304.122H195.776V181.849H195.453V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M177.709 304.122H178.033V199.273H177.709V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M159.967 304.122H160.291V216.69H159.967V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M142.223 304.122H142.547V234.115H142.223V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M124.484 304.122H124.808V251.538H124.484V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M106.742 304.122H107.066V268.962H106.742V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M89 304.122H89.3226V286.379H89V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M89 304.122H249V303.804H89V304.122Z" fill="white" fill-opacity="0.7" />
-                <path d="M89 286.697H249V286.38H89V286.697Z" fill="white" fill-opacity="0.7" />
-                <path d="M106.742 268.961V269.279H249V268.961H106.742Z" fill="white" fill-opacity="0.7" />
-                <path d="M124.484 251.537V251.855H248.998V251.537H124.484Z" fill="white" fill-opacity="0.7" />
-                <path d="M142.223 234.114V234.431H249V234.114H142.223Z" fill="white" fill-opacity="0.7" />
-                <path d="M159.967 216.689V217.007H249.001V216.689H159.967Z" fill="white" fill-opacity="0.7" />
-                <path d="M177.709 199.273V199.59H248.999V199.273H177.709Z" fill="white" fill-opacity="0.7" />
-                <path d="M195.453 181.849V182.166L249 182.167V181.849H195.453Z" fill="white" fill-opacity="0.7" />
-                <path d="M213.189 164.424V164.742H248.999V164.424H213.189Z" fill="white" fill-opacity="0.7" />
-                <path d="M230.934 147V147.318H249V147H230.934Z" fill="white" fill-opacity="0.7" />
+                <path d="M248.676 304.122H249V147H248.676V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M230.934 304.122H231.256V147H230.934V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M213.189 304.122H213.513V164.425H213.189V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M195.453 304.122H195.776V181.849H195.453V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M177.709 304.122H178.033V199.273H177.709V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M159.967 304.122H160.291V216.69H159.967V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M142.223 304.122H142.547V234.115H142.223V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M124.484 304.122H124.808V251.538H124.484V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M106.742 304.122H107.066V268.962H106.742V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M89 304.122H89.3226V286.379H89V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M89 304.122H249V303.804H89V304.122Z" fill="white" fillOpacity="0.7" />
+                <path d="M89 286.697H249V286.38H89V286.697Z" fill="white" fillOpacity="0.7" />
+                <path d="M106.742 268.961V269.279H249V268.961H106.742Z" fill="white" fillOpacity="0.7" />
+                <path d="M124.484 251.537V251.855H248.998V251.537H124.484Z" fill="white" fillOpacity="0.7" />
+                <path d="M142.223 234.114V234.431H249V234.114H142.223Z" fill="white" fillOpacity="0.7" />
+                <path d="M159.967 216.689V217.007H249.001V216.689H159.967Z" fill="white" fillOpacity="0.7" />
+                <path d="M177.709 199.273V199.59H248.999V199.273H177.709Z" fill="white" fillOpacity="0.7" />
+                <path d="M195.453 181.849V182.166L249 182.167V181.849H195.453Z" fill="white" fillOpacity="0.7" />
+                <path d="M213.189 164.424V164.742H248.999V164.424H213.189Z" fill="white" fillOpacity="0.7" />
+                <path d="M230.934 147V147.318H249V147H230.934Z" fill="white" fillOpacity="0.7" />
             </svg>
         </div>
     );

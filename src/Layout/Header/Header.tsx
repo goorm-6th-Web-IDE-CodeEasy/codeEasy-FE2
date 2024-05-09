@@ -33,7 +33,7 @@ const Header: React.FC = () => {
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(speech);
         }
-    }, 1500);
+    }, 2000);
 
     return (
         <>
