@@ -26,7 +26,7 @@ const Main: React.FC = () => {
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(speech);
         }
-    }, 2000);
+    }, 4000);
 
     return (
         <div className={`${theme}`}>

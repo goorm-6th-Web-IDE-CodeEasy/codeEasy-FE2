@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { soundState } from '../../recoil/state/soundState';
 import styles from './Algorithm.module.scss';
 import Footer from '../../Layout/Footer/Footer';
@@ -7,7 +7,6 @@ import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
 import { ThemeState } from '../Theme/ThemeState';
 import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
-
 
 const Algorithm: React.FC = () => {
     const theme = useRecoilValue(ThemeState);
@@ -40,45 +39,45 @@ const Algorithm: React.FC = () => {
 
     return (
         <div className={`${theme}`}>
-        <div className={styles.container}>
-            <Header />
-            <div className={styles.mainSection}>
-                <div className={styles.textContainer}>
-                    <h1 className={styles.h1Title}>{user.nickname}님 오늘도 힘차게 시작해볼까요?</h1>
+            <div className={styles.container}>
+                <Header />
+                <div className={styles.mainSection}>
+                    <div className={styles.textContainer}>
+                        <h1 className={styles.h1Title}>{user.nickname}님 오늘도 힘차게 시작해볼까요?</h1>
+                    </div>
+                    <div className={styles.iconContainer}>
+                        <AlgorithmMainSvg />
+                    </div>
                 </div>
-                <div className={styles.iconContainer}>
-                    <AlgorithmMainSvg />
+                <div className={styles.problemContainer}>
+                    <div className={styles.problemSection}>
+                        {problems.map((problem, index) => (
+                            <div key={index} className={styles.problemCard}>
+                                <h2>{problem.title}</h2>
+                                <p>{problem.content}</p>
+                                <p>난이도: {problem.tier}</p>
+                                <p>유형: {problem.type}</p>
+                                <p>정답률: {problem.successRate}</p>
+                                <p>풀이 완료: {problem.done ? '완료' : '미완료'}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className={styles.clientSection}>
+                        {user && (
+                            <div className={styles.userProfile}>
+                                <img src={user.avatar} alt="User Avatar" className={styles.userAvatar} />
+                                <div>닉네임: {user.nickname}</div>
+                                <div>레벨: {user.level}</div>
+                                <div>게시물 수: {user.posts}</div>
+                                <div>젬 수: {user.gems}</div>
+                                <div>완료된 챌린지: {user.completedChallenges}</div>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
-            <div className={styles.problemContainer}>
-                <div className={styles.problemSection}>
-                    {problems.map((problem, index) => (
-                        <div key={index} className={styles.problemCard}>
-                            <h2>{problem.title}</h2>
-                            <p>{problem.content}</p>
-                            <p>난이도: {problem.tier}</p>
-                            <p>유형: {problem.type}</p>
-                            <p>정답률: {problem.successRate}</p>
-                            <p>풀이 완료: {problem.done ? '완료' : '미완료'}</p>
-                        </div>
-                    ))}
-                </div>
-                <div className={styles.clientSection}>
-                    {user && (
-                        <div className={styles.userProfile}>
-                            <img src={user.avatar} alt="User Avatar" className={styles.userAvatar} />
-                            <div>닉네임: {user.nickname}</div>
-                            <div>레벨: {user.level}</div>
-                            <div>게시물 수: {user.posts}</div>
-                            <div>젬 수: {user.gems}</div>
-                            <div>완료된 챌린지: {user.completedChallenges}</div>
-                        </div>
-                    )}
-                </div>
-            </div>
 
-            <Footer />
-        </div>
+                <Footer />
+            </div>
         </div>
     );
 };
