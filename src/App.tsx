@@ -4,8 +4,8 @@ import { RecoilRoot, useRecoilValue } from 'recoil';
 import { scaleState } from './recoil/state/scaleState';
 import Main from './pages/Main/Main';
 import Algorithm from './pages/Algorithm/Algorithm';
-import Login from './pages/Login/login';
-import Register from './pages/Register/register';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
 import { ThemePage } from './pages/Theme/ThemePage';
 
 const App: React.FC = () => {
