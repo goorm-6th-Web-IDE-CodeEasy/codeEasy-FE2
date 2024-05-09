@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
 import axios from 'axios'
-import styles from './register.module.scss'
+import styles from './Register.module.scss'
 import { Link } from 'react-router-dom'
 import { ApiResponse, VerificationData, AvailabilityCheck, FormData, Availability } from './RegisterTypes'
 
