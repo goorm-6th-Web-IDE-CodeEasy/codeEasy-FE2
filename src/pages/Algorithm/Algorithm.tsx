@@ -4,42 +4,43 @@ import { soundState } from '../../recoil/state/soundState';
 import styles from './Algorithm.module.scss';
 import Footer from '../../Layout/Footer/Footer';
 import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
-import { ThemeState } from "../Theme/ThemeState";
+import { ThemeState } from '../Theme/ThemeState';
+import Header from '../../Layout/Header/Header';
+import throttle from 'lodash/throttle';
 
 const Algorithm: React.FC = () => {
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
     const [problems, setProblems] = useState([]);
-    const [user, setUser] = useState({ nickname: '게스트' });  // 초기값을 기본 사용자 이름 설정
+    const [user, setUser] = useState({ nickname: '게스트' }); // 초기값을 기본 사용자 이름 설정
 
     useEffect(() => {
         // 문제 리스트를 불러오는 API
         fetch('/problemList')
-            .then(response => response.json())
-            .then(data => setProblems(data.problems))
-            .catch(error => console.error('Error fetching problem data: ', error));
+            .then((response) => response.json())
+            .then((data) => setProblems(data.problems))
+            .catch((error) => console.error('Error fetching problem data: ', error));
 
         // 사용자 프로필을 불러오는 API
         fetch('/api/user/profile')
-            .then(response => response.json())
-            .then(data => setUser(data.user))
-            .catch(error => console.error('Error fetching user profile: ', error));
+            .then((response) => response.json())
+            .then((data) => setUser(data.user))
+            .catch((error) => console.error('Error fetching user profile: ', error));
     }, []);
 
-    const handleTTS = (text: string): void => {
+    //음성 tts 함수
+    const handleTTS = throttle((text: string): void => {
         if (isVolumeOn) {
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(speech);
         }
-    };
+    }, 2000);
 
     return (
         <div className={styles.container}>
+            <Header />
             <div className={styles.mainSection}>
                 <div className={styles.textContainer}>
-                    <h1 onMouseEnter={() => handleTTS('알고리즘 코드이지와 함께 이제 누구나 쉽게 정복하세요')}
-                        className={styles.h1Title}>
-                        {user.nickname}님 오늘도 힘차게 시작해볼까요?
-                    </h1>
+                    <h1 className={styles.h1Title}>{user.nickname}님 오늘도 힘차게 시작해볼까요?</h1>
                 </div>
                 <div className={styles.iconContainer}>
                     <AlgorithmMainSvg />

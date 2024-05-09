@@ -16,7 +16,6 @@ const Header: React.FC = () => {
     const [isVolumeOn, setVolumeOn] = useRecoilState<boolean>(soundState); // useRecoilState 사용하여 전역 상태 관리
     const [scale, setScale] = useRecoilState<number>(scaleState); // 확대/축소 상태
 
-    
     const increaseScale = (): void => {
         setScale((scale) => scale * 1.1); // 10%씩 확대
     };
@@ -34,7 +33,7 @@ const Header: React.FC = () => {
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(speech);
         }
-    }, 1500);
+    }, 2000);
 
     return (
         <>

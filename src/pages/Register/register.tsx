@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react'
 import axios from 'axios'
 import styles from './register.module.scss'
 import { Link } from 'react-router-dom'
-import { ApiResponse, VerificationData, AvailabilityCheck, FormData, Availability } from './Registertyes'
+import { ApiResponse, VerificationData, AvailabilityCheck, FormData, Availability } from './RegisterTypes'
 
 const Register = () => {
     const [formData, setFormData] = useState<FormData>({

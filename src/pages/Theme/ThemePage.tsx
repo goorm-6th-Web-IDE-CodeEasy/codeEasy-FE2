@@ -3,11 +3,13 @@ import ThemeSwitcher from './ThemeSwitcher';
 import { useRecoilValue } from 'recoil';
 import { ThemeState } from './ThemeState';
 import './ThemePage.scss';
+import Header from '../../Layout/Header/Header';
 
 export const ThemePage: React.FC = () => {
     const theme = useRecoilValue(ThemeState);
     return (
         <div>
+            <Header />
             <div className={`theme-page ${theme}`}>
                 <div className={`themeTitle`}>
                     <h1>테마 설정</h1>
