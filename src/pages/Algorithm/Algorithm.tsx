@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from "recoil";
 import { soundState } from '../../recoil/state/soundState';
 import styles from './Algorithm.module.scss';
 import Footer from '../../Layout/Footer/Footer';
@@ -8,7 +8,10 @@ import { ThemeState } from '../Theme/ThemeState';
 import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
 
+
 const Algorithm: React.FC = () => {
+    const theme = useRecoilValue(ThemeState);
+
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
     const [problems, setProblems] = useState([]);
     const [user, setUser] = useState({ nickname: '게스트' }); // 초기값을 기본 사용자 이름 설정
@@ -36,6 +39,7 @@ const Algorithm: React.FC = () => {
     }, 2000);
 
     return (
+        <div className={`${theme}`}>
         <div className={styles.container}>
             <Header />
             <div className={styles.mainSection}>
@@ -74,6 +78,7 @@ const Algorithm: React.FC = () => {
             </div>
 
             <Footer />
+        </div>
         </div>
     );
 };

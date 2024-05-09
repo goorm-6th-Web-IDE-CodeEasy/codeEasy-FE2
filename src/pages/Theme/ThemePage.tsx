@@ -19,6 +19,9 @@ export const ThemePage: React.FC = () => {
                         고대비 모드를 제공합니다.
                     </p>
                 </div>
+                <div className={`themeSwitch`}>
+                    <ThemeSwitcher />
+                </div>
             </div>
         </div>
     );

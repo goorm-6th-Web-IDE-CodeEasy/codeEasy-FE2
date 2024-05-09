@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import { soundState } from '../../recoil/state/soundState';
 import styles from './Main.module.scss';
 import mainAlgorithmImg from '../../assets/Main/메인 문제풀이 이미지.png';
@@ -12,8 +11,14 @@ import { HomeSoundDrawing } from '../../components/Svg/HomeSoundDrawing';
 import Footer from '../../Layout/Footer/Footer';
 import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
+import { ThemeState } from "../Theme/ThemeState";
+import { useRecoilState, useRecoilValue } from "recoil";
+
+
+
 
 const Main: React.FC = () => {
+    const theme = useRecoilValue(ThemeState);
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
 
     const handleTTS = throttle((text: string): void => {
@@ -24,6 +29,7 @@ const Main: React.FC = () => {
     }, 2000);
 
     return (
+        <div className={`${theme}`}>
         <div className={styles.container}>
             <Header />
             <div className={styles.mainSection1}>
@@ -118,6 +124,7 @@ const Main: React.FC = () => {
             </div>
 
             <Footer />
+        </div>
         </div>
     );
 };
