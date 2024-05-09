@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react'
 import axios from 'axios'
 import styles from './Register.module.scss'
 import { Link } from 'react-router-dom'
-import { ApiResponse, VerificationData, AvailabilityCheck, FormData, Availability } from './Registertyes'
+import { ApiResponse, VerificationData, AvailabilityCheck, FormData, Availability } from './RegisterTypes'
 
 const Register = () => {
     const [formData, setFormData] = useState<FormData>({
@@ -28,6 +28,15 @@ const Register = () => {
 
     //백엔드에게 해당 이메일에게 인증번호를 주도록 요청
     const sendVerificationCode = async () => {
+        if (!formData.email.trim()) {
+            alert('이메일 주소를 입력해주세요.')
+            return
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            alert('올바른 이메일 형식이 아닙니다.')
+            return
+        }
+
         try {
             await axios.post<ApiResponse<VerificationData>>('http://localhost:8080/api/register/send-certification', {
                 email: formData.email,
