@@ -1,6 +1,6 @@
-import { atom } from 'recoil';
+import { atom } from 'recoil'
 
 export const loggedInState = atom({
     key: 'loggedInState', // 고유 key
     default: false, // 기본값 (로그인X)
-});
+})

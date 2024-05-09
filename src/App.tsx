@@ -1,24 +1,23 @@
-import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import { RecoilRoot, useRecoilValue } from 'recoil';
-import { scaleState } from './recoil/state/scaleState';
-import Header from './Layout/Header/Header';
-import Main from './pages/Main/Main';
-import Algorithm from './pages/Algorithm/Algorithm';
-import Login from './pages/Login/login';
-import Register from './pages/Register/register';
-import { ThemePage } from './pages/Theme/ThemePage';
+import React from 'react'
+import { HashRouter, Routes, Route } from 'react-router-dom'
+import { RecoilRoot, useRecoilValue } from 'recoil'
+import { scaleState } from './recoil/state/scaleState'
+import Header from './Layout/Header/Header'
+import Main from './pages/Main/Main'
+import Algorithm from './pages/Algorithm/Algorithm'
+import Login from './pages/Login/Login'
+import Register from './pages/Register/Register'
+import { ThemePage } from './pages/Theme/ThemePage'
 const App: React.FC = () => {
     return (
         <RecoilRoot>
             <AppContent />
         </RecoilRoot>
-    );
-};
-
+    )
+}
 
 const AppContent: React.FC = () => {
-    const scale = useRecoilValue<number>(scaleState);
+    const scale = useRecoilValue<number>(scaleState)
 
     return (
         <HashRouter>
@@ -35,7 +34,7 @@ const AppContent: React.FC = () => {
                 </Routes>
             </div>
         </HashRouter>
-    );
-};
+    )
+}
 
-export default App;
+export default App
