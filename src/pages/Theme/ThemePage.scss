@@ -5,7 +5,7 @@
     flex-direction: column;
 }
 .themeTitle {
-    width: 40%;
+    width: 50%;
     h1 {
         width: 20%;
         margin-bottom: 20px;
@@ -21,14 +21,17 @@
     justify-content: center;
 }
 .light {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #f9f9f9;
+    color: #16181c;
 }
+
 .dark {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #16181c;
+    color: #f9f9f9;
 }
+
 .highcontrast {
     background-color: #0000ff;
     color: #ff9900;
 }
+

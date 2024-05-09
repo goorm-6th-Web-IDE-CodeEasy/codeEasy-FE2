@@ -13,32 +13,30 @@ $xs: 1rem; // Extra Small (16px)
 }
 
 body {
-  margin: 0;
-  overflow-x: hidden;
-  width: 100vw;
-  //background-color: var(--background-color, #16181c);
-  box-sizing: border-box;
+    margin: 0;
+    overflow-x: hidden;
+    width: 100vw;
+    //background-color: var(--background-color, #16181c);
+    box-sizing: border-box;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  //color: var(--font-color, #fff);
-  align-items: center;
-  width: 100%;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    //color: var(--font-color, #fff);
+    align-items: center;
+    width: 100%;
+    justify-content: center;
 }
 
 .mainSection {
     display: flex;
-    flex: 1;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 95%;
-    height: 30vh;
-    padding: 1.25rem 0; // 20px 0
-    margin-bottom: 6.25rem; // 100px
+    height: 60vh;
+    width: 100%;
+    margin-bottom: 20px;
 
     .h1Title {
         font-family: 'Pretendard-Bold';
@@ -55,6 +53,56 @@ body {
     }
 }
 
+//메인 버튼 스타일링
+.btnAlgorithm {
+    padding: 0.75rem 1.5rem; // 내부 여백
+    background-color: #0077fd; //나중에 변수로 바꾸기
+    border: none; // 테두리 없음
+    border-radius: 0.25rem; // 모서리 둥글기
+    color: #ffffff; // 텍스트 색상
+    font-size: $s; // 글자 크기
+    font-weight: 500; // 글자 두께
+    margin-top: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s; // 배경 색상 변화 애니메이션
+
+    &:hover {
+        background-color: hsl(212, 97%, 44%); // 마우스 오버 시 색상 변경
+        transform: scale(1.02);
+        transition:
+            transform 0.3s ease,
+            background-color 0.3s ease;
+    }
+
+    &:active {
+        background-color: hsl(212, 100%, 36%); // 클릭 시 색상 변경
+    }
+
+    &:focus {
+        outline: none; // 포커스 시 외곽선 제거
+    }
+}
+
+//메인 컨테이너 부분들
+.iconContainer {
+    background-color: #0077fd;
+    height: 100%;
+}
+
+.textContainer {
+    padding-left: 2rem;
+    padding-top: 1rem;
+}
+
+@media (max-width: 1024px) {
+    .btnAlgorithm {
+        width: 50%;
+        padding: 0.5rem 1rem;
+        font-size: $xs; // 글자 크기를 가장 작은 크기로
+        margin-top: 0.25rem; // 상단 여백 조정
+    }
+}
 .textContainer {
     display: flex;
     flex-direction: column;
@@ -70,31 +118,89 @@ body {
     align-items: center;
     justify-content: space-around;
     flex: 1;
+    height: 100%;
     flex-wrap: wrap;
 }
 
-
+//문제 리스트 컨테이너 부분
+.problemContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    font-size: $ms;
+    border-top: 0.07rem solid #d4d4d4;
+    padding: 1rem 1rem; // 내부 여백
+}
 //문제리스트 섹션
 .problemContainer {
     display: flex;
+    flex-direction: row;
+    position: relative;
+    top: -20px;
     justify-content: space-between;
-  }
-  
-  .problemSection {
-    width: 70%;
+    width: 97%;
+    margin: 0 1.5rem; // 0 20px
+    font-size: $ms;
+    border-top: 0.07rem solid #d4d4d4;
+    padding: 0rem 2rem; // 내부 여백
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+}
+
+.problemSection {
+    width: 85%;
     height: auto;
-  }
-  
-  .problemCard {
+    margin-right: 5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.problemCard {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 1rem;
     margin-bottom: 1rem;
-  }
-  
-  .clientSection {
-    width: 25%;
-  }
+}
+
+.clientSection {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; // Ensures vertical alignment is centered, optional based on design preference
+}
+
+//사용자 이미지 부분 스타일
+.clientAvatar {
+    width: 10rem;
+    height: 10rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #0077fd;
+}
+
+.userAvatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 10%;
+    object-fit: cover;
+}
+
+.todayAlgorithm {
+ margin-top: 1rem;
+ .title {
+    font-size: $m;
+    font-weight: 800;
+    margin-bottom: 0.5rem; // 10px
+    font-family: 'Pretendard-Bold';
+ 
+ }
+}
+
+
+
 
 @media (max-width: 1024px) {
     .mainSection {
@@ -134,10 +240,53 @@ body {
     }
 }
 
+@media (max-width: 690px) {
+    .mainSection {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        min-height: 60vh;
+        margin-bottom: 2rem;
+    }
 
-//알고리즘 문제 리스트 및 사용자 부분 스타일
+    .textContainer,
+    .iconContainer {
+        width: 100%;
+        order: 2;
+    }
 
-.userAvatar {
-    width: 100px;
-    border-radius: 50%;
+    .iconContainer {
+        order: 1;
+        height: auto;
+    }
+
+    .problemContainer {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 8rem;
+        padding: 1rem 1rem;
+        border-top: 0.07rem solid #d4d4d4;
+        box-sizing: border-box;
+    }
+
+    .problemSection {
+        order: 1;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .clientSection {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: space-evenly;
+        margin-bottom: 1rem;
+    }
+
+    
+    .todayAlgorithm {
+     margin-top: 1rem;
+     width: 100%;
+    }
 }

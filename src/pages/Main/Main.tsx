@@ -26,7 +26,7 @@ const Main: React.FC = () => {
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(speech);
         }
-    }, 4000);
+    }, 3000);
 
     return (
         <div className={`${theme}`}>
@@ -92,7 +92,7 @@ const Main: React.FC = () => {
                     </h1>
                     <p className={styles.text}>
                         다양한 난이도의 문제들로 실력을 시험하고 코딩 능력을 키워보세요. 데이터 구조부터 복잡한 알고리즘
-                        문제까지, 초보자부터 경력자까지 모두를 위한 문제들이 준비되어 있습니다.
+                        문제까지, 모두를 위한 문제들이 준비되어 있습니다.
                     </p>
                     <Link>
                         <button className={styles.btnAlgorithm}>문제 풀어보기</button>
