@@ -12,8 +12,10 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "axios": "^1.6.8",
+    "codemirror": "^5.65.16",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
+    "react-codemirror2": "^8.0.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",
     "recoil": "^0.7.7",
