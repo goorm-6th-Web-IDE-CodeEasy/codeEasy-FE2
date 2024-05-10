@@ -1,8 +1,7 @@
-// 폰트 사이즈 변수
 $L: 2.5625rem; // Large (41px)
 $m: 1.75rem; // Medium (28px)
 $ms: 1.3125rem; // Medium Small (21px)
-$s: 1.25rem; // Small (20px)
+$s: 1.16rem; // Small (20px)
 $xs: 1rem; // Extra Small (16px)
 
 @font-face {
@@ -36,7 +35,7 @@ body {
     align-items: center;
     height: 60vh;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 
     .h1Title {
         font-family: 'Pretendard-Bold';
@@ -127,8 +126,6 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
-    font-size: $ms;
-    border-top: 0.07rem solid #d4d4d4;
     padding: 1rem 1rem; // 내부 여백
 }
 //문제리스트 섹션
@@ -138,35 +135,170 @@ body {
     position: relative;
     top: -20px;
     justify-content: space-between;
-    width: 97%;
+    width: 100%;
     margin: 0 1.5rem; // 0 20px
-    font-size: $ms;
-    border-top: 0.07rem solid #d4d4d4;
+    font-size: $xs;
+    border-top: 0.02rem solid #313131;
     padding: 0rem 2rem; // 내부 여백
     padding-top: 3rem;
     padding-bottom: 2rem;
 }
 
 .problemSection {
-    width: 85%;
+    width: 75%;
     height: auto;
-    margin-right: 5rem;
+    font-size: $s;
+    margin-right: 4.1rem;
     display: flex;
     flex-direction: column;
+    background-color: #efefef;
+    border: 0.025rem solid #16181c42;
+    padding: 1.25rem 2rem;
+    border-radius: 0.4375rem;
+
+    //문제리스트 표 테이블
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px; // 각 행 사이의 간격
+        color: #565656;
+
+        .th:first-child {
+            border-top-left-radius: 0.4rem;
+            border-bottom-left-radius: 0.4rem; // 하단 왼쪽 모서리 둥글게
+        }
+
+        .th:last-child {
+            border-top-right-radius: 0.4rem;
+            border-bottom-right-radius: 0.4rem; // 하단 왼쪽 모서리 둥글게
+        }
+
+        .tr:first-child td:first-child {
+            border-top-left-radius: 1rem; // 상단 왼쪽 모서리 둥글게
+        }
+
+        .tr:first-child td:last-child {
+            border-top-right-radius: 1rem; // 상단 오른쪽 모서리 둥글게
+        }
+
+        .tr:last-child td:first-child {
+            border-bottom-left-radius: 1rem; // 하단 왼쪽 모서리 둥글게
+        }
+
+        .tr:last-child td:last-child {
+            border-bottom-right-radius: 1rem; // 하단 오른쪽 모서리 둥글게
+        }
+
+        .tr {
+            font-family: 'Pretendard-Bold';
+            font-weight: 800;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); // 그림자 효과
+        }
+        .tr:hover {
+            transform: scale(1.03);
+        }
+
+        .th,
+        .td {
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .th {
+            background-color: #16181cee;
+            color: #fff;
+        }
+
+        .td {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                transform: scale(1.03);
+                color: #0077fd;
+                font-weight: bold;
+            }
+        }
+
+        .td:nth-child(1) {
+            font-size: 2rem;
+        }
+
+        .td:nth-child(2) {
+            display: flex;
+            flex-direction: column;
+
+            .algorithmType {
+                font-size: $xs;
+                color: #7c7c7c;
+                font-weight: 500;
+                margin-bottom: 0.2rem; // 10px
+            }
+        }
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+
+        button {
+            padding: 8px 16px;
+            margin: 0 0.25rem;
+            background-color: #e0e0e0;
+            border: none;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #d0d0d0;
+            }
+        }
+    }
 }
 
 .problemCard {
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     padding: 1rem;
     margin-bottom: 1rem;
 }
 
 .clientSection {
-    width: 15%;
+    width: 25%;
+    height: auto;
+    font-size: $xs;
     display: flex;
+    border: 0.02rem solid #828282;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); // 그림자 효과
+    border-radius: 0.3rem;
+    padding: 1rem 1rem;
     flex-direction: column;
-    align-items: center; // Ensures vertical alignment is centered, optional based on design preference
+    align-items: center;
+
+    .userInfoSection {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        .userProfile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 0.9rem;
+            .userInfo {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 13.5rem;
+                margin-top: 0.2rem;
+                .tier {
+                    margin-right: 1rem;
+                }
+            }
+        }
+    }
 }
 
 //사용자 이미지 부분 스타일
@@ -188,23 +320,46 @@ body {
     object-fit: cover;
 }
 
+//오늘의 추천 알고리즘 부분
 .todayAlgorithm {
- margin-top: 1rem;
- .title {
-    font-size: $m;
-    font-weight: 800;
-    margin-bottom: 0.5rem; // 10px
-    font-family: 'Pretendard-Bold';
- 
- }
+    margin-top: 1rem;
+    width: 20rem;
+    height: auto;
+    color: #16181c;
+    background-color: #f1f1f1;
+    padding: 1.5rem 1.5rem;
+    text-align: center;
+
+    border-radius: 0.4rem;
+    .title {
+        font-size: $m;
+        font-weight: 800;
+        margin-bottom: 0.5rem; // 10px
+        font-family: 'Pretendard-Bold';
+    }
+    span {
+        background-color: #0077fd; /* 배경 색상 */
+        padding: 0rem 0.2rem;
+        color: rgb(255, 255, 255); /* 글자 색상 */
+        border-radius: 0.1rem;
+    }
 }
 
-
-
+@media (max-width: 1420px) {
+    .todayAlgorithm {
+        width: 100%;
+        span {
+            background-color: #0077fd; /* 배경 색상 */
+            padding: 0rem 0.2rem;
+            color: rgb(255, 255, 255); /* 글자 색상 */
+            border-radius: 0.1rem;
+        }
+    }
+}
 
 @media (max-width: 1024px) {
     .mainSection {
-        margin-bottom: 20px;
+        margin-bottom: 1.25rem;
 
         .h1Title {
             font-size: $m;
@@ -234,9 +389,17 @@ body {
             flex-wrap: wrap;
 
             svg {
-                width: 480px;
+                width: 30rem;
             }
         }
+    }
+    .clientSection {
+        display: none;
+    }
+    .problemSection {
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 1rem;
     }
 }
 
@@ -247,26 +410,17 @@ body {
         align-items: center;
         width: 100%;
         min-height: 60vh;
-        margin-bottom: 2rem;
     }
 
-    .textContainer,
-    .iconContainer {
-        width: 100%;
-        order: 2;
-    }
-
-    .iconContainer {
-        order: 1;
-        height: auto;
+    .textContainer {
+        display: none;
     }
 
     .problemContainer {
         flex-direction: column;
         align-items: center;
-        margin-top: 8rem;
         padding: 1rem 1rem;
-        border-top: 0.07rem solid #d4d4d4;
+        border-top: 0.05rem solid #565656;
         box-sizing: border-box;
     }
 
@@ -281,12 +435,25 @@ body {
         flex-direction: column;
         width: 100%;
         justify-content: space-evenly;
+        margin: 0 auto;
         margin-bottom: 1rem;
+
+        .userInfoSection {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 100%;
+        }
     }
 
-    
     .todayAlgorithm {
-     margin-top: 1rem;
-     width: 100%;
+        width: 90%;
+        span {
+            background-color: #0077fd; /* 배경 색상 */
+            padding: 0rem 0.2rem;
+            color: rgb(255, 255, 255); /* 글자 색상 */
+            border-radius: 0.1rem;
+        }
     }
 }

@@ -1,23 +1,25 @@
 .header {
-    position: sticky; /* fixed에서 sticky로 변경*/
+    position: sticky;
     top: 0;
-    width: 100%;
+    width: 99.95%;
+    border-radius: 0.3rem;
     left: 0;
     z-index: 1000;
-    border-bottom: 1px solid #16181c;
-    background-color: #16181c;
-    color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 상단에 그림자 효과 추가 */
-    padding: 0.625rem 1.25rem; /* 10px 20px */
+    background-color: #16181ced; /* 배경색을 약간 불투명하게 조정 */
+    padding: 0.625rem 1.25rem;
+    backdrop-filter: blur(4px); /* 배경 블러 효과 */
 }
+
 
 .topSection,
 .menu,
 .userSection {
     display: flex;
     justify-content: space-between;
+    font-size: 1.1rem;
     align-items: center;
     margin: 0 1.125rem; /* 0 18px */
+    color: #fff;
 }
 
 .navContainer {
@@ -29,7 +31,6 @@
 
 .logo {
     font-size: 1.5rem; /* 24px */
-    color: #fff;
     text-decoration: none;
     margin-right: 1.25rem; /* 20px */
 }
@@ -71,5 +72,4 @@
 .registerLink {
     margin-left: 0.625rem; /* 10px */
     text-decoration: none;
-    color: #fff;
 }

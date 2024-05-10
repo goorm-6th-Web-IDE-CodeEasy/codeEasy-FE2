@@ -11,11 +11,20 @@ import axios from 'axios';
 
 const Algorithm: React.FC = () => {
     const theme = useRecoilValue(ThemeState);
-
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
+
     const [problems, setProblems] = useState([]);
-    const [user, setUser] = useState({ nickname: '게스트' }); // 초기값을 기본 사용자 이름 설정
+    const [user, setUser] = useState({ nickname: '게스트' }); // 초기값 기본 사용자 이름 게스트로 설정
     const [randomProblem, setRandomProblem] = useState(null);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const problemsPerPage = 5; //문제 페이지네이션
+
+    // 페이지 계산
+    const indexOfLastProblem = currentPage * problemsPerPage;
+    const indexOfFirstProblem = indexOfLastProblem - problemsPerPage;
+    const currentProblems = problems.slice(indexOfFirstProblem, indexOfLastProblem);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -64,38 +73,64 @@ const Algorithm: React.FC = () => {
                         </div>
                     </div>
                     <div className={styles.iconContainer}>
-                        <AlgorithmMainSvg />
+                        <AlgorithmMainSvg className={styles.algorithmSvg} />
                     </div>
                 </div>
                 <div className={styles.problemContainer}>
                     <div className={styles.problemSection}>
-                        {problems.map((problem, index) => (
-                            <div key={index} className={styles.problemCard}>
-                                <h3>{problem.title}</h3>
-                                <p>{problem.content}</p>
-                                <p>난이도: {problem.tier}</p>
-                                <p>유형: {problem.type}</p>
-                                <p>정답률: {problem.successRate}</p>
-                                <p>풀이 완료: {problem.done ? '완료' : '미완료'}</p>
-                            </div>
-                        ))}
+                        <table className={styles.table}>
+                            <thead>
+                                <tr className={styles.tr}>
+                                    <th className={styles.th}>완료 여부</th>
+                                    <th className={styles.th}>문제 제목</th>
+                                    <th className={styles.th}>티어</th>
+                                    <th className={styles.th}>정답률</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentProblems.map((problem, index) => (
+                                    <tr key={index} className={styles.tr}>
+                                        <td className={styles.td}>{problem.done ? '☑' : ''}</td>
+                                        <td className={styles.td}>
+                                            <div className={styles.algorithmType}>{problem.algorithm}</div>
+                                            <div>{problem.title}</div>
+                                        </td>
+                                        <td className={styles.td}>{problem.tier}</td>
+                                        <td className={styles.td}>{problem.rate}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className={styles.pagination}>
+                            {[...Array(Math.ceil(problems.length / problemsPerPage)).keys()].map((number) => (
+                                <button key={number + 1} onClick={() => paginate(number + 1)}>
+                                    {number + 1}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                     <div className={styles.clientSection}>
                         {user && (
                             <>
-                                <div className={styles.clientAvatar}>
-                                    <img src={user.avatar} alt="User Avatar" className={styles.userAvatar} />
+                                <div className={styles.userInfoSection}>
+                                    <div className={styles.clientAvatar}>
+                                        <img src={user.avatar} alt="User Avatar" className={styles.userAvatar} />
+                                    </div>
+                                    <div className={styles.userProfile}>
+                                        <div>{user.nickname}</div>
+                                        <div className={styles.userInfo}>
+                                            <div>티어: {user.tier}</div>
+                                            <div>푼 문제 수: {user.doneProblem}</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className={styles.userProfile}>
-                                    <div>닉네임: {user.nickname}</div>
-                                    <div>레벨: {user.level}</div>
-                                    <div>게시물 수: {user.posts}</div>
-                                    <div>젬 수: {user.gems}</div>
-                                    <div>완료된 챌린지: {user.completedChallenges}</div>
-                                </div>
+
                                 {randomProblem && (
                                     <div className={styles.todayAlgorithm}>
-                                        <p className={styles.title}>{user.nickname}님을 위한 오늘의 추천 알고리즘</p>
+                                        <p className={styles.title}>
+                                            {user.nickname}님을 위한 <br></br><span>오늘의 추천 알고리즘</span>
+                                        </p>
+                                        <h3>{randomProblem.algorithm}</h3>
                                         <div>{randomProblem.title}</div>
                                     </div>
                                 )}
