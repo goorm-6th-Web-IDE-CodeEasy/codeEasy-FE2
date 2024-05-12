@@ -183,4 +183,16 @@ export const mockData = {
             rate: '76%',
         },
     ],
+    chatMessages: [
+        {
+            sender: 'User1',
+            message: '안녕하세요',
+            timestamp: new Date().toISOString(),
+        },
+        {
+            sender: 'User2',
+            message: "문제 추천해주세요",
+            timestamp: new Date().toISOString(),
+        },
+    ],
 };

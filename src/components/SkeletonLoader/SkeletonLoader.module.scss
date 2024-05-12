@@ -1,0 +1,18 @@
+.skeleton {
+    width: 100%;
+    .skeletonRow {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        background-color: #e0e0e0;
+
+        .skeletonCell {
+            height: 20px;
+            background-color: #ccc;
+            flex-grow: 1;
+            &:not(:last-child) {
+                margin-right: 10px;
+            }
+        }
+    }
+}

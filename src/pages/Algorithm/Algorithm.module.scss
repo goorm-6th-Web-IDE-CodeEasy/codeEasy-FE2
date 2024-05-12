@@ -128,6 +128,78 @@ body {
     width: 100%;
     padding: 1rem 1rem; // 내부 여백
 }
+
+//검색창과 드롭다운 버튼 스타일링
+.searchContainer {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem; // 요소 간 간격 조정
+
+    input,
+    select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #007bff; // 경계선 스타일
+        border-radius: 8px; // 둥근 모서리
+        background-color: white; // 배경 색상
+        font-size: 16px; // 폰트 크기
+        color: #333; // 폰트 색상
+
+        &:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+    }
+
+    .filterContainer {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        gap: 10px; // 요소 간 간격 조정
+        margin-bottom: 10px; // 아래쪽 여백 추가
+    }
+
+    select {
+        cursor: pointer; // 포인터 커서 표시
+    }
+
+    .filterSelect {
+        padding: 10px 20px;
+        background-color: #0077fd; // 버튼 배경색
+        color: white; // 버튼 텍스트 색상
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: #086edb; // 호버 상태일 때 색상
+        }
+    }
+}
+
+// 페이지네이션 버튼 스타일
+.pagination button {
+    padding: 8px 16px;
+    margin: 0 4px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #ccc;
+    }
+
+    &.active {
+        background-color: #007bff;
+        color: white;
+    }
+}
+
 //문제리스트 섹션
 .problemContainer {
     display: flex;
@@ -163,6 +235,13 @@ body {
         border-spacing: 0 15px; // 각 행 사이의 간격
         color: #565656;
 
+        tbody {
+            .tr:hover {
+                transform: scale(1.02);
+                background-color: #f7f7f7;
+            }
+        }
+
         .th:first-child {
             border-top-left-radius: 0.4rem;
             border-bottom-left-radius: 0.4rem; // 하단 왼쪽 모서리 둥글게
@@ -197,9 +276,6 @@ body {
             transition: background-color 0.3s ease;
             box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); // 그림자 효과
         }
-        .tr:hover {
-            transform: scale(1.03);
-        }
 
         .th,
         .td {
@@ -220,6 +296,7 @@ body {
                 transform: scale(1.03);
                 color: #0077fd;
                 font-weight: bold;
+                transform: scale(1.02);
             }
         }
 

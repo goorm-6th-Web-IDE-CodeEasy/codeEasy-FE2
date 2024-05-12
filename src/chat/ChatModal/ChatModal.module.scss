@@ -1,0 +1,60 @@
+.chatModal {
+    position: fixed;
+    top: 350px; // 뷰포트의 상단으로부터 350px 위치에 고정
+    bottom: 120px;
+    right: 20px; // 오른쪽으로부터 20px 위치
+    width: 300px;
+    height: 400px;
+    background-color: #f9f9f9;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chatHeader {
+    background-color: #0077fd;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.messages {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: white;
+    overflow-y: auto;
+}
+
+.chatInput {
+    padding: 10px;
+    border-top: 1px solid #ccc; // 상단 경계선 추가
+    background-color: #f1f1f1; // 입력 부분 배경색 변경
+
+    input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #0077fd;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #0056b3;
+        }
+    }
+}

@@ -20,6 +20,7 @@ body {
     box-sizing: border-box;
 }
 
+
 .container {
     display: flex;
     flex-direction: column;
@@ -98,6 +99,12 @@ body {
     svg:hover {
         transform: scale(1.05);
     }
+}
+
+.shortcut2 button {
+  border: 0;
+  cursor: pointer;
+  background-color: transparent;
 }
 
 .faq {

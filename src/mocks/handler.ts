@@ -52,5 +52,28 @@ export const handlers = [
             })
         );
     }),
-];
 
+    // Handler for fetching chat messages
+    rest.get('/chats', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({ messages: mockData.chatMessages }));
+    }),
+
+    // Handler for sending messages
+    rest.post('/chats/send', (req, res, ctx) => {
+        const { message } = req.body as { message: string };
+        const newMessage = {
+            sender: 'CurrentUser',
+            message: message,
+            timestamp: new Date().toISOString(),
+        };
+        mockData.chatMessages.push(newMessage);
+        return res(ctx.status(201), ctx.json(newMessage));
+    }),
+
+    // Handler for searching messages (simulated by filtering content)
+    rest.get('/chats/search', (req, res, ctx) => {
+        const query = req.url.searchParams.get('query');
+        const filteredMessages = mockData.chatMessages.filter((msg) => msg.message.includes(query));
+        return res(ctx.status(200), ctx.json({ messages: filteredMessages }));
+    }),
+];
