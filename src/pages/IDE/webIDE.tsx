@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
 import CodeMirrorEditor from '../../components/IDE/CodeMirror';
 import Timer from '../../components/IDE/Timer';
+import Cpp from '../../components/IDE/Language/Cpp';
+import Python from '../../components/IDE/Language/Python';
+import Java from '../../components/IDE/Language/Java';
+import Javascript from '../../components/IDE/Language/JavaScript';
+
+enum Language {
+    Python = 'Python',
+    Cpp = 'C++',
+    Java = 'Java',
+    Javascript = 'Javascript',
+}
 
 const WebIDE: React.FC = () => {
     const [code, setCode] = useState('');
     const [output, setOutput] = useState('');
     const [elapsedTime, setElapsedTime] = useState(0);
+    const [language, setLanguage] = useState<Language>(Language.Python);
 
     const executeCode = () => {
         try {
@@ -20,22 +32,48 @@ const WebIDE: React.FC = () => {
         setElapsedTime(time);
     };
 
+    const renderCodeEditor = () => {
+        switch (language) {
+            case Language.Cpp:
+                return <Cpp value={code} onChange={setCode} />;
+            case Language.Python:
+                return <Python value={code} onChange={setCode} />;
+            case Language.Java:
+                return <Java value={code} onChange={setCode} />;
+            case Language.Javascript:
+                return <Javascript value={code} onChange={setCode} />;
+            default:
+                return null;
+        }
+    };
+
     return (
         <div className="web-ide">
-            <h1>Algorithm Problem Solver</h1>
-            <Timer initialTime={60} onTimeUpdate={handleTimeUpdate} />
-            <div>
-                <h2>Code Editor</h2>
-                <CodeMirrorEditor value={code} onChange={(newValue) => setCode(newValue)} />
-                <button onClick={executeCode}>Run Code</button>
-            </div>
-            <div>
-                <h2>Output</h2>
-                <textarea readOnly value={output} />
-            </div>
-            <div>
-                <h2>Elapsed Time</h2>
-                <p>{elapsedTime} seconds</p>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                {/* 왼쪽 */}
+                <div style={{ flex: 1 }}>
+                    <h2>문제</h2>
+                    {/* 문제 표시되는 컴포넌트 */}
+                </div>
+                {/* 오른쪽 */}
+                <div style={{ flex: 1 }}>
+                    <Timer initialTime={3000} onTimeUpdate={handleTimeUpdate} />
+                    <select value={language} onChange={(e) => setLanguage(e.target.value as Language)}>
+                        {Object.values(Language).map((lang) => (
+                            <option key={lang} value={lang}>
+                                {lang}
+                            </option>
+                        ))}
+                    </select>
+                    <div>
+                        {renderCodeEditor()}
+                        <button onClick={executeCode}>코드 실행</button>
+                    </div>
+                    <div>
+                        <h2>결과</h2>
+                        <textarea readOnly value={output} />
+                    </div>
+                </div>
             </div>
         </div>
     );
