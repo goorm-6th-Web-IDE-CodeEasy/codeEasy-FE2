@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Timer from '../../components/IDE/Timer';
-import Cpp from '../../components/IDE/Language/Cpp';
 import Python from '../../components/IDE/Language/Python';
 import Java from '../../components/IDE/Language/Java';
 import Javascript from '../../components/IDE/Language/JavaScript';
+import Cpp from '../../components/IDE/Language/CPP';
 
 enum Language {
     Python = 'Python',
