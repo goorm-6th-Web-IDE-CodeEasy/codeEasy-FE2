@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import CodeMirrorEditor from '../../components/IDE/CodeMirror';
 import Timer from '../../components/IDE/Timer';
 import Cpp from '../../components/IDE/Language/Cpp';
 import Python from '../../components/IDE/Language/Python';
