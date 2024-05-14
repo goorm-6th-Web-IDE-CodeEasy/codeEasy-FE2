@@ -10,26 +10,50 @@ import throttle from 'lodash/throttle';
 import axios from 'axios';
 import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
 
+//유저 타입
+interface User {
+    nickname: string;
+    tier: string;
+    doneProblem: number;
+    avatar: string;
+}
+
+//알고리즘 문제 타입
+interface Problem {
+    title: string;
+    tier: string;
+    algorithm: string;
+    done: boolean;
+    rate: string;
+}
+
+//알고리즘 서치 버튼 필터 타입
+interface Filter {
+    tier: string;
+    algorithm: string;
+    done: string;
+}
+
 const Algorithm: React.FC = () => {
     const theme = useRecoilValue(ThemeState);
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
-    const [loading, setLoading] = useState(true);
-    const [problems, setProblems] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filter, setFilter] = useState({ tier: '', algorithm: '', done: '' });
-    const [randomProblem, setRandomProblem] = useState(null);
-    const [user, setUser] = useState({ nickname: '게스트', tier: '', doneProblem: 0, avatar: '' });
-    const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [problems, setProblems] = useState<Problem[]>([]);
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
+    const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
+    const [user, setUser] = useState<User>({ nickname: '게스트', tier: '', doneProblem: 0, avatar: '' });
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const responseProblems = await axios.get('/problemList');
-                setProblems(responseProblems.data.problems);
-                const responseUser = await axios.get('/api/user/profile');
-                setUser(responseUser.data.user);
-                if (responseProblems.data.problems.length > 0) {
+                const responseProblems = await axios.get<{ problems: Problem[] }>('/problemList');
+                setProblems(responseProblems.data?.problems ?? []);
+                const responseUser = await axios.get<{ user: User }>('/api/user/profile');
+                setUser(responseUser.data?.user);
+                if (responseProblems.data?.problems.length > 0) {
                     const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length);
                     setRandomProblem(responseProblems.data.problems[randomIndex]);
                 }
@@ -59,7 +83,7 @@ const Algorithm: React.FC = () => {
     }, 2000);
 
     const problemsPerPage = 5;
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const totalPages = Math.ceil(filteredProblems.length / problemsPerPage);
 
     return (
