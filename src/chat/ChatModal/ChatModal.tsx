@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client
 import Stomp from 'stompjs';
 import styles from './ChatModal.module.scss';
 

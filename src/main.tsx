@@ -9,7 +9,6 @@ if (process.env.NODE_ENV === 'development') {
     worker.start();
 }
 
-// polyfills.js
 if (typeof window !== 'undefined') {
     window.global = window;
 }

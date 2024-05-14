@@ -53,27 +53,28 @@ export const handlers = [
         );
     }),
 
-    // Handler for fetching chat messages
-    rest.get('/chats', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json({ messages: mockData.chatMessages }));
+    // 채팅 핸들러
+    rest.get('/chat/rooms', (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.json([
+                { roomId: '1', roomName: 'Room 1' },
+                { roomId: '2', roomName: 'Room 2' }
+            ])
+        );
     }),
-
-    // Handler for sending messages
-    rest.post('/chats/send', (req, res, ctx) => {
-        const { message } = req.body as { message: string };
-        const newMessage = {
-            sender: 'CurrentUser',
-            message: message,
-            timestamp: new Date().toISOString(),
-        };
-        mockData.chatMessages.push(newMessage);
-        return res(ctx.status(201), ctx.json(newMessage));
+    rest.post('/chat/room', (req, res, ctx) => {
+        const { name } = req.body;
+        return res(
+            ctx.status(201),
+            ctx.json({ roomId: '3', roomName: name })
+        );
     }),
-
-    // Handler for searching messages (simulated by filtering content)
-    rest.get('/chats/search', (req, res, ctx) => {
-        const query = req.url.searchParams.get('query');
-        const filteredMessages = mockData.chatMessages.filter((msg) => msg.message.includes(query));
-        return res(ctx.status(200), ctx.json({ messages: filteredMessages }));
+    rest.get('/chat/room/:roomId', (req, res, ctx) => {
+        const { roomId } = req.params;
+        return res(
+            ctx.status(200),
+            ctx.json({ roomId, roomName: `Room ${roomId}`, messages: [] })
+        );
     }),
 ];

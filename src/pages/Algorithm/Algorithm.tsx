@@ -10,7 +10,7 @@ import throttle from 'lodash/throttle';
 import axios from 'axios';
 import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
 
-//유저 타입
+
 interface User {
     nickname: string;
     tier: string;
@@ -18,7 +18,6 @@ interface User {
     avatar: string;
 }
 
-//알고리즘 문제 타입
 interface Problem {
     title: string;
     tier: string;
@@ -27,22 +26,22 @@ interface Problem {
     rate: string;
 }
 
-//알고리즘 서치 버튼 필터 타입
 interface Filter {
     tier: string;
     algorithm: string;
     done: string;
 }
 
+
 const Algorithm: React.FC = () => {
-    const theme = useRecoilValue(ThemeState);
+    const theme = useRecoilValue<string>(ThemeState);
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
     const [loading, setLoading] = useState<boolean>(true);
     const [problems, setProblems] = useState<Problem[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
     const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
-    const [user, setUser] = useState<User>({ nickname: '게스트', tier: '', doneProblem: 0, avatar: '' });
+    const [user, setUser] = useState<User | null>({ nickname: '게스트', tier: '', doneProblem: 0, avatar: '' });
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     useEffect(() => {
@@ -53,7 +52,7 @@ const Algorithm: React.FC = () => {
                 setProblems(responseProblems.data?.problems ?? []);
                 const responseUser = await axios.get<{ user: User }>('/api/user/profile');
                 setUser(responseUser.data?.user);
-                if (responseProblems.data?.problems.length > 0) {
+                if (responseProblems.data?.problems?.length > 0) {
                     const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length);
                     setRandomProblem(responseProblems.data.problems[randomIndex]);
                 }
@@ -69,18 +68,20 @@ const Algorithm: React.FC = () => {
         return problems.filter(
             (problem) =>
                 problem.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-                (!filter.tier || problem.tier === filter.tier) &&
+                (!filter.tier || problem.tier.startsWith(filter.tier)) &&
                 (!filter.algorithm || problem.algorithm === filter.algorithm) &&
                 (!filter.done || problem.done.toString() === filter.done)
         );
     }, [searchTerm, filter, problems]);
+    
 
     const handleTTS = throttle((text: string) => {
         if (isVolumeOn) {
             const speech = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis.speak(speech);
+            window.speechSynthesis?.speak(speech);
         }
     }, 2000);
+
 
     const problemsPerPage = 5;
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
@@ -93,14 +94,14 @@ const Algorithm: React.FC = () => {
                 <div className={styles.mainSection}>
                     <div className={styles.textContainer}>
                         <h1 className={styles.h1Title}>
-                            반갑습니다, {user.nickname}님<br></br>오늘도 힘차게 시작해볼까요?
+                            반갑습니다, {user?.nickname}님<br></br>오늘도 힘차게 시작해볼까요?
                         </h1>
                         <div>
                             <button className={styles.btnAlgorithm}>문제 풀어보기</button>
                         </div>
                     </div>
                     <div className={styles.iconContainer}>
-                        <AlgorithmMainSvg className={styles.algorithmSvg} />
+                        <AlgorithmMainSvg />
                     </div>
                 </div>
                 <div className={styles.problemContainer}>
