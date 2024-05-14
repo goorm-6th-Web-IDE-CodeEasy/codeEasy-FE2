@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { soundState } from '../../recoil/state/soundState';
+import { loggedInState, userState } from '../../recoil/state/loggedInState';
 import styles from './Algorithm.module.scss';
 import Footer from '../../Layout/Footer/Footer';
 import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
@@ -33,14 +35,14 @@ interface Filter {
 
 const Algorithm: React.FC = () => {
     const theme = useRecoilValue(ThemeState);
-    const isLoggedIn = useRecoilValue(loggedInState); //로그인여부
-    //const user = useRecoilValue(userState); //로그인여부에 따른 사용자정보
+    const isLoggedIn = useRecoilValue(loggedInState);
+    const user = useRecoilValue(userState);
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
     const [loading, setLoading] = useState(true);
-    const [problems, setProblems] = useState([]);
+    const [problems, setProblems] = useState<Problem[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filter, setFilter] = useState({ tier: '', algorithm: '', done: '' });
-    const [randomProblem, setRandomProblem] = useState(null);
+    const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
+    const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
@@ -51,7 +53,6 @@ const Algorithm: React.FC = () => {
                 const responseProblems = await axios.get<{ problems: Problem[] }>('/api/problems', { headers });
                 setProblems(responseProblems.data?.problems ?? []);
                 const responseUser = await axios.get<{ user: User }>('/api/user/profile');
-                setUser(responseUser.data?.user);
                 if (responseProblems.data?.problems?.length > 0) {
                     const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length);
                     setRandomProblem(responseProblems.data.problems[randomIndex]);
@@ -61,7 +62,7 @@ const Algorithm: React.FC = () => {
             }
             setLoading(false);
         };
-        fetchData();
+        fetchProblems();
     }, [isLoggedIn, user?.id]);
 
     const filteredProblems = useMemo(() => {

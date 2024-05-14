@@ -18,7 +18,7 @@ export const Users = [
         solvedproblems: 6,
         avatar: 'https://source.unsplash.com/featured/?{puppy}',
     },
-]
+];
 
 export const Problems = [
     {
@@ -181,7 +181,7 @@ export const Problems = [
         algorithm: '인공지능',
         rate: '70%',
     },
-]
+];
 
 export const SolvedProblems = [
     {
@@ -224,7 +224,7 @@ export const SolvedProblems = [
         problemID: 107,
         solvedDate: '2024-05-12',
     },
-]
+];
 
 export const DailyActivities = [
     {
@@ -297,4 +297,20 @@ export const DailyActivities = [
         date: '2024-05-14',
         problemsSolved: 2,
     },
-]
+];
+
+//채팅 데이터 추가
+export const ChatMessages = [
+    {
+        id: 1,
+        sender: 'User1',
+        message: '안녕하세요',
+        timestamp: new Date().toISOString(),
+    },
+    {
+        id: 2,
+        sender: 'User2',
+        message: '문제 추천해주세요',
+        timestamp: new Date().toISOString(),
+    },
+];
