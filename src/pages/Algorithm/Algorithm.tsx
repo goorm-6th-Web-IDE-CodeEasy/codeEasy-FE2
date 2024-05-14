@@ -12,6 +12,27 @@ import api from '../../components/Api/Api'
 import { loggedInState, userState } from '../../recoil/state/loggedInState'
 import { Link } from 'react-router-dom'
 
+interface User {
+    nickname: string;
+    tier: string;
+    doneProblem: number;
+    avatar: string;
+}
+
+interface Problem {
+    title: string;
+    tier: string;
+    algorithm: string;
+    done: boolean;
+    rate: string;
+}
+
+interface Filter {
+    tier: string;
+    algorithm: string;
+    done: string;
+}
+
 const Algorithm: React.FC = () => {
     const theme = useRecoilValue(ThemeState)
     const isLoggedIn = useRecoilValue(loggedInState) //로그인여부
@@ -48,7 +69,7 @@ const Algorithm: React.FC = () => {
         return problems.filter(
             (problem) =>
                 problem.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-                (!filter.tier || problem.tier === filter.tier) &&
+                (!filter.tier || problem.tier.startsWith(filter.tier)) &&
                 (!filter.algorithm || problem.algorithm === filter.algorithm) &&
                 (!filter.done || problem.done.toString() === filter.done),
         )
@@ -61,9 +82,9 @@ const Algorithm: React.FC = () => {
         }
     }, 2000)
 
-    const problemsPerPage = 5
-    const paginate = (pageNumber) => setCurrentPage(pageNumber)
-    const totalPages = Math.ceil(filteredProblems.length / problemsPerPage)
+    const problemsPerPage = 5;
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+    const totalPages = Math.ceil(filteredProblems.length / problemsPerPage);
 
     return (
         <div className={`${theme}`}>
@@ -80,7 +101,7 @@ const Algorithm: React.FC = () => {
                         </div>
                     </div>
                     <div className={styles.iconContainer}>
-                        <AlgorithmMainSvg className={styles.algorithmSvg} />
+                        <AlgorithmMainSvg />
                     </div>
                 </div>
                 <div className={styles.problemContainer}>
