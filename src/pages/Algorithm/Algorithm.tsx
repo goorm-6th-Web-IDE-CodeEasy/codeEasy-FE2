@@ -32,6 +32,7 @@ interface Filter {
 }
 
 const Algorithm: React.FC = () => {
+<<<<<<< HEAD
     const theme = useRecoilValue<string>(ThemeState);
     const isLoggedIn = useRecoilValue<boolean>(loggedInState);
     const user = useRecoilValue<User>(userState);
@@ -42,11 +43,24 @@ const Algorithm: React.FC = () => {
     const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
     const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
+=======
+    const theme = useRecoilValue(ThemeState)
+    const isLoggedIn = useRecoilValue(loggedInState) //로그인여부
+    const user = useRecoilValue(userState) //로그인여부에 따른 사용자정보
+    const [isVolumeOn] = useRecoilState<boolean>(soundState)
+    const [loading, setLoading] = useState(true)
+    const [problems, setProblems] = useState([])
+    const [searchTerm, setSearchTerm] = useState('')
+    const [filter, setFilter] = useState({ tier: '', algorithm: '', done: '' })
+    const [randomProblem, setRandomProblem] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1)
+>>>>>>> ca527e746ee669aebcd309fb74b5a18ff15f1b9b
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
+<<<<<<< HEAD
                 const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
                 const responseProblems = await axios.get<{ problems: Problem[] }>('/api/problems', { headers });
                 setProblems(responseProblems.data?.problems ?? []);
@@ -55,14 +69,30 @@ const Algorithm: React.FC = () => {
                 if (responseProblems.data?.problems?.length > 0) {
                     const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length);
                     setRandomProblem(responseProblems.data.problems[randomIndex]);
+=======
+                const headers = user && isLoggedIn ? { 'X-User-ID': user.id } : {} // (msw용테스트)로그인한 경우 ID를 헤더에 추가
+                const response = await api.get('/api/problems', { headers })
+                setProblems(response.data.problems)
+                if (response.data.problems.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * response.data.problems.length)
+                    setRandomProblem(response.data.problems[randomIndex])
+>>>>>>> ca527e746ee669aebcd309fb74b5a18ff15f1b9b
                 }
             } catch (error) {
                 console.error('Error fetching data: ', error);
             }
+<<<<<<< HEAD
             setLoading(false);
         };
         fetchData();
     }, [isLoggedIn, user?.id]);
+=======
+            setLoading(false)
+        }
+
+        fetchProblems()
+    }, [user, isLoggedIn])
+>>>>>>> ca527e746ee669aebcd309fb74b5a18ff15f1b9b
 
     const filteredProblems = useMemo(() => {
         return problems.filter(
@@ -76,8 +106,13 @@ const Algorithm: React.FC = () => {
 
     const handleTTS = throttle((text: string) => {
         if (isVolumeOn) {
+<<<<<<< HEAD
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis?.speak(speech);
+=======
+            const speech = new SpeechSynthesisUtterance(text)
+            window.speechSynthesis.speak(speech)
+>>>>>>> ca527e746ee669aebcd309fb74b5a18ff15f1b9b
         }
     }, 2000);
 
@@ -92,7 +127,12 @@ const Algorithm: React.FC = () => {
                 <div className={styles.mainSection}>
                     <div className={styles.textContainer}>
                         <h1 className={styles.h1Title}>
+<<<<<<< HEAD
                             반갑습니다, {user?.nickname}님<br></br>오늘도 힘차게 시작해볼까요?
+=======
+                            반갑습니다, {isLoggedIn && user ? user.nickname : '게스트'}님<br></br>오늘도 힘차게
+                            시작해볼까요?
+>>>>>>> ca527e746ee669aebcd309fb74b5a18ff15f1b9b
                         </h1>
                         <div>
                             <button className={styles.btnAlgorithm}>문제 풀어보기</button>
