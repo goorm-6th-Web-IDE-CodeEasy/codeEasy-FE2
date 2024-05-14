@@ -93,12 +93,8 @@ const Algorithm: React.FC = () => {
                 <div className={styles.mainSection}>
                     <div className={styles.textContainer}>
                         <h1 className={styles.h1Title}>
-<<<<<<< HEAD
-                            반갑습니다, {user?.nickname}님<br></br>오늘도 힘차게 시작해볼까요?
-=======
                             반갑습니다, {isLoggedIn && user ? user.nickname : '게스트'}님<br></br>오늘도 힘차게
                             시작해볼까요?
->>>>>>> ca527e746ee669aebcd309fb74b5a18ff15f1b9b
                         </h1>
                         <div>
                             <button className={styles.btnAlgorithm}>문제 풀어보기</button>
@@ -194,7 +190,7 @@ const Algorithm: React.FC = () => {
                         </div>
                     )}
                     <div className={styles.clientSection}>
-                        {user && (
+                        {isLoggedIn && user ? (
                             <>
                                 <div className={styles.userInfoSection}>
                                     <div className={styles.clientAvatar}>
@@ -204,7 +200,7 @@ const Algorithm: React.FC = () => {
                                         <div>{user.nickname}</div>
                                         <div className={styles.userInfo}>
                                             <div>티어: {user.tier}</div>
-                                            <div>푼 문제 수: {user.doneProblem}</div>
+                                            <div>푼 문제 수: {user.solvedproblems}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -220,6 +216,10 @@ const Algorithm: React.FC = () => {
                                     </div>
                                 )}
                             </>
+                        ) : (
+                            <small>
+                                이미 회원이세요?<Link to="/login">로그인</Link>
+                            </small>
                         )}
                     </div>
                 </div>
