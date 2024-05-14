@@ -1,4 +1,4 @@
-// data.ts
+//data.ts
 export const mockData = {
     problems: [
         {
@@ -183,7 +183,24 @@ export const mockData = {
             rate: '76%',
         },
     ],
+    chatRoom: {
+        roomId: '1',
+        roomName: 'General Chat Room',
+        messages: [
+            {
+                sender: 'User1',
+                message: '안녕하세요',
+                timestamp: new Date().toISOString(),
+            },
+            {
+                sender: 'User2',
+                message: '문제 추천해주세요',
+                timestamp: new Date().toISOString(),
+            },
+        ],
+    },
     chatMessages: [
+        // 핸들러에서 참조할 새로운 메시지 배열
         {
             sender: 'User1',
             message: '안녕하세요',
@@ -191,7 +208,7 @@ export const mockData = {
         },
         {
             sender: 'User2',
-            message: "문제 추천해주세요",
+            message: '문제 추천해주세요',
             timestamp: new Date().toISOString(),
         },
     ],
