@@ -9,10 +9,8 @@ import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
 import { ThemeState } from '../Theme/ThemeState';
 import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
+import axios from 'axios';
 import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
-import api from '../../components/Api/Api';
-import { loggedInState } from '../../recoil/state/loggedInState';
-import { Link } from 'react-router-dom';
 
 interface User {
     nickname: string;
@@ -37,14 +35,14 @@ interface Filter {
 
 const Algorithm: React.FC = () => {
     const theme = useRecoilValue(ThemeState);
-    const isLoggedIn = useRecoilValue(loggedInState); //로그인여부
-    const user = useRecoilValue(userState); //로그인여부에 따른 사용자정보
+    const isLoggedIn = useRecoilValue(loggedInState);
+    const user = useRecoilValue(userState);
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
     const [loading, setLoading] = useState(true);
-    const [problems, setProblems] = useState([]);
+    const [problems, setProblems] = useState<Problem[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filter, setFilter] = useState({ tier: '', algorithm: '', done: '' });
-    const [randomProblem, setRandomProblem] = useState(null);
+    const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
+    const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
