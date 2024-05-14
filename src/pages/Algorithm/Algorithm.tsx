@@ -10,7 +10,6 @@ import throttle from 'lodash/throttle';
 import axios from 'axios';
 import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
 
-
 interface User {
     nickname: string;
     tier: string;
@@ -32,23 +31,24 @@ interface Filter {
     done: string;
 }
 
-
 const Algorithm: React.FC = () => {
     const theme = useRecoilValue<string>(ThemeState);
+    const isLoggedIn = useRecoilValue<boolean>(loggedInState);
+    const user = useRecoilValue<User>(userState);
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
     const [loading, setLoading] = useState<boolean>(true);
     const [problems, setProblems] = useState<Problem[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
     const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
-    const [user, setUser] = useState<User | null>({ nickname: '게스트', tier: '', doneProblem: 0, avatar: '' });
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const responseProblems = await axios.get<{ problems: Problem[] }>('/problemList');
+                const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
+                const responseProblems = await axios.get<{ problems: Problem[] }>('/api/problems', { headers });
                 setProblems(responseProblems.data?.problems ?? []);
                 const responseUser = await axios.get<{ user: User }>('/api/user/profile');
                 setUser(responseUser.data?.user);
@@ -62,7 +62,7 @@ const Algorithm: React.FC = () => {
             setLoading(false);
         };
         fetchData();
-    }, []);
+    }, [isLoggedIn, user?.id]);
 
     const filteredProblems = useMemo(() => {
         return problems.filter(
@@ -73,7 +73,6 @@ const Algorithm: React.FC = () => {
                 (!filter.done || problem.done.toString() === filter.done)
         );
     }, [searchTerm, filter, problems]);
-    
 
     const handleTTS = throttle((text: string) => {
         if (isVolumeOn) {
@@ -81,7 +80,6 @@ const Algorithm: React.FC = () => {
             window.speechSynthesis?.speak(speech);
         }
     }, 2000);
-
 
     const problemsPerPage = 5;
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
