@@ -1,5 +1,27 @@
 // data.ts
-export const mockData = {
+//로그인 (Member)
+export const users = [
+    {
+        id: 1,
+        email: '123@naver.com',
+        password: '123',
+        nickname: '말티푸',
+        tier: 'Gold',
+        completedChallenges: 80,
+        avatar: 'https://source.unsplash.com/featured/?{puppy}',
+    },
+    {
+        id: 2,
+        email: '456@naver.com',
+        password: '456',
+        nickname: 'JaneDoe',
+        tier: 'Silver',
+        completedChallenges: 1,
+        avatar: 'https://source.unsplash.com/featured/?{puppy}',
+    },
+]
+//알고리즘
+export const AlgorithmData = {
     problems: [
         {
             id: 1,
