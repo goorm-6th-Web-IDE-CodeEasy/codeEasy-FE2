@@ -2,9 +2,15 @@ import React, { ChangeEvent, useState } from 'react'
 import axios from 'axios'
 import styles from './Register.module.scss'
 import { Link, useNavigate } from 'react-router-dom'
-import { ApiResponse, VerificationData, AvailabilityCheck, FormData, Availability } from './RegisterTypes'
+import {
+    ApiResponse,
+    VerificationData,
+    AvailabilityCheck,
+    FormData,
+    Availability,
+} from '../../components/Types/Register.types'
 import Header from '../../Layout/Header/Header'
-import InputField from '../../components/InputForm'
+import InputField from '../../components/InputForm/InputForm'
 import api from '../../components/Api/Api'
 
 const Register = () => {

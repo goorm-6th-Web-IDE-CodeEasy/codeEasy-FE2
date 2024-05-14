@@ -24,9 +24,6 @@ const Header: React.FC = () => {
         //로그아웃 상태
         setIsLoggedIn(false)
         setUser(null)
-        // 로컬 스토리지에서 사용자 데이터와 로그인 상태 정보 삭제
-        localStorage.removeItem('user')
-        localStorage.removeItem('loggedIn')
     }
 
     const increaseScale = (): void => {

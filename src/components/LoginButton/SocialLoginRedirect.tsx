@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import { loggedInState, userState } from '../../recoil/state/loggedInState'
-import api from '../../components/Api/Api' // Axios 인스턴스 import
+import api from '../../components/Api/Api'
 
 const SocialLoginRedirect = () => {
     const location = useLocation()
