@@ -8,7 +8,12 @@ interface SocialLoginButtonProps {
 }
 
 const SocialLoginButton: React.FC<SocialLoginButtonProps> = ({ onClick, src, alt, style }) => {
-    return <img src={src} alt={alt} onClick={onClick} style={style} />
+    const defaultStyle: CSSProperties = {
+        height: '50px',
+        ...style,
+    }
+
+    return <img src={src} alt={alt} onClick={onClick} style={defaultStyle} />
 }
 
 export default SocialLoginButton

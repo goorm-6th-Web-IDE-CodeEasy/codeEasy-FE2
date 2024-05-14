@@ -1,14 +1,16 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { soundState } from '../../recoil/state/soundState';
-import styles from './Algorithm.module.scss';
-import Footer from '../../Layout/Footer/Footer';
-import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
-import { ThemeState } from '../Theme/ThemeState';
-import Header from '../../Layout/Header/Header';
-import throttle from 'lodash/throttle';
-import axios from 'axios';
-import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
+import React, { useEffect, useState, useMemo } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { soundState } from '../../recoil/state/soundState'
+import styles from './Algorithm.module.scss'
+import Footer from '../../Layout/Footer/Footer'
+import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg'
+import { ThemeState } from '../Theme/ThemeState'
+import Header from '../../Layout/Header/Header'
+import throttle from 'lodash/throttle'
+import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader'
+import api from '../../components/Api/Api'
+import { loggedInState, userState } from '../../recoil/state/loggedInState'
+import { Link } from 'react-router-dom'
 
 interface User {
     nickname: string;
@@ -32,37 +34,36 @@ interface Filter {
 }
 
 const Algorithm: React.FC = () => {
-    const theme = useRecoilValue<string>(ThemeState);
-    const isLoggedIn = useRecoilValue<boolean>(loggedInState);
-    const user = useRecoilValue<User>(userState);
-    const [isVolumeOn] = useRecoilState<boolean>(soundState);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [problems, setProblems] = useState<Problem[]>([]);
-    const [searchTerm, setSearchTerm] = useState<string>('');
-    const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
-    const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const theme = useRecoilValue(ThemeState)
+    const isLoggedIn = useRecoilValue(loggedInState) //로그인여부
+    const user = useRecoilValue(userState) //로그인여부에 따른 사용자정보
+    const [isVolumeOn] = useRecoilState<boolean>(soundState)
+    const [loading, setLoading] = useState(true)
+    const [problems, setProblems] = useState([])
+    const [searchTerm, setSearchTerm] = useState('')
+    const [filter, setFilter] = useState({ tier: '', algorithm: '', done: '' })
+    const [randomProblem, setRandomProblem] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
+        const fetchProblems = async () => {
+            setLoading(true)
             try {
-                const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
-                const responseProblems = await axios.get<{ problems: Problem[] }>('/api/problems', { headers });
-                setProblems(responseProblems.data?.problems ?? []);
-                const responseUser = await axios.get<{ user: User }>('/api/user/profile');
-                setUser(responseUser.data?.user);
-                if (responseProblems.data?.problems?.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length);
-                    setRandomProblem(responseProblems.data.problems[randomIndex]);
+                const headers = user && isLoggedIn ? { 'X-User-ID': user.id } : {} // (msw용테스트)로그인한 경우 ID를 헤더에 추가
+                const response = await api.get('/api/problems', { headers })
+                setProblems(response.data.problems)
+                if (response.data.problems.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * response.data.problems.length)
+                    setRandomProblem(response.data.problems[randomIndex])
                 }
             } catch (error) {
-                console.error('Error fetching data: ', error);
+                console.error('Error fetching problems:', error)
             }
-            setLoading(false);
-        };
-        fetchData();
-    }, [isLoggedIn, user?.id]);
+            setLoading(false)
+        }
+
+        fetchProblems()
+    }, [user, isLoggedIn])
 
     const filteredProblems = useMemo(() => {
         return problems.filter(
@@ -70,16 +71,16 @@ const Algorithm: React.FC = () => {
                 problem.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
                 (!filter.tier || problem.tier.startsWith(filter.tier)) &&
                 (!filter.algorithm || problem.algorithm === filter.algorithm) &&
-                (!filter.done || problem.done.toString() === filter.done)
-        );
-    }, [searchTerm, filter, problems]);
+                (!filter.done || problem.done.toString() === filter.done),
+        )
+    }, [searchTerm, filter, problems])
 
     const handleTTS = throttle((text: string) => {
         if (isVolumeOn) {
-            const speech = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis?.speak(speech);
+            const speech = new SpeechSynthesisUtterance(text)
+            window.speechSynthesis.speak(speech)
         }
-    }, 2000);
+    }, 2000)
 
     const problemsPerPage = 5;
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
@@ -92,7 +93,8 @@ const Algorithm: React.FC = () => {
                 <div className={styles.mainSection}>
                     <div className={styles.textContainer}>
                         <h1 className={styles.h1Title}>
-                            반갑습니다, {user?.nickname}님<br></br>오늘도 힘차게 시작해볼까요?
+                            반갑습니다, {isLoggedIn && user ? user.nickname : '게스트'}님<br></br>오늘도 힘차게
+                            시작해볼까요?
                         </h1>
                         <div>
                             <button className={styles.btnAlgorithm}>문제 풀어보기</button>
@@ -188,7 +190,7 @@ const Algorithm: React.FC = () => {
                         </div>
                     )}
                     <div className={styles.clientSection}>
-                        {user && (
+                        {isLoggedIn && user ? (
                             <>
                                 <div className={styles.userInfoSection}>
                                     <div className={styles.clientAvatar}>
@@ -198,7 +200,7 @@ const Algorithm: React.FC = () => {
                                         <div>{user.nickname}</div>
                                         <div className={styles.userInfo}>
                                             <div>티어: {user.tier}</div>
-                                            <div>푼 문제 수: {user.doneProblem}</div>
+                                            <div>푼 문제 수: {user.solvedproblems}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -214,13 +216,17 @@ const Algorithm: React.FC = () => {
                                     </div>
                                 )}
                             </>
+                        ) : (
+                            <small>
+                                이미 회원이세요?<Link to="/login">로그인</Link>
+                            </small>
                         )}
                     </div>
                 </div>
                 <Footer />
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default Algorithm;
+export default Algorithm

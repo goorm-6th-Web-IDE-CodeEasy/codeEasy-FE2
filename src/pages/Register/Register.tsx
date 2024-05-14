@@ -1,10 +1,17 @@
 import React, { ChangeEvent, useState } from 'react'
 import axios from 'axios'
 import styles from './Register.module.scss'
-import { Link } from 'react-router-dom'
-import { ApiResponse, VerificationData, AvailabilityCheck, FormData, Availability } from './Register.types'
+import { Link, useNavigate } from 'react-router-dom'
+import {
+    ApiResponse,
+    VerificationData,
+    AvailabilityCheck,
+    FormData,
+    Availability,
+} from '../../components/Types/Register.types'
+
 import Header from '../../Layout/Header/Header'
-import InputField from '../../components/InputForm'
+import InputField from '../../components/InputForm/InputForm'
 import api from '../../components/Api/Api'
 
 const Register = () => {
@@ -20,6 +27,8 @@ const Register = () => {
         emailVerified: false,
     })
     const [verificationCodeSent, setVerificationCodeSent] = useState(false)
+
+    const navigate = useNavigate()
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -113,7 +122,7 @@ const Register = () => {
                 nickname,
                 verificationCode,
             })
-            alert('회원가입에 성공했습니다!')
+            navigate('/login')
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
