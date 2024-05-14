@@ -1,45 +1,23 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import axios from 'axios'
 import styles from './Login.module.scss'
-import { Link, useNavigate } from 'react-router-dom'
-import { loggedInState, userState } from '../../recoil/state/loggedInState'
+import { Link } from 'react-router-dom'
+import { loggedInState } from '../../recoil/state/loggedInState'
 import { useSetRecoilState } from 'recoil'
-import InputField from '../../components/InputForm/InputForm'
+import InputField from '../../components/InputForm'
 import Header from '../../Layout/Header/Header'
 import api from '../../components/Api/Api'
-import SocialLoginButton from '../../components/LoginButton/SocialLoginButton'
+import SocialLoginButton from './SocialLoginButton'
 import githubIcon from '../../assets/Login/깃허브.png'
 import googleIcon from '../../assets/Login/구글.png'
 import kakaoIcon from '../../assets/Login/카카오.png'
-import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader'
 
 const Login = () => {
     const setLoggedIn = useSetRecoilState(loggedInState)
-    const setUser = useSetRecoilState(userState)
-    const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(true)
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     })
-
-    // 서버로부터 로그인 상태 확인
-    useEffect(() => {
-        axios
-            .get('/api/check-session')
-            .then((response) => {
-                if (response.data.isLoggedIn) {
-                    setUser(response.data.user)
-                    setLoggedIn(true)
-                }
-            })
-            .catch(() => {
-                setLoggedIn(false)
-            })
-            .finally(() => {
-                setIsLoading(false)
-            })
-    }, [setUser, setLoggedIn])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -54,34 +32,27 @@ const Login = () => {
         const { email, password } = formData
 
         try {
-            const response = await api.post('api/login', { email, password })
-            const userData = response.data
-            setUser(userData)
+            const response = await api.post('/login', { email, password })
+            localStorage.setItem('token', response.data.token)
             setLoggedIn(true)
-            navigate('/')
+            alert('로그인 성공!')
+            //메인 페이지로 이동 (라우터 사용할 예정)
         } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                const errorMessage = error.response.data.errorMessage
-                alert(`로그인 실패: ${errorMessage}`)
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    const errorMessage = error.response.data
+                    alert(`로그인 실패: ${errorMessage}`)
+                } else {
+                    alert('로그인 실패: 네트워크 오류 또는 서버에 접근할 수 없습니다.')
+                }
             } else {
-                alert('로그인 실패: 네트워크 오류 또는 서버에 접근할 수 없습니다.')
+                alert('로그인 실패: 알 수 없는 오류가 발생했습니다.')
             }
         }
     }
 
-    const handleSocialLogin = (service: 'google' | 'github' | 'kakao') => {
-        const redirectUri = import.meta.env[`VITE_REACT_APP_${service.toUpperCase()}_REDIRECT_URI`]
-        const clientId = import.meta.env[`VITE_REACT_APP_${service.toUpperCase()}_CLIENT_ID`]
-        const baseUrl = {
-            google: `https://accounts.google.com/o/oauth2/v2/auth?scope=email%20openid&response_type=code&redirect_uri=${redirectUri}&client_id=${clientId}`,
-            github: `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`,
-            kakao: `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`,
-        }
-
-        window.location.href = baseUrl[service]
-    }
-    if (isLoading) {
-        return <SkeletonLoader />
+    const handleSocialLogin = (url: string) => {
+        window.location.href = url
     }
 
     return (
@@ -111,19 +82,34 @@ const Login = () => {
                         <p>다른 서비스로 로그인</p>
                         <div>
                             <SocialLoginButton
-                                onClick={() => handleSocialLogin('google')}
+                                onClick={() =>
+                                    handleSocialLogin(
+                                        `https://accounts.google.com/o/oauth2/v2/auth?scope=email%20openid&response_type=code&redirect_uri=${import.meta.env.VITE_REACT_APP_GOOGLE_REDIRECT_URI}&client_id=${import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID}`,
+                                    )
+                                }
                                 src={googleIcon}
                                 alt="Login with Google"
+                                style={{ height: '50px' }}
                             />
                             <SocialLoginButton
-                                onClick={() => handleSocialLogin('github')}
+                                onClick={() =>
+                                    handleSocialLogin(
+                                        `https://github.com/login/oauth/authorize?client_id=${import.meta.env.VITE_REACT_APP_GITHUB_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_REACT_APP_GITHUB_REDIRECT_URI}`,
+                                    )
+                                }
                                 src={githubIcon}
                                 alt="Login with GitHub"
+                                style={{ height: '50px' }}
                             />
                             <SocialLoginButton
-                                onClick={() => handleSocialLogin('kakao')}
+                                onClick={() =>
+                                    handleSocialLogin(
+                                        `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`,
+                                    )
+                                }
                                 src={kakaoIcon}
                                 alt="Login with Kakao"
+                                style={{ height: '50px' }}
                             />
                         </div>
                     </form>
