@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { soundState } from '../../recoil/state/soundState';
+import { loggedInState, userState } from '../../recoil/state/loggedInState';
 import styles from './Algorithm.module.scss';
 import Footer from '../../Layout/Footer/Footer';
 import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
@@ -32,67 +34,36 @@ interface Filter {
 }
 
 const Algorithm: React.FC = () => {
-<<<<<<< HEAD
-    const theme = useRecoilValue<string>(ThemeState);
-    const isLoggedIn = useRecoilValue<boolean>(loggedInState);
-    const user = useRecoilValue<User>(userState);
+    const theme = useRecoilValue(ThemeState);
+    const isLoggedIn = useRecoilValue(loggedInState);
+    const user = useRecoilValue(userState);
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState(true);
     const [problems, setProblems] = useState<Problem[]>([]);
-    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [searchTerm, setSearchTerm] = useState('');
     const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
     const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-=======
-    const theme = useRecoilValue(ThemeState)
-    const isLoggedIn = useRecoilValue(loggedInState) //로그인여부
-    const user = useRecoilValue(userState) //로그인여부에 따른 사용자정보
-    const [isVolumeOn] = useRecoilState<boolean>(soundState)
-    const [loading, setLoading] = useState(true)
-    const [problems, setProblems] = useState([])
-    const [searchTerm, setSearchTerm] = useState('')
-    const [filter, setFilter] = useState({ tier: '', algorithm: '', done: '' })
-    const [randomProblem, setRandomProblem] = useState(null)
-    const [currentPage, setCurrentPage] = useState(1)
->>>>>>> ca527e746ee669aebcd309fb74b5a18ff15f1b9b
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchProblems = async () => {
             setLoading(true);
             try {
-<<<<<<< HEAD
                 const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
                 const responseProblems = await axios.get<{ problems: Problem[] }>('/api/problems', { headers });
                 setProblems(responseProblems.data?.problems ?? []);
                 const responseUser = await axios.get<{ user: User }>('/api/user/profile');
-                setUser(responseUser.data?.user);
                 if (responseProblems.data?.problems?.length > 0) {
                     const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length);
                     setRandomProblem(responseProblems.data.problems[randomIndex]);
-=======
-                const headers = user && isLoggedIn ? { 'X-User-ID': user.id } : {} // (msw용테스트)로그인한 경우 ID를 헤더에 추가
-                const response = await api.get('/api/problems', { headers })
-                setProblems(response.data.problems)
-                if (response.data.problems.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * response.data.problems.length)
-                    setRandomProblem(response.data.problems[randomIndex])
->>>>>>> ca527e746ee669aebcd309fb74b5a18ff15f1b9b
                 }
             } catch (error) {
-                console.error('Error fetching data: ', error);
+                console.error('Error fetching problems:', error);
             }
-<<<<<<< HEAD
             setLoading(false);
         };
-        fetchData();
+        fetchProblems();
     }, [isLoggedIn, user?.id]);
-=======
-            setLoading(false)
-        }
-
-        fetchProblems()
-    }, [user, isLoggedIn])
->>>>>>> ca527e746ee669aebcd309fb74b5a18ff15f1b9b
 
     const filteredProblems = useMemo(() => {
         return problems.filter(
@@ -106,13 +77,8 @@ const Algorithm: React.FC = () => {
 
     const handleTTS = throttle((text: string) => {
         if (isVolumeOn) {
-<<<<<<< HEAD
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis?.speak(speech);
-=======
-            const speech = new SpeechSynthesisUtterance(text)
-            window.speechSynthesis.speak(speech)
->>>>>>> ca527e746ee669aebcd309fb74b5a18ff15f1b9b
         }
     }, 2000);
 

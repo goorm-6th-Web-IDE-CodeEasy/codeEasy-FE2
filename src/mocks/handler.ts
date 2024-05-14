@@ -94,7 +94,7 @@ export const handlers = [
         return res(ctx.status(200), ctx.json({ messages: filteredMessages }));
     }),
 
-    //난이도별, 티어별, 알고리즘 종류별 문제 조회 api
+    //알고리즘 페이지용 난이도별, 티어별, 알고리즘 종류별 문제 조회 api 추가
     rest.get('/api/problems/done', (req, res, ctx) => {
         const doneStatus = req.url.searchParams.get('done') === 'true';
         const doneProblems = Problems.filter(
