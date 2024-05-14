@@ -1,69 +1,89 @@
-import React, { useEffect, useState, useMemo } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { soundState } from '../../recoil/state/soundState'
-import styles from './Algorithm.module.scss'
-import Footer from '../../Layout/Footer/Footer'
-import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg'
-import { ThemeState } from '../Theme/ThemeState'
-import Header from '../../Layout/Header/Header'
-import throttle from 'lodash/throttle'
-import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader'
-import api from '../../components/Api/Api'
-import { loggedInState, userState } from '../../recoil/state/loggedInState'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState, useMemo } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { soundState } from '../../recoil/state/soundState';
+import styles from './Algorithm.module.scss';
+import Footer from '../../Layout/Footer/Footer';
+import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
+import { ThemeState } from '../Theme/ThemeState';
+import Header from '../../Layout/Header/Header';
+import throttle from 'lodash/throttle';
+import axios from 'axios';
+import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
+
+interface User {
+    nickname: string;
+    tier: string;
+    doneProblem: number;
+    avatar: string;
+}
+
+interface Problem {
+    title: string;
+    tier: string;
+    algorithm: string;
+    done: boolean;
+    rate: string;
+}
+
+interface Filter {
+    tier: string;
+    algorithm: string;
+    done: string;
+}
 
 const Algorithm: React.FC = () => {
-    const theme = useRecoilValue(ThemeState)
-    const isLoggedIn = useRecoilValue(loggedInState) //로그인여부
-    const user = useRecoilValue(userState) //로그인여부에 따른 사용자정보
-    const [isVolumeOn] = useRecoilState<boolean>(soundState)
-    const [loading, setLoading] = useState(true)
-    const [problems, setProblems] = useState([])
-    const [searchTerm, setSearchTerm] = useState('')
-    const [filter, setFilter] = useState({ tier: '', algorithm: '', done: '' })
-    const [randomProblem, setRandomProblem] = useState(null)
-    const [currentPage, setCurrentPage] = useState(1)
+    const theme = useRecoilValue(ThemeState);
+    const isLoggedIn = useRecoilValue(loggedInState); //로그인여부
+    //const user = useRecoilValue(userState); //로그인여부에 따른 사용자정보
+    const [isVolumeOn] = useRecoilState<boolean>(soundState);
+    const [loading, setLoading] = useState(true);
+    const [problems, setProblems] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filter, setFilter] = useState({ tier: '', algorithm: '', done: '' });
+    const [randomProblem, setRandomProblem] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         const fetchProblems = async () => {
-            setLoading(true)
+            setLoading(true);
             try {
-                const headers = user && isLoggedIn ? { 'X-User-ID': user.id } : {} // (msw용테스트)로그인한 경우 ID를 헤더에 추가
-                const response = await api.get('/api/problems', { headers })
-                setProblems(response.data.problems)
-                if (response.data.problems.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * response.data.problems.length)
-                    setRandomProblem(response.data.problems[randomIndex])
+                const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
+                const responseProblems = await axios.get<{ problems: Problem[] }>('/api/problems', { headers });
+                setProblems(responseProblems.data?.problems ?? []);
+                const responseUser = await axios.get<{ user: User }>('/api/user/profile');
+                setUser(responseUser.data?.user);
+                if (responseProblems.data?.problems?.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length);
+                    setRandomProblem(responseProblems.data.problems[randomIndex]);
                 }
             } catch (error) {
-                console.error('Error fetching problems:', error)
+                console.error('Error fetching problems:', error);
             }
-            setLoading(false)
-        }
-
-        fetchProblems()
-    }, [user, isLoggedIn])
+            setLoading(false);
+        };
+        fetchData();
+    }, [isLoggedIn, user?.id]);
 
     const filteredProblems = useMemo(() => {
         return problems.filter(
             (problem) =>
                 problem.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-                (!filter.tier || problem.tier === filter.tier) &&
+                (!filter.tier || problem.tier.startsWith(filter.tier)) &&
                 (!filter.algorithm || problem.algorithm === filter.algorithm) &&
-                (!filter.done || problem.done.toString() === filter.done),
-        )
-    }, [searchTerm, filter, problems])
+                (!filter.done || problem.done.toString() === filter.done)
+        );
+    }, [searchTerm, filter, problems]);
 
     const handleTTS = throttle((text: string) => {
         if (isVolumeOn) {
-            const speech = new SpeechSynthesisUtterance(text)
-            window.speechSynthesis.speak(speech)
+            const speech = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis?.speak(speech);
         }
-    }, 2000)
+    }, 2000);
 
-    const problemsPerPage = 5
-    const paginate = (pageNumber) => setCurrentPage(pageNumber)
-    const totalPages = Math.ceil(filteredProblems.length / problemsPerPage)
+    const problemsPerPage = 5;
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+    const totalPages = Math.ceil(filteredProblems.length / problemsPerPage);
 
     return (
         <div className={`${theme}`}>
@@ -80,7 +100,7 @@ const Algorithm: React.FC = () => {
                         </div>
                     </div>
                     <div className={styles.iconContainer}>
-                        <AlgorithmMainSvg className={styles.algorithmSvg} />
+                        <AlgorithmMainSvg />
                     </div>
                 </div>
                 <div className={styles.problemContainer}>
@@ -205,7 +225,7 @@ const Algorithm: React.FC = () => {
                 <Footer />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Algorithm
+export default Algorithm;
