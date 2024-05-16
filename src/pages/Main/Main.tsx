@@ -124,7 +124,7 @@ const Main: React.FC = () => {
                             다양한 난이도의 문제들로 실력을 시험하고 코딩 능력을 키워보세요. 데이터 구조부터 복잡한
                             알고리즘 문제까지, 모두를 위한 문제들이 준비되어 있습니다.
                         </p>
-                        <Link tabIndex={0}>
+                        <Link to="/algorithm" tabIndex={0}>
                             <button className={styles.btnAlgorithm} aria-label="알고리즘 문제 풀어보기" tabIndex={0}>
                                 문제 풀어보기
                             </button>

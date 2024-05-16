@@ -298,23 +298,6 @@ body {
         border-spacing: 0 15px; // 각 행 사이의 간격
         color: #565656;
 
-        .sortButton {
-            background: none;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            padding: 0;
-            margin-left: 8px;
-        }
-
-        .sortIcon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 1em;
-            height: 1em;
-        }
-
         tbody {
             .tr:hover {
                 transform: scale(1.02);
@@ -366,6 +349,22 @@ body {
         .th {
             background-color: #16181cee;
             color: #fff;
+
+            .sortButton {
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: #fff;
+                padding: 0;
+                font-size: $ms;
+                margin-left: 0.625rem;
+            }
+
+            .sortIcon {
+                display: inline-flex;
+                width: 1rem;
+                height: auto;
+            }
         }
 
         .td {

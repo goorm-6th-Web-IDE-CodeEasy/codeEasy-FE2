@@ -57,7 +57,6 @@ const Algorithm: React.FC = () => {
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [sortKey, setSortKey] = useState<keyof Problem | null>(null);
 
-
     useEffect(() => {
         const fetchProblems = async () => {
             setLoading(true);
@@ -127,11 +126,23 @@ const Algorithm: React.FC = () => {
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis?.speak(speech);
         }
-    }, 2000);
+    }, 2500);
 
     const problemsPerPage = 5;
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const totalPages = Math.ceil(filteredProblems.length / problemsPerPage);
+
+    const handleAlgorithmChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedOption = event.target.value;
+        setFilter({ ...filter, algorithm: selectedOption });
+        handleTTS(event.target.options[event.target.selectedIndex].text);
+    };
+
+    const handleTierChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedOption = event.target.value;
+        setFilter({ ...filter, tier: selectedOption });
+        handleTTS(event.target.options[event.target.selectedIndex].text);
+    };
 
     return (
         <div className={`${theme}`}>
@@ -158,6 +169,7 @@ const Algorithm: React.FC = () => {
                         <div className={styles.problemSection}>
                             <div className={styles.searchContainer}>
                                 <input
+                                    onMouseEnter={() => handleTTS('문제 검색하기')}
                                     type="text"
                                     placeholder="문제 검색하기"
                                     value={searchTerm}
@@ -181,7 +193,7 @@ const Algorithm: React.FC = () => {
 
                                     <select
                                         value={filter.algorithm}
-                                        onChange={(e) => setFilter({ ...filter, algorithm: e.target.value })}
+                                        onChange={handleAlgorithmChange}
                                         className={styles.filterSelect}
                                     >
                                         <option value="">알고리즘 유형</option>
@@ -195,7 +207,7 @@ const Algorithm: React.FC = () => {
                                     </select>
                                     <select
                                         value={filter.tier}
-                                        onChange={(e) => setFilter({ ...filter, tier: e.target.value })}
+                                        onChange={handleTierChange}
                                         className={styles.filterSelect}
                                     >
                                         <option value="">티어</option>
@@ -215,25 +227,21 @@ const Algorithm: React.FC = () => {
                                         <th className={styles.th}>
                                             난이도
                                             <button onClick={() => handleSort('tier')} className={styles.sortButton}>
-                                                <span className={styles.sortIcon}>
-                                                    {sortKey === 'tier' && sortOrder === 'asc' ? (
-                                                        <FaSortUp />
-                                                    ) : (
-                                                        <FaSortDown />
-                                                    )}
-                                                </span>
+                                                {sortKey === 'tier' && sortOrder === 'asc' ? (
+                                                    <FaSortUp />
+                                                ) : (
+                                                    <FaSortDown />
+                                                )}
                                             </button>
                                         </th>
                                         <th className={styles.th}>
                                             정답률
                                             <button onClick={() => handleSort('rate')} className={styles.sortButton}>
-                                                <span className={styles.sortIcon}>
-                                                    {sortKey === 'rate' && sortOrder === 'asc' ? (
-                                                        <FaSortUp />
-                                                    ) : (
-                                                        <FaSortDown />
-                                                    )}
-                                                </span>
+                                                {sortKey === 'rate' && sortOrder === 'asc' ? (
+                                                    <FaSortUp />
+                                                ) : (
+                                                    <FaSortDown />
+                                                )}
                                             </button>
                                         </th>
                                     </tr>
