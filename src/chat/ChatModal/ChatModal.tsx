@@ -112,7 +112,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className={styles.chatHeader}>Code Easy 채팅방</div>
             <div className={styles.messages}>
                 {messages.map((msg, index) => (
-                    <p key={index}>{`${msg.sender}: ${msg.message}`}</p>
+                    <p key={msg.id}>{`${msg.sender}: ${msg.message}`}</p>
                 ))}
             </div>
             <div className={styles.chatInput}>
