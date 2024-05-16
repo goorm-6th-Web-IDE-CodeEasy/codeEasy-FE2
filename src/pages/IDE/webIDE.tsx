@@ -1,49 +1,50 @@
 import React, { useState } from 'react';
 import Timer from '../../components/IDE/Timer';
-import Python from '../../components/IDE/Language/Python';
-import Java from '../../components/IDE/Language/Java';
-import Javascript from '../../components/IDE/Language/JavaScript';
-import Cpp from '../../components/IDE/Language/CPP';
-
-enum Language {
-    Python = 'Python',
-    Cpp = 'C++',
-    Java = 'Java',
-    Javascript = 'Javascript',
-}
+import MonacoEditor from '../../components/IDE/MonacoEditor';
+import axios from 'axios';
+import ProblemScript from '../../components/IDE/ProblemScript';
+import ResultModal from '../../components/IDE/Result.modal';
 
 const WebIDE: React.FC = () => {
     const [code, setCode] = useState('');
     const [output, setOutput] = useState('');
     const [elapsedTime, setElapsedTime] = useState(0);
-    const [language, setLanguage] = useState<Language>(Language.Python);
+    const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState('');
 
-    const executeCode = () => {
+    const executeCode = async () => {
         try {
-            const result = eval(code);
-            setOutput(result);
+            const response = await axios.post(`/problem/{problemId}/run`, {
+                code,
+            });
+            setOutput(response.data.result);
         } catch (error) {
             setOutput(`Error: ${error.message}`);
         }
     };
+    const submitCode = async () => {
+        try {
+            const response = await axios.post(`/problem/{problemId}/grade`, { code });
+            if (response.data.success) {
+                setModalContent('정답입니다!');
+            } else {
+                setModalContent('틀렸습니다.');
+            }
+            setShowModal(true);
+        } catch (error) {
+            console.log(`Error: ${error.message}`);
+        }
+    };
+    const closeModal = () => {
+        setShowModal(false);
+        setOutput('');
+    };
+    const handleCodeChange = (value: string) => {
+        setCode(value);
+    };
 
     const handleTimeUpdate = (time: number) => {
         setElapsedTime(time);
-    };
-
-    const renderCodeEditor = () => {
-        switch (language) {
-            case Language.Cpp:
-                return <Cpp value={code} onChange={setCode} />;
-            case Language.Python:
-                return <Python value={code} onChange={setCode} />;
-            case Language.Java:
-                return <Java value={code} onChange={setCode} />;
-            case Language.Javascript:
-                return <Javascript value={code} onChange={setCode} />;
-            default:
-                return null;
-        }
     };
 
     return (
@@ -52,28 +53,23 @@ const WebIDE: React.FC = () => {
                 {/* 왼쪽 */}
                 <div style={{ flex: 1 }}>
                     <h2>문제</h2>
-                    {/* 문제 표시되는 컴포넌트 */}
+                    <ProblemScript />
                 </div>
                 {/* 오른쪽 */}
                 <div style={{ flex: 1 }}>
-                    <Timer initialTime={3000} onTimeUpdate={handleTimeUpdate} />
-                    <select value={language} onChange={(e) => setLanguage(e.target.value as Language)}>
-                        {Object.values(Language).map((lang) => (
-                            <option key={lang} value={lang}>
-                                {lang}
-                            </option>
-                        ))}
-                    </select>
+                    <Timer initialTime={elapsedTime} onTimeUpdate={handleTimeUpdate} />
                     <div>
-                        {renderCodeEditor()}
+                        <MonacoEditor onChange={handleCodeChange} />
                         <button onClick={executeCode}>코드 실행</button>
+                        <button onClick={submitCode}>코드 제출</button>
                     </div>
                     <div>
                         <h2>결과</h2>
-                        <textarea readOnly value={output} />
+                        <textarea readOnly value={output} rows={10} cols={100} />
                     </div>
                 </div>
             </div>
+            <ResultModal isOpen={showModal} onClose={closeModal} content={modalContent} />
         </div>
     );
 };

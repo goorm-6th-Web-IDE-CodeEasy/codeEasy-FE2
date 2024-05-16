@@ -29,7 +29,18 @@ export const handlers = [
             : mockData.problems;
         return res(ctx.status(200), ctx.json({ problems: filteredProblems }));
     }),
-
+    // 문제 script
+    rest.get('/api/problem/problemId', (req, res, ctx) => {
+        const { id } = req.params;
+        const problem = mockData.problems.find((p) => p.id === parseInt(id));
+        if (!problem) {
+            return res(ctx.status(404));
+        }
+        return res(ctx.status(200), ctx.json(problem));
+    }),
+    // rest.get('/problem/{problemId}/favorite', (req, res, ctx) => {
+    //     return res(ctx.status(200), ctx.json());
+    // }),
     //user api 구현
     rest.get('/api/user/profile', (req, res, ctx) => {
         return res(
