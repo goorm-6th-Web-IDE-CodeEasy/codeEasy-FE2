@@ -35,6 +35,14 @@ interface Filter {
     done: string;
 }
 
+const tierOrder: { [key: string]: number } = {
+    브론즈: 1,
+    실버: 2,
+    골드: 3,
+    플래티넘: 4,
+    다이아: 5,
+};
+
 const Algorithm: React.FC = () => {
     const theme = useRecoilValue(ThemeState);
     const isLoggedIn = useRecoilValue(loggedInState);
@@ -49,13 +57,6 @@ const Algorithm: React.FC = () => {
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [sortKey, setSortKey] = useState<keyof Problem | null>(null);
 
-    const tierOrder = {
-        브론즈: 1,
-        실버: 2,
-        골드: 3,
-        플래티넘: 4,
-        다이아: 5,
-    };
 
     useEffect(() => {
         const fetchProblems = async () => {
