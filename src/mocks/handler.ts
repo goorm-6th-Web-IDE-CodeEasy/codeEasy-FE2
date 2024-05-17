@@ -117,7 +117,7 @@ export const handlers = [
     // 문제 script
     rest.get('/api/problem/problemId', (req, res, ctx) => {
         const { id } = req.params;
-        const problem = mockData.problems.find((p) => p.id === parseInt(id));
+        const problem = Problems.find((p) => p.id === parseInt(id));
         if (!problem) {
             return res(ctx.status(404));
         }
@@ -126,16 +126,16 @@ export const handlers = [
     // 즐겨찾기
     rest.post('/problem/{problemId}/favorite', (req, res, ctx) => {
         const { id } = req.params;
-        const index = mockData.problems.findIndex((problem) => problem.id === parseInt(id));
+        const index = Problems.findIndex((problem) => problem.id === parseInt(id));
         if (index === -1) {
             return res(ctx.status(404), ctx.json({ message: 'Problem not found' }));
         }
-        mockData.problems[index].isFavorite = !mockData.problems[index].isFavorite;
+        Problems[index].isFavorite = !Problems[index].isFavorite;
 
-        return res(ctx.status(200), ctx.json({ problem: mockData.problems[index] }));
+        return res(ctx.status(200), ctx.json({ problem: Problems[index] }));
     }),
     rest.get('/problem/{problemId}/favorite', (req, res, ctx) => {
-        const favoriteProblems = mockData.problems.filter((problem) => problem.isFavorite);
+        const favoriteProblems = Problems.filter((problem) => problem.isFavorite);
         return res(ctx.status(200), ctx.json(favoriteProblems));
     }),
 
