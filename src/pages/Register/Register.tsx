@@ -1,8 +1,17 @@
 import React, { ChangeEvent, useState } from 'react'
 import axios from 'axios'
 import styles from './Register.module.scss'
-import { Link } from 'react-router-dom'
-import { ApiResponse, VerificationData, AvailabilityCheck, FormData, Availability } from './RegisterTypes'
+import { Link, useNavigate } from 'react-router-dom'
+import {
+    ApiResponse,
+    VerificationData,
+    AvailabilityCheck,
+    FormData,
+    Availability,
+} from '../../components/Types/Register.types'
+import Header from '../../Layout/Header/Header'
+import InputField from '../../components/InputForm/InputForm'
+import api from '../../components/Api/Api'
 
 const Register = () => {
     const [formData, setFormData] = useState<FormData>({
@@ -17,6 +26,8 @@ const Register = () => {
         emailVerified: false,
     })
     const [verificationCodeSent, setVerificationCodeSent] = useState(false)
+
+    const navigate = useNavigate()
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -38,7 +49,7 @@ const Register = () => {
         }
 
         try {
-            await axios.post<ApiResponse<VerificationData>>('http://localhost:8080/api/register/send-certification', {
+            await api.post<ApiResponse<VerificationData>>('/register/send-certification', {
                 email: formData.email,
             })
             setVerificationCodeSent(true)
@@ -52,13 +63,10 @@ const Register = () => {
     //백엔드에서 보낸 인증코드와 사용자가 입력한 인증코드 검사 (3분 제한 시간있음)
     const verifyCode = async () => {
         try {
-            const response = await axios.post<ApiResponse<VerificationData>>(
-                'http://localhost:8080/api/register/certificate-code',
-                {
-                    email: formData.email,
-                    verificationCode: formData.verificationCode,
-                },
-            )
+            const response = await api.post<ApiResponse<VerificationData>>('/register/certificate-code', {
+                email: formData.email,
+                verificationCode: formData.verificationCode,
+            })
             if (response.data.success) {
                 setAvailability((prev) => ({ ...prev, emailVerified: true }))
                 alert('이메일 인증 성공!')
@@ -75,12 +83,9 @@ const Register = () => {
     const checkAvailability = async (nickname: string) => {
         if (!nickname) return //닉네임이 비어있으면 바로 반환
         try {
-            const response = await axios.get<ApiResponse<AvailabilityCheck>>(
-                `http://localhost:8080/api/nickname-check`,
-                {
-                    params: { nickname },
-                },
-            )
+            const response = await api.get<ApiResponse<AvailabilityCheck>>(`/nickname-check`, {
+                params: { nickname },
+            })
             setAvailability((prev) => ({ ...prev, [`nicknameAvailable`]: response.data.data.available }))
             if (!response.data.data.available) {
                 alert('닉네임이 이미 사용 중입니다.') // 닉네임 중복 메시지
@@ -110,13 +115,13 @@ const Register = () => {
         }
 
         try {
-            await axios.post('http://localhost:8080/api/register', {
+            await api.post('/api/register', {
                 email,
                 password,
                 nickname,
                 verificationCode,
             })
-            alert('회원가입에 성공했습니다!')
+            navigate('/login')
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
@@ -132,19 +137,19 @@ const Register = () => {
     }
 
     return (
-        <div className={styles.background}>
-            <div className={styles.container}>
-                <h1>회원가입</h1>
-                <form onSubmit={handleSubmit} className={styles.form}>
-                    <div className={styles.inputGroup}>
-                        <label>닉네임</label>
-                        <input
+        <div>
+            <Header />
+            <div className={styles.background}>
+                <div className={styles.container}>
+                    <h1>회원가입</h1>
+                    <form onSubmit={handleSubmit} className={styles.form}>
+                        <InputField
+                            label="닉네임"
                             type="text"
                             name="nickname"
+                            placeholder="닉네임을 입력하세요"
                             value={formData.nickname}
                             onChange={handleInputChange}
-                            placeholder="닉네임을 입력하세요"
-                            required
                         />
                         <button type="button" onClick={() => checkAvailability(formData.nickname)}>
                             닉네임 중복 확인
@@ -152,60 +157,54 @@ const Register = () => {
                         {!availability.nicknameAvailable && (
                             <div style={{ color: 'red' }}>이미 사용 중인 닉네임입니다.</div>
                         )}
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <label>비밀번호</label>
-                        <input
+                        <InputField
+                            label="비밀번호"
                             type="password"
                             name="password"
+                            placeholder="비밀번호를 입력하세요"
                             value={formData.password}
                             onChange={handleInputChange}
-                            placeholder="비밀번호를 입력하세요"
-                            required
                         />
-                        <input
+                        <InputField
+                            label="비밀번호 확인"
                             type="password"
                             name="confirmPassword"
+                            placeholder="비밀번호를 확인하세요"
                             value={formData.confirmPassword}
                             onChange={handleInputChange}
-                            placeholder="비밀번호를 확인하세요"
-                            required
                         />
-                    </div>
-                    <div className={styles.inputGroup}>
-                        <label>이메일</label>
-                        <input
+                        <InputField
+                            label="이메일"
                             type="email"
                             name="email"
+                            placeholder="이메일을 입력하세요"
                             value={formData.email}
                             onChange={handleInputChange}
-                            placeholder="이메일을 입력하세요"
-                            required
                         />
                         <button type="button" onClick={sendVerificationCode} disabled={verificationCodeSent}>
                             인증 코드 전송
                         </button>
                         {verificationCodeSent && (
                             <>
-                                <input
+                                <InputField
+                                    label="인증 코드"
                                     type="text"
                                     name="verificationCode"
+                                    placeholder="인증 코드를 입력하세요"
                                     value={formData.verificationCode}
                                     onChange={handleInputChange}
-                                    placeholder="인증 코드를 입력하세요"
-                                    required
                                 />
                                 <button type="button" onClick={verifyCode}>
                                     인증 코드 확인
                                 </button>
                             </>
                         )}
-                    </div>
-                    <button type="submit">가입하기</button>
-                </form>
-                <small>
-                    이미 회원이세요?<Link to="/login">로그인</Link>
-                </small>
+                        <button type="submit">가입하기</button>
+                    </form>
+                    <small>
+                        이미 회원이세요?<Link to="/login">로그인</Link>
+                    </small>
+                </div>
             </div>
         </div>
     )
