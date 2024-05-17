@@ -7,6 +7,7 @@ import Algorithm from './pages/Algorithm/Algorithm';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import { ThemePage } from './pages/Theme/ThemePage';
+import WebIDE from './pages/IDE/webIDE';
 
 const ROUTES_INFO = [
     { path: '/', element: <Main /> },
@@ -33,9 +34,11 @@ const AppContent: React.FC = () => {
             {/* 헤더와 푸터 각 페이지마다 따로 넣기 */}
             <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
                 <Routes>
+
                     {ROUTES_INFO.map((route) => (
                         <Route key={route.path} path={route.path} element={route.element} />
                     ))}
+
                 </Routes>
             </div>
         </HashRouter>
