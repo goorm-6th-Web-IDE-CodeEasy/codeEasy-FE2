@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const ProblemScript: React.FC = () => {
     const [problem, setProblem] = useState<string>('');
+    const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchProblem = async () => {
@@ -17,9 +18,23 @@ const ProblemScript: React.FC = () => {
         fetchProblem();
     }, []);
 
+    const handleFavorite = async () => {
+        try {
+            await axios.put('/problem/{problemId}/favorite');
+            setIsFavorite((e) => !e);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const handleShare = () => {};
+
     return (
         <div>
-            <h2>문제 설명</h2>
+            <div>
+                <h2>문제 설명</h2>
+                <button onClick={handleFavorite}>{isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}</button>
+                <button onClick={handleShare}>공유</button>
+            </div>
             <p>{problem}</p>
         </div>
     );

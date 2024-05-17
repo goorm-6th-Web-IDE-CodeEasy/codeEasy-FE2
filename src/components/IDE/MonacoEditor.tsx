@@ -2,24 +2,29 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Editor, Monaco } from '@monaco-editor/react';
 import LanguageSelector from './LanguageSelector';
 import { editor } from 'monaco-editor';
+import PythonDefault from './Language/Python.default';
+import JsDefault from './Language/Js.default';
+import CppDefault from './Language/Cpp.default';
+import JavaDefault from './Language/Java.default';
 
 interface MonacoEditorProps {
     onChange: (value: string) => void;
     onMount?: () => void;
 }
 
-const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange, onMount }) => {
+const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange }) => {
     const [editorValue, setEditorValue] = useState<string>('');
     const [language, setLanguage] = useState<string>('python');
+    const [defaultValue, setDefaultValue] = useState<string>('');
+
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
     const monacoRef = useRef<Monaco | null>(null);
-    const isEditorReady = useRef<boolean>(false);
 
     useEffect(() => {
-        if (isEditorReady.current) {
-            onMount?.();
+        if (monacoRef.current) {
+            setDefaultValue(getDefaultValue(language));
         }
-    }, [isEditorReady, onMount]);
+    }, [language]);
 
     const handleEditorChange = (value: string | undefined) => {
         if (value) {
@@ -35,7 +40,21 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange, onMount }) => {
     const handleEditorMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
         editorRef.current = editor;
         monacoRef.current = monaco;
-        isEditorReady.current = true;
+    };
+
+    const getDefaultValue = (language: string) => {
+        switch (language) {
+            case 'python':
+                return PythonDefault;
+            case 'javascript':
+                return JsDefault;
+            case 'Cpp':
+                return CppDefault;
+            case 'java':
+                return JavaDefault;
+            default:
+                return '';
+        }
     };
 
     return (
@@ -48,6 +67,7 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange, onMount }) => {
                 onChange={handleEditorChange}
                 onMount={handleEditorMount}
                 language={language}
+                defaultValue={defaultValue}
             />
         </div>
     );

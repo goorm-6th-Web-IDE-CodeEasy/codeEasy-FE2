@@ -52,7 +52,6 @@ const WebIDE: React.FC = () => {
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 {/* 왼쪽 */}
                 <div style={{ flex: 1 }}>
-                    <h2>문제</h2>
                     <ProblemScript />
                 </div>
                 {/* 오른쪽 */}

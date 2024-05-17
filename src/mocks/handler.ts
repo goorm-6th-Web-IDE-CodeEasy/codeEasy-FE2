@@ -38,9 +38,22 @@ export const handlers = [
         }
         return res(ctx.status(200), ctx.json(problem));
     }),
-    // rest.get('/problem/{problemId}/favorite', (req, res, ctx) => {
-    //     return res(ctx.status(200), ctx.json());
-    // }),
+    // 즐겨찾기
+    rest.post('/problem/{problemId}/favorite', (req, res, ctx) => {
+        const { id } = req.params;
+        const index = mockData.problems.findIndex((problem) => problem.id === parseInt(id));
+        if (index === -1) {
+            return res(ctx.status(404), ctx.json({ message: 'Problem not found' }));
+        }
+        mockData.problems[index].isFavorite = !mockData.problems[index].isFavorite;
+
+        return res(ctx.status(200), ctx.json({ problem: mockData.problems[index] }));
+    }),
+    rest.get('/problem/{problemId}/favorite', (req, res, ctx) => {
+        const favoriteProblems = mockData.problems.filter((problem) => problem.isFavorite);
+        return res(ctx.status(200), ctx.json(favoriteProblems));
+    }),
+
     //user api 구현
     rest.get('/api/user/profile', (req, res, ctx) => {
         return res(

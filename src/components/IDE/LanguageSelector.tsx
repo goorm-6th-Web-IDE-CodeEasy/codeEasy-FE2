@@ -5,7 +5,7 @@ interface LanguageSelectorProps {
 }
 
 const LanguageSelector: React.FC<LanguageSelectorProps> = ({ onSelect }) => {
-    const languages = ['javascript', 'python', 'java', 'C++'];
+    const languages = ['python', 'javascript', 'java', 'Cpp'];
 
     const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedLanguage = event.target.value;
