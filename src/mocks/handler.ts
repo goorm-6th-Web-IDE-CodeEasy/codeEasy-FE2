@@ -114,6 +114,30 @@ export const handlers = [
         const filteredProblems = algorithm ? Problems.filter((problem) => problem.algorithm === algorithm) : Problems;
         return res(ctx.status(200), ctx.json({ problems: filteredProblems }));
     }),
+    // 문제 script
+    rest.get('/api/problem/problemId', (req, res, ctx) => {
+        const { id } = req.params;
+        const problem = mockData.problems.find((p) => p.id === parseInt(id));
+        if (!problem) {
+            return res(ctx.status(404));
+        }
+        return res(ctx.status(200), ctx.json(problem));
+    }),
+    // 즐겨찾기
+    rest.post('/problem/{problemId}/favorite', (req, res, ctx) => {
+        const { id } = req.params;
+        const index = mockData.problems.findIndex((problem) => problem.id === parseInt(id));
+        if (index === -1) {
+            return res(ctx.status(404), ctx.json({ message: 'Problem not found' }));
+        }
+        mockData.problems[index].isFavorite = !mockData.problems[index].isFavorite;
+
+        return res(ctx.status(200), ctx.json({ problem: mockData.problems[index] }));
+    }),
+    rest.get('/problem/{problemId}/favorite', (req, res, ctx) => {
+        const favoriteProblems = mockData.problems.filter((problem) => problem.isFavorite);
+        return res(ctx.status(200), ctx.json(favoriteProblems));
+    }),
 
     rest.get('/api/problems/rate', (req, res, ctx) => {
         const rate = req.url.searchParams.get('rate'); // expects rate as string e.g., '75%'

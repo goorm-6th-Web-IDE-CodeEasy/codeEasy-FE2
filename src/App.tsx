@@ -7,6 +7,7 @@ import Algorithm from './pages/Algorithm/Algorithm';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import { ThemePage } from './pages/Theme/ThemePage';
+import WebIDE from './pages/IDE/webIDE';
 
 const ROUTES_INFO = [
     { path: '/', element: <Main /> },

@@ -1,3 +1,4 @@
+
 // 예제 데이터
 export const Users = [
     {
@@ -314,3 +315,4 @@ export const ChatMessages = [
         timestamp: new Date().toISOString(),
     },
 ];
+

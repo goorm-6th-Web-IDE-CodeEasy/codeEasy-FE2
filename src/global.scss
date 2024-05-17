@@ -10,6 +10,17 @@ $white: #ffffff;
 $black: #000000;
 $light-gray: #16181c;
 
+:global(:root) {
+    --background-color: #ffffff;
+    --font-color: #16181c;
+}
+:global(:root[theme='DarkTheme']) {
+    --background-color: #16181c;
+    --font-color: #ffffff;
+}
+:global(:root[theme='highcontrastTheme']) {
+}
+
 // Light Theme
 $light-mode-white: #ffffff;
 $light-mode-light-gray: #16181c;
