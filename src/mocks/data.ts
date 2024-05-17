@@ -99,7 +99,7 @@ export const Problems = [
         title: '문제10',
         content: '컴퓨터 네트워크에서 사용되는 TCP와 UDP 프로토콜의 차이점을 설명하세요.',
         tier: '실버',
-        algorithm: '네트워킹',
+        algorithm: '그리디 알고리즘',
         rate: '85%',
     },
     {
@@ -107,7 +107,7 @@ export const Problems = [
         title: '문제11',
         content: '리눅스와 윈도우 운영 체제의 주요 차이점을 설명하세요.',
         tier: '브론즈',
-        algorithm: '운영체제',
+        algorithm: '다이나믹 프로그래밍',
         rate: '90%',
     },
     {
@@ -115,7 +115,7 @@ export const Problems = [
         title: '문제12',
         content: '객체 지향 프로그래밍과 절차 지향 프로그래밍의 주요 차이점을 설명하세요.',
         tier: '골드',
-        algorithm: '소프트웨어 공학',
+        algorithm: '너비 우선 탐색',
         rate: '70%',
     },
     {
@@ -123,7 +123,7 @@ export const Problems = [
         title: '문제13',
         content: '몬테 카를로 방법을 사용하여 원주율(π)을 계산하는 프로그램을 작성하세요.',
         tier: '다이아',
-        algorithm: '수치 계산',
+        algorithm: '다이나믹 프로그래밍',
         rate: '60%',
     },
     {
@@ -131,7 +131,7 @@ export const Problems = [
         title: '문제14',
         content: '가상 메모리와 물리 메모리의 차이점을 설명하고, 가상 메모리가 시스템에 미치는 영향에 대해 설명하세요.',
         tier: '플래티넘',
-        algorithm: '운영체제',
+        algorithm: '너비 우선 탐색',
         rate: '50%',
     },
     {
@@ -139,7 +139,7 @@ export const Problems = [
         title: '문제15',
         content: '모바일 애플리케이션 개발에서 안드로이드와 iOS 플랫폼의 주요 차이점을 설명하세요.',
         tier: '실버',
-        algorithm: '모바일 개발',
+        algorithm: '자료구조',
         rate: '80%',
     },
     {
@@ -147,7 +147,7 @@ export const Problems = [
         title: '문제16',
         content: '클라우드 컴퓨팅과 전통적인 온-프레미스 컴퓨팅의 비교 분석을 제공하세요.',
         tier: '골드',
-        algorithm: '클라우드 컴퓨팅',
+        algorithm: '그리디 알고리즘',
         rate: '65%',
     },
     {
@@ -155,7 +155,7 @@ export const Problems = [
         title: '문제17',
         content: 'RESTful API 디자인 원칙을 설명하고, 좋은 REST API의 예를 들어 설명하세요.',
         tier: '브론즈',
-        algorithm: '웹 개발',
+        algorithm: '구현',
         rate: '95%',
     },
     {
@@ -163,7 +163,7 @@ export const Problems = [
         title: '문제18',
         content: '블록체인 기술의 기본 원리를 설명하고, 이 기술이 금융 산업에 미치는 영향에 대해 논의하세요.',
         tier: '플래티넘',
-        algorithm: '블록체인',
+        algorithm: '백트래킹',
         rate: '55%',
     },
     {
@@ -171,7 +171,7 @@ export const Problems = [
         title: '문제19',
         content: 'HTML5와 CSS3를 사용하여 반응형 웹 디자인을 구현하는 방법을 설명하세요.',
         tier: '실버',
-        algorithm: '웹 개발',
+        algorithm: '정렬',
         rate: '85%',
     },
     {
@@ -179,7 +179,7 @@ export const Problems = [
         title: '문제20',
         content: '머신러닝 모델의 학습 과정에서 과적합(Overfitting)을 방지하는 기법을 설명하세요.',
         tier: '골드',
-        algorithm: '인공지능',
+        algorithm: '다이나믹 프로그래밍',
         rate: '70%',
     },
 ];

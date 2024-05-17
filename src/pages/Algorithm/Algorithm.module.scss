@@ -181,6 +181,69 @@ body {
     }
 }
 
+//리액트 툴팁 스타일링
+.tooltip {
+    background-color: #333;
+    color: white;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    max-width: 200px;
+    text-align: center;
+
+    &.place-top {
+        margin-bottom: 8px;
+    }
+
+    &.place-bottom {
+        margin-top: 8px;
+    }
+
+    &.place-left {
+        margin-right: 8px;
+    }
+
+    &.place-right {
+        margin-left: 8px;
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+    }
+
+    &.place-top:after {
+        top: 100%;
+        left: 50%;
+        border-width: 5px 5px 0;
+        border-color: #333 transparent transparent transparent;
+    }
+
+    &.place-bottom:after {
+        bottom: 100%;
+        left: 50%;
+        border-width: 0 5px 5px;
+        border-color: transparent transparent #333 transparent;
+    }
+
+    &.place-left:after {
+        left: 100%;
+        top: 50%;
+        border-width: 5px 0 5px 5px;
+        border-color: transparent transparent transparent #333;
+    }
+
+    &.place-right:after {
+        right: 100%;
+        top: 50%;
+        border-width: 5px 5px 5px 0;
+        border-color: transparent #333 transparent transparent;
+    }
+}
+
 // 페이지네이션 버튼 스타일
 .pagination button {
     padding: 8px 16px;
@@ -286,6 +349,22 @@ body {
         .th {
             background-color: #16181cee;
             color: #fff;
+
+            .sortButton {
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: #fff;
+                padding: 0;
+                font-size: $ms;
+                margin-left: 0.625rem;
+            }
+
+            .sortIcon {
+                display: inline-flex;
+                width: 1rem;
+                height: auto;
+            }
         }
 
         .td {
@@ -406,7 +485,6 @@ body {
     background-color: #f1f1f1;
     padding: 1.5rem 1.5rem;
     text-align: center;
-
     border-radius: 0.4rem;
     .title {
         font-size: $m;

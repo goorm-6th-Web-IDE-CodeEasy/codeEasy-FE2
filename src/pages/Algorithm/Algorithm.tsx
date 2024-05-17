@@ -11,6 +11,8 @@ import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
 import axios from 'axios';
 import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
+import { Tooltip } from 'react-tooltip';
+import { FaSortDown, FaSortUp } from 'react-icons/fa';
 
 interface User {
     nickname: string;
@@ -33,6 +35,14 @@ interface Filter {
     done: string;
 }
 
+const tierOrder: { [key: string]: number } = {
+    브론즈: 1,
+    실버: 2,
+    골드: 3,
+    플래티넘: 4,
+    다이아: 5,
+};
+
 const Algorithm: React.FC = () => {
     const theme = useRecoilValue(ThemeState);
     const isLoggedIn = useRecoilValue(loggedInState);
@@ -44,15 +54,21 @@ const Algorithm: React.FC = () => {
     const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
     const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+    const [sortKey, setSortKey] = useState<keyof Problem | null>(null);
 
     useEffect(() => {
         const fetchProblems = async () => {
             setLoading(true);
             try {
                 const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
-                const responseProblems = await axios.get<{ problems: Problem[] }>('/api/problems', { headers });
+                let query = '/api/problems?';
+                if (filter.tier) query += `tier=${filter.tier}&`;
+                if (filter.algorithm) query += `algorithm=${filter.algorithm}&`;
+                if (filter.done) query += `done=${filter.done}&`;
+
+                const responseProblems = await axios.get<{ problems: Problem[] }>(query, { headers });
                 setProblems(responseProblems.data?.problems ?? []);
-                const responseUser = await axios.get<{ user: User }>('/api/user/profile');
                 if (responseProblems.data?.problems?.length > 0) {
                     const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length);
                     setRandomProblem(responseProblems.data.problems[randomIndex]);
@@ -63,28 +79,70 @@ const Algorithm: React.FC = () => {
             setLoading(false);
         };
         fetchProblems();
-    }, [isLoggedIn, user?.id]);
+    }, [isLoggedIn, user?.id, filter]);
 
     const filteredProblems = useMemo(() => {
-        return problems.filter(
+        let sortedProblems = problems.filter(
             (problem) =>
                 problem.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
                 (!filter.tier || problem.tier.startsWith(filter.tier)) &&
                 (!filter.algorithm || problem.algorithm === filter.algorithm) &&
                 (!filter.done || problem.done.toString() === filter.done)
         );
-    }, [searchTerm, filter, problems]);
+
+        if (sortKey) {
+            sortedProblems = sortedProblems.sort((a, b) => {
+                if (sortKey === 'rate') {
+                    const rateA = parseFloat(a.rate);
+                    const rateB = parseFloat(b.rate);
+                    if (sortOrder === 'asc') {
+                        return rateA - rateB;
+                    } else {
+                        return rateB - rateA;
+                    }
+                } else if (sortKey === 'tier') {
+                    const tierA = tierOrder[a.tier];
+                    const tierB = tierOrder[b.tier];
+                    if (sortOrder === 'asc') {
+                        return tierA - tierB;
+                    } else {
+                        return tierB - tierA;
+                    }
+                }
+                return 0;
+            });
+        }
+
+        return sortedProblems;
+    }, [searchTerm, filter, problems, sortKey, sortOrder]);
+
+    const handleSort = (key: keyof Problem) => {
+        setSortKey(key);
+        setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
+    };
 
     const handleTTS = throttle((text: string) => {
         if (isVolumeOn) {
             const speech = new SpeechSynthesisUtterance(text);
             window.speechSynthesis?.speak(speech);
         }
-    }, 2000);
+    }, 2500);
 
     const problemsPerPage = 5;
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
     const totalPages = Math.ceil(filteredProblems.length / problemsPerPage);
+
+    const handleAlgorithmChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedOption = event.target.value;
+        setFilter({ ...filter, algorithm: selectedOption });
+        handleTTS(event.target.options[event.target.selectedIndex].text);
+    };
+
+    const handleTierChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedOption = event.target.value;
+        setFilter({ ...filter, tier: selectedOption });
+        handleTTS(event.target.options[event.target.selectedIndex].text);
+    };
 
     return (
         <div className={`${theme}`}>
@@ -111,6 +169,7 @@ const Algorithm: React.FC = () => {
                         <div className={styles.problemSection}>
                             <div className={styles.searchContainer}>
                                 <input
+                                    onMouseEnter={() => handleTTS('문제 검색하기')}
                                     type="text"
                                     placeholder="문제 검색하기"
                                     value={searchTerm}
@@ -119,15 +178,22 @@ const Algorithm: React.FC = () => {
                                 />
                                 <div className={styles.filterContainer}>
                                     <select
+                                        value={filter.done}
                                         onChange={(e) => setFilter({ ...filter, done: e.target.value })}
                                         className={styles.filterSelect}
+                                        disabled={!isLoggedIn}
+                                        data-tooltip-id="my-tooltip-styles"
+                                        data-tooltip-content={!isLoggedIn ? '로그인이 필요합니다' : ''}
                                     >
                                         <option value="">상태</option>
                                         <option value="true">푼 문제</option>
                                         <option value="false">안 푼 문제</option>
                                     </select>
+                                    <Tooltip id="my-tooltip-styles" className={styles.tooltip} />
+
                                     <select
-                                        onChange={(e) => setFilter({ ...filter, algorithm: e.target.value })}
+                                        value={filter.algorithm}
+                                        onChange={handleAlgorithmChange}
                                         className={styles.filterSelect}
                                     >
                                         <option value="">알고리즘 유형</option>
@@ -137,9 +203,11 @@ const Algorithm: React.FC = () => {
                                         <option value="그리디 알고리즘">그리디 알고리즘</option>
                                         <option value="다이나믹 프로그래밍">다이나믹 프로그래밍</option>
                                         <option value="너비 우선 탐색">너비 우선 탐색</option>
+                                        <option value="백트래킹">백트래킹</option>
                                     </select>
                                     <select
-                                        onChange={(e) => setFilter({ ...filter, tier: e.target.value })}
+                                        value={filter.tier}
+                                        onChange={handleTierChange}
                                         className={styles.filterSelect}
                                     >
                                         <option value="">티어</option>
@@ -156,15 +224,33 @@ const Algorithm: React.FC = () => {
                                     <tr className={styles.tr}>
                                         <th className={styles.th}>완료 여부</th>
                                         <th className={styles.th}>문제</th>
-                                        <th className={styles.th}>난이도</th>
-                                        <th className={styles.th}>정답률</th>
+                                        <th className={styles.th}>
+                                            난이도
+                                            <button onClick={() => handleSort('tier')} className={styles.sortButton}>
+                                                {sortKey === 'tier' && sortOrder === 'asc' ? (
+                                                    <FaSortUp />
+                                                ) : (
+                                                    <FaSortDown />
+                                                )}
+                                            </button>
+                                        </th>
+                                        <th className={styles.th}>
+                                            정답률
+                                            <button onClick={() => handleSort('rate')} className={styles.sortButton}>
+                                                {sortKey === 'rate' && sortOrder === 'asc' ? (
+                                                    <FaSortUp />
+                                                ) : (
+                                                    <FaSortDown />
+                                                )}
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {filteredProblems
                                         .slice((currentPage - 1) * problemsPerPage, currentPage * problemsPerPage)
-                                        .map((problem, index) => (
-                                            <tr key={index} className={styles.tr}>
+                                        .map((problem, problemID) => (
+                                            <tr key={problemID} className={styles.tr}>
                                                 <td className={styles.td}>{problem.done ? '☑' : ''}</td>
                                                 <td className={styles.td}>
                                                     <div className={styles.algorithmType}>{problem.algorithm}</div>
@@ -204,7 +290,6 @@ const Algorithm: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-
                                 {randomProblem && (
                                     <div className={styles.todayAlgorithm}>
                                         <p className={styles.title}>
@@ -217,9 +302,15 @@ const Algorithm: React.FC = () => {
                                 )}
                             </>
                         ) : (
-                            <small>
-                                이미 회원이세요?<Link to="/login">로그인</Link>
-                            </small>
+                            <div className={styles.todayAlgorithm}>
+                                <p className={styles.title}>
+                                    게스트님을 위한 <br></br>
+                                    <span>오늘의 추천 알고리즘</span>
+                                </p>
+                                <Link to="/login">
+                                    <button className={styles.btnAlgorithm}>로그인 하기</button>
+                                </Link>
+                            </div>
                         )}
                     </div>
                 </div>
