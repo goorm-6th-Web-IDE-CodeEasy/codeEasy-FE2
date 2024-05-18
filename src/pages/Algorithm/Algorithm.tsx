@@ -1,38 +1,38 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { soundState } from '../../recoil/state/soundState';
-import { loggedInState, userState } from '../../recoil/state/loggedInState';
-import styles from './Algorithm.module.scss';
-import Footer from '../../Layout/Footer/Footer';
-import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
-import { ThemeState } from '../Theme/ThemeState';
-import Header from '../../Layout/Header/Header';
-import throttle from 'lodash/throttle';
-import axios from 'axios';
-import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
-import { Tooltip } from 'react-tooltip';
-import { FaSortDown, FaSortUp } from 'react-icons/fa';
+import React, { useEffect, useState, useMemo } from 'react'
+import { Link } from 'react-router-dom'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { soundState } from '../../recoil/state/soundState'
+import { loggedInState, userState } from '../../recoil/state/loggedInState'
+import styles from './Algorithm.module.scss'
+import Footer from '../../Layout/Footer/Footer'
+import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg'
+import { ThemeState } from '../Theme/ThemeState'
+import Header from '../../Layout/Header/Header'
+import throttle from 'lodash/throttle'
+import axios from 'axios'
+import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader'
+import { Tooltip } from 'react-tooltip'
+import { FaSortDown, FaSortUp } from 'react-icons/fa'
 
 interface User {
-    nickname: string;
-    tier: string;
-    doneProblem: number;
-    avatar: string;
+    nickname: string
+    tier: string
+    doneProblem: number //임시데이터에서 사용한 부분
+    avatar: string
 }
 
 interface Problem {
-    title: string;
-    tier: string;
-    algorithm: string;
-    done: boolean;
-    rate: string;
+    title: string
+    tier: string
+    algorithm: string
+    done: boolean
+    rate: string
 }
 
 interface Filter {
-    tier: string;
-    algorithm: string;
-    done: string;
+    tier: string
+    algorithm: string
+    done: string
 }
 
 const tierOrder: { [key: string]: number } = {
@@ -41,45 +41,45 @@ const tierOrder: { [key: string]: number } = {
     골드: 3,
     플래티넘: 4,
     다이아: 5,
-};
+}
 
 const Algorithm: React.FC = () => {
-    const theme = useRecoilValue(ThemeState);
-    const isLoggedIn = useRecoilValue(loggedInState);
-    const user = useRecoilValue(userState);
-    const [isVolumeOn] = useRecoilState<boolean>(soundState);
-    const [loading, setLoading] = useState(true);
-    const [problems, setProblems] = useState<Problem[]>([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
-    const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-    const [sortKey, setSortKey] = useState<keyof Problem | null>(null);
+    const theme = useRecoilValue(ThemeState)
+    const isLoggedIn = useRecoilValue(loggedInState)
+    const user = useRecoilValue(userState)
+    const [isVolumeOn] = useRecoilState<boolean>(soundState)
+    const [loading, setLoading] = useState(true)
+    const [problems, setProblems] = useState<Problem[]>([])
+    const [searchTerm, setSearchTerm] = useState('')
+    const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' })
+    const [randomProblem, setRandomProblem] = useState<Problem | null>(null)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+    const [sortKey, setSortKey] = useState<keyof Problem | null>(null)
 
     useEffect(() => {
         const fetchProblems = async () => {
-            setLoading(true);
+            setLoading(true)
             try {
-                const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
-                let query = '/api/problems?';
-                if (filter.tier) query += `tier=${filter.tier}&`;
-                if (filter.algorithm) query += `algorithm=${filter.algorithm}&`;
-                if (filter.done) query += `done=${filter.done}&`;
+                const headers = isLoggedIn ? { Authorization: localStorage.getItem('authToken') } : {}
+                let query = '/api/problems?'
+                if (filter.tier) query += `tier=${filter.tier}&`
+                if (filter.algorithm) query += `algorithm=${filter.algorithm}&`
+                if (filter.done) query += `done=${filter.done}&`
 
-                const responseProblems = await axios.get<{ problems: Problem[] }>(query, { headers });
-                setProblems(responseProblems.data?.problems ?? []);
+                const responseProblems = await axios.get<{ problems: Problem[] }>(query, { headers })
+                setProblems(responseProblems.data?.problems ?? [])
                 if (responseProblems.data?.problems?.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length);
-                    setRandomProblem(responseProblems.data.problems[randomIndex]);
+                    const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length)
+                    setRandomProblem(responseProblems.data.problems[randomIndex])
                 }
             } catch (error) {
-                console.error('Error fetching problems:', error);
+                console.error('Error fetching problems:', error)
             }
-            setLoading(false);
-        };
-        fetchProblems();
-    }, [isLoggedIn, user?.id, filter]);
+            setLoading(false)
+        }
+        fetchProblems()
+    }, [isLoggedIn, filter])
 
     const filteredProblems = useMemo(() => {
         let sortedProblems = problems.filter(
@@ -87,62 +87,62 @@ const Algorithm: React.FC = () => {
                 problem.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
                 (!filter.tier || problem.tier.startsWith(filter.tier)) &&
                 (!filter.algorithm || problem.algorithm === filter.algorithm) &&
-                (!filter.done || problem.done.toString() === filter.done)
-        );
+                (!filter.done || problem.done.toString() === filter.done),
+        )
 
         if (sortKey) {
             sortedProblems = sortedProblems.sort((a, b) => {
                 if (sortKey === 'rate') {
-                    const rateA = parseFloat(a.rate);
-                    const rateB = parseFloat(b.rate);
+                    const rateA = parseFloat(a.rate)
+                    const rateB = parseFloat(b.rate)
                     if (sortOrder === 'asc') {
-                        return rateA - rateB;
+                        return rateA - rateB
                     } else {
-                        return rateB - rateA;
+                        return rateB - rateA
                     }
                 } else if (sortKey === 'tier') {
-                    const tierA = tierOrder[a.tier];
-                    const tierB = tierOrder[b.tier];
+                    const tierA = tierOrder[a.tier]
+                    const tierB = tierOrder[b.tier]
                     if (sortOrder === 'asc') {
-                        return tierA - tierB;
+                        return tierA - tierB
                     } else {
-                        return tierB - tierA;
+                        return tierB - tierA
                     }
                 }
-                return 0;
-            });
+                return 0
+            })
         }
 
-        return sortedProblems;
-    }, [searchTerm, filter, problems, sortKey, sortOrder]);
+        return sortedProblems
+    }, [searchTerm, filter, problems, sortKey, sortOrder])
 
     const handleSort = (key: keyof Problem) => {
-        setSortKey(key);
-        setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
-    };
+        setSortKey(key)
+        setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'))
+    }
 
     const handleTTS = throttle((text: string) => {
         if (isVolumeOn) {
-            const speech = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis?.speak(speech);
+            const speech = new SpeechSynthesisUtterance(text)
+            window.speechSynthesis?.speak(speech)
         }
-    }, 2500);
+    }, 2500)
 
-    const problemsPerPage = 5;
-    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-    const totalPages = Math.ceil(filteredProblems.length / problemsPerPage);
+    const problemsPerPage = 5
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
+    const totalPages = Math.ceil(filteredProblems.length / problemsPerPage)
 
     const handleAlgorithmChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedOption = event.target.value;
-        setFilter({ ...filter, algorithm: selectedOption });
-        handleTTS(event.target.options[event.target.selectedIndex].text);
-    };
+        const selectedOption = event.target.value
+        setFilter({ ...filter, algorithm: selectedOption })
+        handleTTS(event.target.options[event.target.selectedIndex].text)
+    }
 
     const handleTierChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedOption = event.target.value;
-        setFilter({ ...filter, tier: selectedOption });
-        handleTTS(event.target.options[event.target.selectedIndex].text);
-    };
+        const selectedOption = event.target.value
+        setFilter({ ...filter, tier: selectedOption })
+        handleTTS(event.target.options[event.target.selectedIndex].text)
+    }
 
     return (
         <div className={`${theme}`}>
@@ -317,7 +317,7 @@ const Algorithm: React.FC = () => {
                 <Footer />
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default Algorithm;
+export default Algorithm

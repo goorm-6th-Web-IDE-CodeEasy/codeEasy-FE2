@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
-import React from 'react'
-import { useRecoilState } from 'recoil'
+import React, { useEffect } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { soundState } from '../../recoil/state/soundState'
 import { scaleState } from '../../recoil/state/scaleState'
-import { loggedInState, userState } from '../../recoil/state/loggedInState'
-import styles from './Header.module.scss' // 스타일 시트 임포트
+import { fetchUserState, loggedInState, userState } from '../../recoil/state/loggedInState'
+import styles from './Header.module.scss'
 import Logo from '../../components/Svg/Logo'
 import { HeaderSoundOnBtn } from '../../components/Svg/HeaderSoundOnBtn'
 import { HeaderSoundOffBtn } from '../../components/Svg/HeaderSoundOffBtn'
@@ -16,14 +16,23 @@ import throttle from 'lodash/throttle'
 const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(loggedInState) //로그인 상태여부
     const [user, setUser] = useRecoilState(userState) //로그인 시 정보
-
+    const fetchedUser = useRecoilValue(fetchUserState) // 초기화 시 사용자 정보 가져오기
     const [isVolumeOn, setVolumeOn] = useRecoilState<boolean>(soundState) // useRecoilState 사용하여 전역 상태 관리
     const [scale, setScale] = useRecoilState<number>(scaleState) // 확대/축소 상태
 
+    useEffect(() => {
+        if (fetchedUser) {
+            setUser(fetchedUser)
+            setIsLoggedIn(true)
+        }
+    }, [fetchedUser, setUser, setIsLoggedIn])
+
     const handleLogout = () => {
-        //로그아웃 상태
+        // 로그아웃 상태
         setIsLoggedIn(false)
         setUser(null)
+        localStorage.removeItem('authToken') // 로그아웃 시 토큰 삭제
+        window.location.reload()
     }
 
     const increaseScale = (): void => {
@@ -76,7 +85,7 @@ const Header: React.FC = () => {
                                 <HeaderMinusBtn />
                             </button>
                             <button onMouseEnter={() => handleTTS('사용자 정보')} className={styles.clientIcon}>
-                                {isLoggedIn ? (
+                                {isLoggedIn && user ? (
                                     <img
                                         src={user.avatar}
                                         style={{
