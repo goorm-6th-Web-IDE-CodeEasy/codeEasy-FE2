@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot, useRecoilValue } from 'recoil';
 import { scaleState } from './recoil/state/scaleState';
@@ -8,11 +8,13 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import { ThemePage } from './pages/Theme/ThemePage';
 import WebIDE from './pages/IDE/webIDE';
+import Mypage from './pages/Mypage/Mypage';
 
 const ROUTES_INFO = [
     { path: '/', element: <Main /> },
     { path: '/algorithm', element: <Algorithm /> },
     { path: '/login', element: <Login /> },
+    { path: '/mypage', element: <Mypage /> },
     { path: '/register', element: <Register /> },
     { path: '/theme', element: <ThemePage /> },
     { path: '/ide/:problemID', element: <WebIDE /> }, //IDE 경로 추가
@@ -22,7 +24,9 @@ const ROUTES_INFO = [
 const App: React.FC = () => {
     return (
         <RecoilRoot>
-            <AppContent />
+            <Suspense fallback={<div>Loading...</div>}>
+                <AppContent />
+            </Suspense>
         </RecoilRoot>
     );
 };
