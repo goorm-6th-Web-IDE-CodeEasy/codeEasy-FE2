@@ -258,17 +258,17 @@ const Algorithm: React.FC = () => {
                                 <tbody>
                                     {filteredProblems
                                         .slice((currentPage - 1) * problemsPerPage, currentPage * problemsPerPage)
-                                        .map((problem, index) => (
-                                            <tr key={index} className={styles.tr}>
+                                        .map((problem) => (
+                                            <tr key={problem.problemId} className={styles.tr}>
                                                 <td className={styles.td}>{problem.done ? '☑' : ''}</td>
                                                 <td className={styles.td}>
                                                     <Link to={`/ide/${problem.problemId}`}>
                                                         <div className={styles.algorithmType}>{problem.algorithm}</div>
                                                         <div>{problem.title}</div>
-                                                    </Link>{' '}
+                                                    </Link>
                                                 </td>
                                                 <td className={styles.td}>{problem.tier}</td>
-                                                <td className={styles.td}>{problem.rate}</td>
+                                                <td className={styles.td}>{problem.rate}%</td> {/* 정답률 % 추가함 */}
                                             </tr>
                                         ))}
                                 </tbody>
