@@ -24,11 +24,12 @@ interface User {
 }
 
 interface Problem {
+    problemId: number;
     title: string;
     tier: string;
     algorithm: string;
     done: boolean;
-    rate: string;
+    rate: number;
 }
 
 interface Filter {
@@ -95,7 +96,7 @@ const Algorithm: React.FC = () => {
     }, [isLoggedIn, user?.id, filter]);
 
     const filteredProblems = useMemo(() => {
-        if (!problems) return []; // problems가 undefined인 경우 빈 배열
+        if (!Array.isArray(problems)) return []; // 문제가 배열인지 확인
         let sortedProblems = problems.filter(
             (problem) =>
                 problem.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -261,11 +262,13 @@ const Algorithm: React.FC = () => {
                                             <tr key={index} className={styles.tr}>
                                                 <td className={styles.td}>{problem.done ? '☑' : ''}</td>
                                                 <td className={styles.td}>
-                                                    <div className={styles.algorithmType}>{problem.algorithm}</div>
-                                                    <div>{problem.title}</div>
+                                                    <Link to={`/ide/${problem.problemId}`}>
+                                                        <div className={styles.algorithmType}>{problem.algorithm}</div>
+                                                        <div>{problem.title}</div>
+                                                    </Link>{' '}
                                                 </td>
                                                 <td className={styles.td}>{problem.tier}</td>
-                                                <td className={styles.td}>{problem.rate}</td>
+                                                <td className={styles.td}>{problem.rate}%</td> {/* 정답률 % 추가함 */}
                                             </tr>
                                         ))}
                                 </tbody>
