@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Timer from '../../components/IDE/Timer';
 import MonacoEditor from '../../components/IDE/MonacoEditor';
-import axios from 'axios';
 import ProblemScript from '../../components/IDE/ProblemScript';
 import ResultModal from '../../components/IDE/Result.modal';
 import { useParams } from 'react-router-dom';
@@ -14,20 +13,28 @@ const WebIDE: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState('');
     const { problemId } = useParams<{ problemId: string }>();
+    const [language, setLanguage] = useState<string>('python');
 
     const executeCode = async () => {
+        if (!problemId) return;
         try {
             const response = await api.patch(`/problem/${problemId}/run`, {
                 code,
+                language: language.toUpperCase(),
             });
             setOutput(response.data.result);
         } catch (error) {
             setOutput(`Error: ${error.message}`);
         }
     };
+
     const submitCode = async () => {
+        if (!problemId) return;
         try {
-            const response = await api.patch(`/problem/${problemId}/grade`, { code });
+            const response = await api.patch(`/problem/${problemId}/grade`, {
+                code,
+                language: language.toUpperCase(),
+            });
             if (response.data.success) {
                 setModalContent('정답입니다!');
             } else {
@@ -50,6 +57,10 @@ const WebIDE: React.FC = () => {
         setElapsedTime(time);
     };
 
+    const handleLanguageChange = (language: string) => {
+        setLanguage(language);
+    };
+
     return (
         <div className="web-ide">
             <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -61,7 +72,11 @@ const WebIDE: React.FC = () => {
                 <div style={{ flex: 1 }}>
                     <Timer initialTime={elapsedTime} onTimeUpdate={handleTimeUpdate} />
                     <div>
-                        <MonacoEditor onChange={handleCodeChange} />
+                        <MonacoEditor
+                            onChange={handleCodeChange}
+                            onLanguageChange={handleLanguageChange}
+                            problemId={problemId}
+                        />
                         <button onClick={executeCode}>코드 실행</button>
                         <button onClick={submitCode}>코드 제출</button>
                     </div>

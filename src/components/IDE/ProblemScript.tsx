@@ -17,6 +17,8 @@ interface ProblemData {
     tier: string;
     timeLimit: number;
     memoryLimit: number;
+    basicInputTestCase: string;
+    basicOutputTestCase: string;
 }
 
 const ProblemScript: React.FC<ProblemScriptProps> = ({ problemId }) => {
@@ -38,6 +40,8 @@ const ProblemScript: React.FC<ProblemScriptProps> = ({ problemId }) => {
                         tier,
                         timeLimit,
                         memoryLimit,
+                        basicInputTestCase,
+                        basicOutputTestCase,
                     } = response.data;
                     setProblem({
                         problemTitle,
@@ -48,6 +52,8 @@ const ProblemScript: React.FC<ProblemScriptProps> = ({ problemId }) => {
                         tier,
                         timeLimit,
                         memoryLimit,
+                        basicInputTestCase,
+                        basicOutputTestCase,
                     });
                 } catch (error) {
                     console.error('Error: ', error);
@@ -96,7 +102,7 @@ const ProblemScript: React.FC<ProblemScriptProps> = ({ problemId }) => {
             </div>
             {problem && (
                 <>
-                    <p onMouseEnter={() => handleTTS(problem.problemContent)}>{problem.problemContent}</p>
+                    <p onMouseEnter={() => handleTTS(`${problem.problemContent}`)}>{problem.problemContent}</p>
                     <div>
                         <h3>입력</h3>
                         <p>{problem.problemInputContent}</p>
@@ -117,6 +123,14 @@ const ProblemScript: React.FC<ProblemScriptProps> = ({ problemId }) => {
                     <div>
                         <h3>난이도</h3>
                         <p>{problem.tier}</p>
+                    </div>
+                    <div>
+                        <h3>예제 입력</h3>
+                        <p>{problem.basicInputTestCase}</p>
+                    </div>
+                    <div>
+                        <h3>예제 출력</h3>
+                        <p>{problem.basicOutputTestCase}</p>
                     </div>
                 </>
             )}

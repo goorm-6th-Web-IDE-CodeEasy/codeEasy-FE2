@@ -1,22 +1,36 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Editor, Monaco } from '@monaco-editor/react';
 import LanguageSelector from './LanguageSelector';
 import { editor } from 'monaco-editor';
-import PythonDefault from './Language/Python.default';
-import JsDefault from './Language/Js.default';
-import CppDefault from './Language/Cpp.default';
-import JavaDefault from './Language/Java.default';
+import api from '../Api/Api';
 
 interface MonacoEditorProps {
     onChange: (value: string) => void;
+    onLanguageChange: (language: string) => void;
     onMount?: () => void;
+    problemId: string | undefined;
 }
 
-const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange }) => {
+const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange, onLanguageChange, problemId }) => {
     const [editorValue, setEditorValue] = useState<string>('');
     const [language, setLanguage] = useState<string>('python');
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
     const monacoRef = useRef<Monaco | null>(null);
+
+    useEffect(() => {
+        const fetchDefaultCode = async () => {
+            if (!problemId) return;
+            try {
+                const response = await api.get(`/problem/${problemId}/default`);
+                const defaultCode = response.data[language];
+                setEditorValue(defaultCode);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchDefaultCode();
+    }, [language, problemId]);
 
     const handleEditorChange = (value: string | undefined) => {
         if (value) {
@@ -27,27 +41,12 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange }) => {
 
     const handleLanguageChange = (selectedLanguage: string) => {
         setLanguage(selectedLanguage);
-        setEditorValue(getDefaultValue(selectedLanguage));
+        onLanguageChange(selectedLanguage);
     };
 
     const handleEditorMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
         editorRef.current = editor;
         monacoRef.current = monaco;
-    };
-
-    const getDefaultValue = (language: string) => {
-        switch (language) {
-            case 'python':
-                return PythonDefault;
-            case 'javascript':
-                return JsDefault;
-            case 'cpp':
-                return CppDefault;
-            case 'java':
-                return JavaDefault;
-            default:
-                return '';
-        }
     };
 
     return (
@@ -57,7 +56,6 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange }) => {
                 width="100%"
                 height="65vh"
                 language={language}
-                defaultValue={getDefaultValue(language)}
                 value={editorValue}
                 onChange={handleEditorChange}
                 onMount={handleEditorMount}
