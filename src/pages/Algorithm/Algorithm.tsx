@@ -10,6 +10,7 @@ import { ThemeState } from '../Theme/ThemeState';
 import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid'; // uuid import
 import api from '../../components/Api/Api'; // axios 인스턴스 사용
 import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
 import { Tooltip } from 'react-tooltip';
@@ -24,7 +25,7 @@ interface User {
 }
 
 interface Problem {
-    problemId: number;
+    problemID: number;
     title: string;
     tier: string;
     algorithm: string;
@@ -259,10 +260,10 @@ const Algorithm: React.FC = () => {
                                     {filteredProblems
                                         .slice((currentPage - 1) * problemsPerPage, currentPage * problemsPerPage)
                                         .map((problem) => (
-                                            <tr key={problem.problemId} className={styles.tr}>
+                                            <tr key={uuidv4()} className={styles.tr}>
                                                 <td className={styles.td}>{problem.done ? '☑' : ''}</td>
                                                 <td className={styles.td}>
-                                                    <Link to={`/ide/${problem.problemId}`}>
+                                                    <Link to={`/ide/${problem.problemID}`}>
                                                         <div className={styles.algorithmType}>{problem.algorithm}</div>
                                                         <div>{problem.title}</div>
                                                     </Link>
@@ -273,7 +274,6 @@ const Algorithm: React.FC = () => {
                                         ))}
                                 </tbody>
                             </table>
-
                             <div className={styles.pagination}>
                                 {[...Array(totalPages).keys()].map((number) => (
                                     <button
