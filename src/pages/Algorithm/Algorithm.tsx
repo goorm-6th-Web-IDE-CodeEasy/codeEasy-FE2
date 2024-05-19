@@ -268,11 +268,12 @@ const Algorithm: React.FC = () => {
                                                     </Link>
                                                 </td>
                                                 <td className={styles.td}>{problem.tier}</td>
-                                                <td className={styles.td}>{problem.rate}%</td> {/* 정답률 % 추가함 */}
+                                                <td className={styles.td}>{problem.rate}%</td>
                                             </tr>
                                         ))}
                                 </tbody>
                             </table>
+
                             <div className={styles.pagination}>
                                 {[...Array(totalPages).keys()].map((number) => (
                                     <button
