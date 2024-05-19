@@ -38,11 +38,11 @@ interface Filter {
 }
 
 const tierOrder: { [key: string]: number } = {
-    브론즈: 1,
-    실버: 2,
-    골드: 3,
-    플래티넘: 4,
-    다이아: 5,
+    BRONZE: 1,
+    SILVER: 2,
+    GOLD: 3,
+    PLATINUM: 4,
+    DIAMOND: 5,
 };
 
 const Algorithm: React.FC = () => {
@@ -64,7 +64,7 @@ const Algorithm: React.FC = () => {
             setLoading(true);
             try {
                 const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
-                let query = '/api/problemlist';
+                let query = '/problemlist';
                 const params = new URLSearchParams();
                 if (filter.tier) params.append('tier', filter.tier);
                 if (filter.algorithm) params.append('algorithm', filter.algorithm);
@@ -73,8 +73,9 @@ const Algorithm: React.FC = () => {
                 if (params.toString()) query += `?${params.toString()}`;
 
                 console.log(`Fetching problems with query: ${query}`);
+
                 const response = await api.get<{ problems: Problem[] }>(query, { headers });
-                const responseProblems = response.data?.problems ?? [];
+                const responseProblems = response.data ?? [];
 
                 if (responseProblems.length === 0) {
                     throw new Error('No problems found');
