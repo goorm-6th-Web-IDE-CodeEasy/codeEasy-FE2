@@ -65,7 +65,8 @@ const Algorithm: React.FC = () => {
         const fetchProblems = async () => {
             setLoading(true);
             try {
-                const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
+                const headers = isLoggedIn ? { Authorization: localStorage.getItem('authToken') } : {};
+                //const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
                 let query = '/problemlist';
                 const params = new URLSearchParams();
                 if (filter.tier) params.append('tier', filter.tier);
