@@ -55,7 +55,7 @@ const WebIDE: React.FC = () => {
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 {/* 왼쪽 */}
                 <div style={{ flex: 1 }}>
-                    <ProblemScript />
+                    <ProblemScript problemId={problemId} />
                 </div>
                 {/* 오른쪽 */}
                 <div style={{ flex: 1 }}>

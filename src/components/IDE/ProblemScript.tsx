@@ -1,30 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { soundState } from '../../recoil/state/soundState';
 import throttle from 'lodash/throttle';
-import { useParams } from 'react-router-dom';
-const ProblemScript: React.FC = () => {
-    const [problem, setProblem] = useState<string>('');
+import api from '../Api/Api';
+
+interface ProblemScriptProps {
+    problemId: string | undefined;
+}
+
+interface ProblemData {
+    problemTitle: string;
+    problemContent: string;
+    problemInputContent: string;
+    problemOutputContent: string;
+    algorithm: string;
+    tier: string;
+    timeLimit: number;
+    memoryLimit: number;
+}
+
+const ProblemScript: React.FC<ProblemScriptProps> = ({ problemId }) => {
+    const [problem, setProblem] = useState<ProblemData | null>(null);
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
     const [isVolumeOn] = useRecoilState<boolean>(soundState);
-    const { problemId } = useParams<{ problemId: string }>();
-    useEffect(() => {
-        const fetchProblem = async () => {
-            try {
-                const response = await axios.get(`/problem/${problemId}/favorite`);
-                setProblem(response.data.description);
-            } catch (error) {
-                console.error('Error: ', error);
-            }
-        };
 
-        fetchProblem();
-    }, []);
+    useEffect(() => {
+        if (problemId) {
+            const fetchProblem = async () => {
+                try {
+                    const response = await api.get(`/problem/${problemId}`);
+                    const {
+                        problemTitle,
+                        problemContent,
+                        problemInputContent,
+                        problemOutputContent,
+                        algorithm,
+                        tier,
+                        timeLimit,
+                        memoryLimit,
+                    } = response.data;
+                    setProblem({
+                        problemTitle,
+                        problemContent,
+                        problemInputContent,
+                        problemOutputContent,
+                        algorithm,
+                        tier,
+                        timeLimit,
+                        memoryLimit,
+                    });
+                } catch (error) {
+                    console.error('Error: ', error);
+                }
+            };
+
+            fetchProblem();
+        }
+    }, [problemId]);
 
     const handleFavorite = async () => {
         try {
-            await axios.put(`/problem/${problemId}/favorite`);
+            await api.post(`/problem/${problemId}/favorite`);
             setIsFavorite((e) => !e);
         } catch (error) {
             console.error(error);
@@ -58,7 +94,32 @@ const ProblemScript: React.FC = () => {
                 <button onClick={handleFavorite}>{isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}</button>
                 <button onClick={handleShare}>공유</button>
             </div>
-            <p onMouseEnter={() => handleTTS(problem)}>{problem}</p>
+            {problem && (
+                <>
+                    <p onMouseEnter={() => handleTTS(problem.problemContent)}>{problem.problemContent}</p>
+                    <div>
+                        <h3>입력</h3>
+                        <p>{problem.problemInputContent}</p>
+                    </div>
+                    <div>
+                        <h3>출력</h3>
+                        <p>{problem.problemOutputContent}</p>
+                    </div>
+                    <div>
+                        <h3>제약 조건</h3>
+                        <p>시간 제한: {problem.timeLimit}ms</p>
+                        <p>메모리 제한: {problem.memoryLimit}KB</p>
+                    </div>
+                    <div>
+                        <h3>알고리즘</h3>
+                        <p>{problem.algorithm}</p>
+                    </div>
+                    <div>
+                        <h3>난이도</h3>
+                        <p>{problem.tier}</p>
+                    </div>
+                </>
+            )}
         </div>
     );
 };
