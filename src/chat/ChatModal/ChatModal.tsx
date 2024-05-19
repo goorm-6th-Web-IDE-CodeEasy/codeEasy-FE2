@@ -5,6 +5,7 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import styles from './ChatModal.module.scss';
 
+// ChatMessage 인터페이스 정의
 interface ChatMessage {
     id: number;
     sender: string;
@@ -12,48 +13,65 @@ interface ChatMessage {
     timestamp: string;
 }
 
+// Props 인터페이스 정의
 interface Props {
     isOpen: boolean;
     onClose: () => void;
 }
 
-// 모달 인스턴스 설정을 한 번만 호출
+// 모달 인스턴스 설정을 컴포넌트 외부에서 한 번만 호출
 Modal.setAppElement('#root');
 
 const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [newMessage, setNewMessage] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const [searchResults, setSearchResults] = useState<ChatMessage[]>([]);
     const stompClient = useRef<Client | null>(null);
+    const modalInstanceRef = useRef<boolean>(false);
 
-    // 모달이 열릴 때와 닫힐 때
+    // 모달이 열릴 때와 닫힐 때 효과 설정
     useEffect(() => {
         if (isOpen) {
-            fetchMessages();
-            connectWebSocket();
+            if (!modalInstanceRef.current) {
+                modalInstanceRef.current = true;
+                promptForNickname();
+            }
         } else {
+            modalInstanceRef.current = false;
             disconnectWebSocket();
         }
-        // 컴포넌트가 언마운트될 때 웹소켓 연결 해제
         return () => {
             disconnectWebSocket();
         };
     }, [isOpen]);
 
-    // 메시지 가져오기
-    const fetchMessages = () => {
-        axios
-            .get('/chats/messages/main-room')
-            .then((response) => {
-                setMessages(Array.isArray(response.data) ? response.data : []);
-            })
-            .catch((error) => {
-                console.error('Error fetching messages:', error);
-                setMessages([]);
-            });
+    const promptForNickname = () => {
+        const userNickname = prompt('대화명을 입력해 주세요.');
+        if (userNickname) {
+            setNickname(userNickname);
+            fetchMessages();
+            connectWebSocket(userNickname);
+        } else {
+            alert('대화명을 입력해 주세요.');
+            promptForNickname();
+        }
     };
 
-    // 웹소켓 연결
-    const connectWebSocket = () => {
+    // 메시지 가져오기 함수
+    const fetchMessages = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/chats/messages/main-room');
+            setMessages(Array.isArray(response.data) ? response.data : []);
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+            setMessages([]);
+        }
+    };
+
+    // 웹소켓 연결 함수
+    const connectWebSocket = (nickname: string) => {
         const socket = new SockJS('http://localhost:8080/ws-stomp');
         stompClient.current = new Client({
             webSocketFactory: () => socket,
@@ -66,7 +84,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 });
                 stompClient.current?.publish({
                     destination: '/pub/chats/send',
-                    body: JSON.stringify({ type: 'ENTER', roomId: 'main-room', sender: 'CurrentUser' }),
+                    body: JSON.stringify({ type: 'ENTER', roomId: 'main-room', sender: nickname }),
                 });
             },
             onStompError: (frame) => {
@@ -77,7 +95,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
         stompClient.current.activate();
     };
 
-    // 웹소켓 연결 해제
+    // 웹소켓 연결 해제 함수
     const disconnectWebSocket = () => {
         if (stompClient.current) {
             stompClient.current.deactivate();
@@ -85,28 +103,55 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
         }
     };
 
-    // 메시지 전송
-    const sendMessage = () => {
+    // 메시지 전송 함수
+    const sendMessage = async () => {
         if (!newMessage.trim()) return;
-        const messageToSend: ChatMessage = {
-            id: 0,
-            sender: 'CurrentUser',
+        const messageToSend = {
+            type: 'TALK',
+            roomId: 'main-room',
+            sender: nickname,
             message: newMessage,
-            timestamp: new Date().toISOString(),
         };
 
-        axios
-            .post('/chats/send', messageToSend)
-            .then((response) => {
-                if (stompClient.current && stompClient.current.connected) {
-                    stompClient.current.publish({
-                        destination: '/pub/chats/send',
-                        body: JSON.stringify(response.data),
-                    });
-                }
-                setNewMessage('');
-            })
-            .catch((error) => console.error('Error sending message:', error));
+        try {
+            if (stompClient.current && stompClient.current.connected) {
+                stompClient.current.publish({
+                    destination: '/pub/chats/send',
+                    body: JSON.stringify(messageToSend),
+                });
+            }
+            // Update the messages state immediately
+            setMessages((prevMessages) => [...prevMessages, messageToSend]);
+            setNewMessage('');
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    };
+
+    // 메시지 검색 함수
+    const searchMessages = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/chats/search', {
+                params: { keyword: searchKeyword },
+            });
+            setSearchResults(response.data);
+            if (response.data.length === 0) {
+                alert('검색 결과가 없습니다.');
+            }
+        } catch (error) {
+            console.error('Error searching messages:', error);
+            setSearchResults([]);
+        }
+    };
+
+    // 메시지 삭제 함수
+    const deleteMessages = async () => {
+        try {
+            await axios.delete('http://localhost:8080/api/chats/messages/main-room');
+            setMessages([]);
+        } catch (error) {
+            console.error('Error deleting messages:', error);
+        }
     };
 
     // 키 입력 처리 함수
@@ -125,23 +170,55 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
             onRequestClose={onClose}
             className={styles.chatModal}
             overlayClassName={styles.overlay}
-            shouldCloseOnOverlayClick={true} // 오버레이 클릭 시 모달 닫기
+            shouldCloseOnOverlayClick={true}
         >
-            <div className={styles.chatHeader}>Code Easy 채팅방</div>
+            <div className={styles.chatHeader}>
+                Code Easy 채팅방
+                {/* <button onClick={deleteMessages} className={styles.deleteButton}>
+                    기록 삭제
+                </button> */}
+            </div>
             <div className={styles.messages}>
-                {messages.map((msg) => (
-                    <p key={msg.id}>{`${msg.sender}: ${msg.message}`}</p>
+                {messages.map((msg, index) => (
+                    <p key={index}>{`${msg.sender}: ${msg.message}`}</p>
                 ))}
             </div>
+            <div>
+                {searchResults.length > 0 && (
+                    <div>
+                        <h4>검색 결과</h4>
+                        <ul>
+                            {searchResults.map((msg) => (
+                                <li key={msg.id}>{`${msg.sender}: ${msg.message}`}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
             <div className={styles.chatInput}>
-                <input
-                    type="text"
-                    value={newMessage}
-                    onKeyPress={handleKeyPress}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    placeholder="메세지를 입력하세요..."
-                />
-                <button onClick={sendMessage}>Send</button>
+                <div>
+                    <label>검색</label>
+                    <input
+                        type="text"
+                        value={searchKeyword}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') searchMessages();
+                        }}
+                        onChange={(e) => setSearchKeyword(e.target.value)}
+                    />
+                    <button onClick={searchMessages}>검색</button>
+                </div>
+                <div>
+                    <label>내용</label>
+                    <input
+                        type="text"
+                        value={newMessage}
+                        onKeyDown={handleKeyPress}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="메세지를 입력하세요..."
+                    />
+                    <button onClick={sendMessage}>보내기</button>
+                </div>
             </div>
         </Modal>
     );
