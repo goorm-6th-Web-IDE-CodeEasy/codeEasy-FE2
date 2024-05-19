@@ -21,12 +21,3 @@ body {
     height: 100%;
     overflow-x: hidden;
 }
-
-a {
-    font-weight: 500;
-    color: var(--font-color, #fff);
-    text-decoration: inherit;
-}
-a:hover {
-    color: #ff7513;
-}

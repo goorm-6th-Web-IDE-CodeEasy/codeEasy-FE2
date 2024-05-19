@@ -10,6 +10,22 @@
     backdrop-filter: blur(4px); /* 배경 블러 효과 */
 }
 
+.link {
+    color: #fdfdfd; /* 원하는 색상으로 변경하세요 */
+    text-decoration: none; /* 밑줄 제거 (선택 사항) */
+}
+
+.link:hover {
+    color: hsl(30, 100%, 50%); /* 호버 상태에서의 색상 */
+    text-decoration: none;
+}
+
+.menuItem,
+.loginLink,
+.registerLink,
+.logo {
+    @extend .link;
+}
 
 .topSection,
 .menu,
