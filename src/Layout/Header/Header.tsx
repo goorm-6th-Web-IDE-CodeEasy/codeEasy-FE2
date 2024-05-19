@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, startTransition } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { soundState } from '../../recoil/state/soundState';
 import { scaleState } from '../../recoil/state/scaleState';
@@ -14,32 +14,29 @@ import { HeaderClientBtn } from '../../components/Svg/HeaderClientBtn';
 import throttle from 'lodash/throttle';
 
 const Header: React.FC = () => {
-    const [isLoggedIn, setIsLoggedIn] = useRecoilState(loggedInState); //로그인 상태여부
-    const [user, setUser] = useRecoilState(userState); //로그인 시 정보
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(loggedInState); // 로그인 상태 여부
+    const [user, setUser] = useRecoilState(userState); // 로그인 시 정보
     const fetchedUser = useRecoilValue(fetchUserState); // 초기화 시 사용자 정보 가져오기
     const [isVolumeOn, setVolumeOn] = useRecoilState<boolean>(soundState); // useRecoilState 사용하여 전역 상태 관리
     const [scale, setScale] = useRecoilState<number>(scaleState); // 확대/축소 상태
-    const [isMounted, setIsMounted] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        return () => {
-            setIsMounted(false);
-        };
-    }, []);
-
-    useEffect(() => {
-        if (fetchedUser && isMounted) {
-            setUser(fetchedUser);
-            setIsLoggedIn(true);
-        }
-    }, [fetchedUser, setUser, setIsLoggedIn, isMounted]);
+        startTransition(() => {
+            if (isLoggedIn) {
+                setUser(fetchedUser);
+            } else {
+                setUser(null);
+            }
+        });
+    }, [isLoggedIn, fetchedUser, setUser]);
 
     const handleLogout = () => {
         // 로그아웃 상태
         setIsLoggedIn(false);
         setUser(null);
-        localStorage.removeItem('authToken'); // 로그아웃 시 토큰 삭제
-        window.location.reload();
+        localStorage.removeItem('authToken');
+        navigate('/login'); // 로그아웃 후 로그인 페이지로 이동
     };
 
     const increaseScale = (): void => {
@@ -94,14 +91,14 @@ const Header: React.FC = () => {
                             <button onMouseEnter={() => handleTTS('사용자 정보')} className={styles.clientIcon}>
                                 {isLoggedIn && user ? (
                                     <img
-                                        src={user.avatar}
+                                        src={user?.imageUrl} // 옵셔널 체이닝 사용
                                         style={{
                                             width: '2.1875rem',
                                             height: '2.1875rem',
                                             objectFit: 'cover',
                                             borderRadius: '50%',
                                         }}
-                                        className={styles.avatar} //임시로 적용시킴.
+                                        className={styles.avatar}
                                     />
                                 ) : (
                                     <HeaderClientBtn />

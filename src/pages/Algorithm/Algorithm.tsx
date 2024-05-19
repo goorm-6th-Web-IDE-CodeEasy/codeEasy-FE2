@@ -6,11 +6,11 @@ import { loggedInState, userState } from '../../recoil/state/loggedInState';
 import styles from './Algorithm.module.scss';
 import Footer from '../../Layout/Footer/Footer';
 import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
+import { v4 as uuidv4 } from 'uuid'; // uuid import
 import { ThemeState } from '../Theme/ThemeState';
 import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid'; // uuid import
 import api from '../../components/Api/Api'; // axios 인스턴스 사용
 import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
 import { Tooltip } from 'react-tooltip';
@@ -66,7 +66,6 @@ const Algorithm: React.FC = () => {
             setLoading(true);
             try {
                 const headers = isLoggedIn ? { Authorization: localStorage.getItem('authToken') } : {};
-                //const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
                 let query = '/problemlist';
                 const params = new URLSearchParams();
                 if (filter.tier) params.append('tier', filter.tier);
