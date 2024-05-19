@@ -10,11 +10,12 @@ import { ThemePage } from './pages/Theme/ThemePage';
 import WebIDE from './pages/IDE/webIDE';
 
 const ROUTES_INFO = [
-    { path: '/', element: <Main /> },
+    { path: '/', element: <WebIDE /> },
     { path: '/algorithm', element: <Algorithm /> },
     { path: '/login', element: <Login /> },
     { path: '/register', element: <Register /> },
     { path: '/theme', element: <ThemePage /> },
+    { path: '/WebIDE', element: <WebIDE /> },
     // 추가 라우트 경로들
 ];
 

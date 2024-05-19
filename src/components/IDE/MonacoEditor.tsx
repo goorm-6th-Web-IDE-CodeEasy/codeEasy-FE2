@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Editor, Monaco } from '@monaco-editor/react';
 import LanguageSelector from './LanguageSelector';
 import { editor } from 'monaco-editor';
@@ -15,16 +15,8 @@ interface MonacoEditorProps {
 const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange }) => {
     const [editorValue, setEditorValue] = useState<string>('');
     const [language, setLanguage] = useState<string>('python');
-    const [defaultValue, setDefaultValue] = useState<string>('');
-
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
     const monacoRef = useRef<Monaco | null>(null);
-
-    useEffect(() => {
-        if (monacoRef.current) {
-            setDefaultValue(getDefaultValue(language));
-        }
-    }, [language]);
 
     const handleEditorChange = (value: string | undefined) => {
         if (value) {
@@ -35,6 +27,7 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange }) => {
 
     const handleLanguageChange = (selectedLanguage: string) => {
         setLanguage(selectedLanguage);
+        setEditorValue(getDefaultValue(selectedLanguage));
     };
 
     const handleEditorMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
@@ -48,7 +41,7 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange }) => {
                 return PythonDefault;
             case 'javascript':
                 return JsDefault;
-            case 'Cpp':
+            case 'cpp':
                 return CppDefault;
             case 'java':
                 return JavaDefault;
@@ -63,11 +56,11 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange }) => {
             <Editor
                 width="100%"
                 height="65vh"
+                language={language}
+                defaultValue={getDefaultValue(language)}
                 value={editorValue}
                 onChange={handleEditorChange}
                 onMount={handleEditorMount}
-                language={language}
-                defaultValue={defaultValue}
             />
         </div>
     );

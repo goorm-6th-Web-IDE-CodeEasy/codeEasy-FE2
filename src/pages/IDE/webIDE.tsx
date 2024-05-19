@@ -4,6 +4,8 @@ import MonacoEditor from '../../components/IDE/MonacoEditor';
 import axios from 'axios';
 import ProblemScript from '../../components/IDE/ProblemScript';
 import ResultModal from '../../components/IDE/Result.modal';
+import { useParams } from 'react-router-dom';
+import api from '../../components/Api/Api';
 
 const WebIDE: React.FC = () => {
     const [code, setCode] = useState('');
@@ -11,10 +13,11 @@ const WebIDE: React.FC = () => {
     const [elapsedTime, setElapsedTime] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState('');
+    const { problemId } = useParams<{ problemId: string }>();
 
     const executeCode = async () => {
         try {
-            const response = await axios.post(`/problem/{problemId}/run`, {
+            const response = await api.patch(`/problem/${problemId}/run`, {
                 code,
             });
             setOutput(response.data.result);
@@ -24,7 +27,7 @@ const WebIDE: React.FC = () => {
     };
     const submitCode = async () => {
         try {
-            const response = await axios.post(`/problem/{problemId}/grade`, { code });
+            const response = await api.patch(`/problem/${problemId}/grade`, { code });
             if (response.data.success) {
                 setModalContent('정답입니다!');
             } else {
