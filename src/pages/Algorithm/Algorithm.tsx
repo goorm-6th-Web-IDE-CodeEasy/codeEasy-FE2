@@ -9,7 +9,8 @@ import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
 import { ThemeState } from '../Theme/ThemeState';
 import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
-import api from '../../components/Api/Api'; // 수정된 부분: axios 인스턴스 사용
+import axios from 'axios';
+import api from '../../components/Api/Api'; // axios 인스턴스 사용
 import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
 import { Tooltip } from 'react-tooltip';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
@@ -63,29 +64,37 @@ const Algorithm: React.FC = () => {
             setLoading(true);
             try {
                 const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
-                let query = '/problemlist';
-                if (filter.tier) query = `/problemlist/tier?tier=${filter.tier}`;
-                if (filter.algorithm) query = `/problemlist/algorithm?algorithm=${filter.algorithm}`;
-                if (filter.done) query = `/problemlist/done?done=${filter.done}`;
+                let query = '/api/problemlist';
+                const params = new URLSearchParams();
+                if (filter.tier) params.append('tier', filter.tier);
+                if (filter.algorithm) params.append('algorithm', filter.algorithm);
+                if (filter.done) params.append('done', filter.done);
 
+                if (params.toString()) query += `?${params.toString()}`;
+
+                console.log(`Fetching problems with query: ${query}`);
                 const response = await api.get<{ problems: Problem[] }>(query, { headers });
                 const responseProblems = response.data?.problems ?? [];
 
-                setProblems(responseProblems);
-                if (responseProblems.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * responseProblems.length);
-                    setRandomProblem(responseProblems[randomIndex]);
+                if (responseProblems.length === 0) {
+                    throw new Error('No problems found');
                 }
+
+                setProblems(responseProblems);
+                const randomIndex = Math.floor(Math.random() * responseProblems.length);
+                setRandomProblem(responseProblems[randomIndex]);
             } catch (error) {
                 console.error('Error fetching problems:', error);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
+
         fetchProblems();
     }, [isLoggedIn, user?.id, filter]);
 
     const filteredProblems = useMemo(() => {
-        if (!problems) return []; // problems가 undefined인 경우 빈 배열 반환
+        if (!problems) return []; // problems가 undefined인 경우 빈 배열
         let sortedProblems = problems.filter(
             (problem) =>
                 problem.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -193,13 +202,15 @@ const Algorithm: React.FC = () => {
                                         className={styles.filterSelect}
                                     >
                                         <option value="">알고리즘 유형</option>
-                                        <option value="정렬">정렬</option>
-                                        <option value="구현">구현</option>
-                                        <option value="자료구조">자료구조</option>
-                                        <option value="그리디 알고리즘">그리디 알고리즘</option>
-                                        <option value="다이나믹 프로그래밍">다이나믹 프로그래밍</option>
-                                        <option value="너비 우선 탐색">너비 우선 탐색</option>
-                                        <option value="백트래킹">백트래킹</option>
+                                        <option value="DFS">깊이 우선 탐색</option>
+                                        <option value="BFS">너비 우선 탐색</option>
+                                        <option value="GREEDY">그리디 알고리즘</option>
+                                        <option value="DYNAMIC_GRAMMING">동적 계획법</option>
+                                        <option value="BACKTRACKING">백트래킹</option>
+                                        <option value="STRING">문자열</option>
+                                        <option value="SORT">정렬</option>
+                                        <option value="IMPLEMENTATION">구현</option>
+                                        <option value="DATA_STRUCTURE">자료구조</option>
                                     </select>
                                     <select
                                         value={filter.tier}
@@ -207,13 +218,11 @@ const Algorithm: React.FC = () => {
                                         className={styles.filterSelect}
                                     >
                                         <option value="">티어</option>
-                                        <option value="브론즈">브론즈</option>
-                                        <option value="실버">실버</option>
-                                        <option value="골드">골드</option>
-                                        <option value="                                        플래티넘">
-                                            플래티넘
-                                        </option>
-                                        <option value="다이아">다이아</option>
+                                        <option value="BRONZE">브론즈</option>
+                                        <option value="SILVER">실버</option>
+                                        <option value="GOLD">골드</option>
+                                        <option value="PLATINUM">플래티넘</option>
+                                        <option value="DIAMOND">다이아</option>
                                     </select>
                                 </div>
                             </div>
