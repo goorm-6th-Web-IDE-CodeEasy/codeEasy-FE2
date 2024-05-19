@@ -1,14 +1,13 @@
 .chatModal {
     position: fixed;
-    top: 350px; // 뷰포트의 상단으로부터 350px 위치에 고정
-    bottom: 120px;
-    right: 20px; // 오른쪽으로부터 20px 위치
-    width: 300px;
-    height: 400px;
-    background-color: #f9f9f9;
+    bottom: 20px;
+    right: 20px;
+    width: 400px;
+    height: 600px;
+    background-color: #fff;
     border: none;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     z-index: 2000;
     display: flex;
     flex-direction: column;
@@ -18,31 +17,45 @@
 .chatHeader {
     background-color: #0077fd;
     color: white;
-    padding: 15px;
+    padding: 20px;
     text-align: center;
     font-weight: bold;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    font-size: 1.2rem;
 }
 
 .messages {
     flex-grow: 1;
     padding: 20px;
-    background-color: white;
+    background-color: #f9f9f9;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .chatInput {
-    padding: 10px;
-    border-top: 1px solid #ccc; // 상단 경계선 추가
-    background-color: #f1f1f1; // 입력 부분 배경색 변경
+    padding: 15px;
+    background-color: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid #ccc;
+
+    label {
+        font-size: 0.9rem;
+        margin-right: 10px;
+        display: block;
+        margin-bottom: 5px;
+    }
 
     input {
-        flex-grow: 1;
+        width: 100%; /* 입력 필드의 너비를 100%로 설정 */
         padding: 10px;
         border: 1px solid #ccc;
-        border-radius: 4px;
-        margin-right: 10px;
+        border-radius: 6px;
+        font-size: 1rem;
     }
 
     button {
@@ -50,11 +63,18 @@
         background-color: #0077fd;
         color: white;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
+        font-size: 1rem;
 
         &:hover {
             background-color: #0056b3;
         }
     }
+}
+
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
