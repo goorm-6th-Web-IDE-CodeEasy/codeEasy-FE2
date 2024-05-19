@@ -3,6 +3,8 @@ import { Editor, Monaco } from '@monaco-editor/react';
 import LanguageSelector from './LanguageSelector';
 import { editor } from 'monaco-editor';
 import api from '../Api/Api';
+import { ThemeState } from '../../pages/Theme/ThemeState';
+import { useRecoilValue } from 'recoil';
 
 interface MonacoEditorProps {
     onChange: (value: string) => void;
@@ -16,6 +18,7 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange, onLanguageChange,
     const [language, setLanguage] = useState<string>('python');
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
     const monacoRef = useRef<Monaco | null>(null);
+    const theme = useRecoilValue(ThemeState);
 
     useEffect(() => {
         const fetchDefaultCode = async () => {
@@ -56,6 +59,7 @@ const MonacoEditor: React.FC<MonacoEditorProps> = ({ onChange, onLanguageChange,
                 width="100%"
                 height="65vh"
                 language={language}
+                theme={theme === 'light' ? 'vs-light' : 'vs-dark'}
                 value={editorValue}
                 onChange={handleEditorChange}
                 onMount={handleEditorMount}

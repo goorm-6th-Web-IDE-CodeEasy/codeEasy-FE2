@@ -8,6 +8,7 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import { ThemePage } from './pages/Theme/ThemePage';
 import WebIDE from './pages/IDE/webIDE';
+import { ThemeState } from './pages/Theme/ThemeState';
 
 const ROUTES_INFO = [
     { path: '/', element: <WebIDE /> },
@@ -29,11 +30,14 @@ const App: React.FC = () => {
 
 const AppContent: React.FC = () => {
     const scale = useRecoilValue<number>(scaleState);
-
+    const theme = useRecoilValue(ThemeState);
     return (
         <HashRouter>
             {/* 헤더와 푸터 각 페이지마다 따로 넣기 */}
-            <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+            <div
+                className={`theme-page ${theme}`}
+                style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
+            >
                 <Routes>
                     {ROUTES_INFO.map((route) => (
                         <Route key={route.path} path={route.path} element={route.element} />
