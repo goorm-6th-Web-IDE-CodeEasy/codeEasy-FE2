@@ -24,11 +24,12 @@ interface User {
 }
 
 interface Problem {
+    problemId: number;
     title: string;
     tier: string;
     algorithm: string;
     done: boolean;
-    rate: string;
+    rate: number;
 }
 
 interface Filter {
@@ -261,8 +262,10 @@ const Algorithm: React.FC = () => {
                                             <tr key={index} className={styles.tr}>
                                                 <td className={styles.td}>{problem.done ? '☑' : ''}</td>
                                                 <td className={styles.td}>
-                                                    <div className={styles.algorithmType}>{problem.algorithm}</div>
-                                                    <div>{problem.title}</div>
+                                                    <Link to={`/ide/${problem.problemId}`}>
+                                                        <div className={styles.algorithmType}>{problem.algorithm}</div>
+                                                        <div>{problem.title}</div>
+                                                    </Link>{' '}
                                                 </td>
                                                 <td className={styles.td}>{problem.tier}</td>
                                                 <td className={styles.td}>{problem.rate}</td>
