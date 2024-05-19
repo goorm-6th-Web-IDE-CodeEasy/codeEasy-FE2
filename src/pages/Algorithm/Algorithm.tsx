@@ -10,6 +10,7 @@ import { ThemeState } from '../Theme/ThemeState';
 import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid'; // uuid import
 import api from '../../components/Api/Api'; // axios 인스턴스 사용
 import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
 import { Tooltip } from 'react-tooltip';
@@ -24,7 +25,7 @@ interface User {
 }
 
 interface Problem {
-    problemId: number;
+    problemID: number;
     title: string;
     tier: string;
     algorithm: string;
@@ -258,17 +259,17 @@ const Algorithm: React.FC = () => {
                                 <tbody>
                                     {filteredProblems
                                         .slice((currentPage - 1) * problemsPerPage, currentPage * problemsPerPage)
-                                        .map((problem, index) => (
-                                            <tr key={index} className={styles.tr}>
+                                        .map((problem) => (
+                                            <tr key={uuidv4()} className={styles.tr}>
                                                 <td className={styles.td}>{problem.done ? '☑' : ''}</td>
                                                 <td className={styles.td}>
-                                                    <Link to={`/ide/${problem.problemId}`}>
+                                                    <Link to={`/ide/${problem.problemID}`}>
                                                         <div className={styles.algorithmType}>{problem.algorithm}</div>
                                                         <div>{problem.title}</div>
-                                                    </Link>{' '}
+                                                    </Link>
                                                 </td>
                                                 <td className={styles.td}>{problem.tier}</td>
-                                                <td className={styles.td}>{problem.rate}%</td> {/* 정답률 % 추가함 */}
+                                                <td className={styles.td}>{problem.rate}%</td>
                                             </tr>
                                         ))}
                                 </tbody>

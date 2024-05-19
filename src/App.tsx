@@ -15,7 +15,7 @@ const ROUTES_INFO = [
     { path: '/login', element: <Login /> },
     { path: '/register', element: <Register /> },
     { path: '/theme', element: <ThemePage /> },
-    { path: '/ide/:problemId', element: <WebIDE /> }, //IDE 경로 추가
+    { path: '/ide/:problemID', element: <WebIDE /> }, //IDE 경로 추가
     // 추가 라우트 경로들
 ];
 
