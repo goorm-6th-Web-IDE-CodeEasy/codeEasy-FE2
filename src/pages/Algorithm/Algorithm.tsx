@@ -96,7 +96,7 @@ const Algorithm: React.FC = () => {
     }, [isLoggedIn, user?.id, filter]);
 
     const filteredProblems = useMemo(() => {
-        if (!problems) return []; // problems가 undefined인 경우 빈 배열
+        if (!Array.isArray(problems)) return []; // 문제가 배열인지 확인
         let sortedProblems = problems.filter(
             (problem) =>
                 problem.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
