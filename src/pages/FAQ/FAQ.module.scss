@@ -1,12 +1,7 @@
-body {
-    background-color: var(--background-color, hsl(0, 0%, 7%));
-    margin: 0;
-}
-
 .faqContainer {
     width: 100%;
-    max-width: 800px; /* Limit the maximum width for better readability */
-    margin: 20px auto; /* Center the container horizontally */
+    max-width: 800px;
+    margin: 20px auto;
     padding: 20px;
     margin-bottom: 3.75rem;
     display: flex;
@@ -14,17 +9,29 @@ body {
     align-items: center;
 }
 
+body {
+    margin: 0;
+    background-color: var(--background-color);
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    height: auto;
+    background-color: var(--background-color);
+}
+
 .faqContainer h1 {
     margin-top: 1.875rem;
     text-align: center;
     margin-bottom: 20px;
-    color: var(--font-color, #fcfcfc);
+    color: var(--font-color);
 }
 
 .accordion {
-    background-color: var(--font-color, #fff);
-    color: var(--background-color, #000);
-    border: 0.5px solid hsl(22, 100%, 50%);
+    background-color: var(--font-color);
+    color: var(--background-color);
+    border: 0.5px solid var(--third-color);
     border-radius: 4px;
     margin: 10px 0;
     padding: 10px;

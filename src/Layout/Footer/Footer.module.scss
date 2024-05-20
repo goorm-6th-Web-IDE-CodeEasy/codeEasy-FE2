@@ -1,12 +1,13 @@
 // Footer.module.scss
 
 .footer {
-    color: var(--font-color, #1e1d1d);
-    padding: 1.25rem;
-    text-align: center;
     width: 100%;
-    bottom: 0;
-    margin-top: 0.625rem;
+    padding: 1rem;
+    color: var(--font-color);
+    text-align: center;
+    position: relative; // 고정 위치를 relative로 설정
+    bottom: 0; // 하단 위치를 0으로 설정
+    margin-top: auto; // 자동으로 위의 공간을 채우도록 설정
 }
 
 .footer p {

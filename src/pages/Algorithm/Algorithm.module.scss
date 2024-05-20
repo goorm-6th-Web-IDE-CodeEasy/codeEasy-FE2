@@ -15,7 +15,7 @@ body {
     margin: 0;
     overflow-x: hidden;
     width: 100vw;
-    background-color: var(--background-color, #16181c);
+    //background-color: var(--background-color, #16181c);
     box-sizing: border-box;
 }
 
@@ -23,6 +23,7 @@ body {
     display: flex;
     flex-direction: column;
     color: var(--font-color, #fff);
+    background-color: var(--background-color, #16181c);
     align-items: center;
     width: 100%;
     justify-content: center;
@@ -85,7 +86,7 @@ body {
 
 //메인 컨테이너 부분들
 .iconContainer {
-    background-color: var(--primary-color, #0077fd); /* 배경 색상 */
+    background-color: #0077fd; /* 배경 색상 */
     height: 100%;
 }
 

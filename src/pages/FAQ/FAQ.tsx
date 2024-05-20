@@ -5,6 +5,7 @@ import throttle from 'lodash/throttle';
 import styles from './FAQ.module.scss';
 import Footer from '../../Layout/Footer/Footer';
 import Header from '../../Layout/Header/Header';
+import { ThemeState } from '../Theme/ThemeState';
 
 const faqData = [
     {
@@ -24,6 +25,7 @@ const faqData = [
 const FAQ: React.FC = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const isVolumeOn = useRecoilValue<boolean>(soundState);
+    const theme = useRecoilValue(ThemeState);
 
     const handleTTS = (text: string): void => {
         if (isVolumeOn) {
@@ -37,9 +39,12 @@ const FAQ: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className={styles.container}>
             <Header />
-            <div className={styles.faqContainer}>
+            <div
+                className={`${styles.container} ${styles[`mode_${theme}`]} ${styles.faqContainer}`}
+                aria-label="Main section"
+            >
                 <h1>FAQ</h1>
                 {faqData.map((item, index) => (
                     <div
