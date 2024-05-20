@@ -121,7 +121,10 @@ body {
 .shortcut2 button {
     border: 0;
     cursor: pointer;
-    background-color: transparent;
+    background-color: transparent; // 배경색을 투명으로 설정
+    padding: 0; // 패딩 초기화
+    margin: 0; // 마진 초기화
+    outline: none; // 포커스 시 외곽선 제거
 }
 
 .faq {
