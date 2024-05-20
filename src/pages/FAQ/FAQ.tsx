@@ -39,9 +39,9 @@ const FAQ: React.FC = () => {
     };
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${styles[`mode_${theme}`]}`}>
             <Header />
-            <div className={styles.faqContainer} aria-label="Main section">
+            <div className={`${styles.faqContainer}`} aria-label="Main section">
                 <h1>FAQ</h1>
                 {faqData.map((item, index) => (
                     <div
