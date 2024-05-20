@@ -36,7 +36,7 @@ const Main: React.FC = () => {
                 <div className={styles.mainSection1} aria-label="코드이지 사이트 안내 문구" tabIndex={0}>
                     <div className={styles.textContainer} tabIndex={-1}>
                         <h1
-                            onMouseEnter={() => handleTTS('알고리즘 코드이지와 함께 이제 누구나 쉽게 정복하세요')}
+                            onClick={() => handleTTS('알고리즘 코드이지와 함께 이제 누구나 쉽게 정복하세요')}
                             className={styles.h1Title}
                             tabIndex={0}
                         >
@@ -113,7 +113,7 @@ const Main: React.FC = () => {
                     </div>
                     <div className={styles.textContainer}>
                         <h1
-                            onMouseEnter={() => handleTTS('다양한 난이도의 문제를 코드이지에서 풀어보세요')}
+                            onClick={() => handleTTS('다양한 난이도의 문제를 코드이지에서 풀어보세요')}
                             className={styles.h1Title}
                         >
                             <span className={styles.bgAlgorithm}>다양한 난이도의 문제</span>를 <br />
@@ -134,7 +134,7 @@ const Main: React.FC = () => {
                 <div className={styles.mainSection3} aria-label="음성 기능 활용 안내 문구" tabIndex={0}>
                     <div className={styles.textContainer}>
                         <h1
-                            onMouseEnter={() => handleTTS('음성 기능을 활용하여 문제를 풀 수 있어요.')}
+                            onClick={() => handleTTS('음성 기능을 활용하여 문제를 풀 수 있어요.')}
                             className={styles.h1Title}
                             tabIndex={0}
                         >
