@@ -293,7 +293,11 @@ const Algorithm: React.FC = () => {
                             <>
                                 <div className={styles.userInfoSection}>
                                     <div className={styles.clientAvatar}>
-                                        <img src={user.avatar} alt="User Avatar" className={styles.userAvatar} />
+                                        <img
+                                            src={`https://source.unsplash.com/featured/?puppy`}
+                                            alt="User Avatar"
+                                            className={styles.userAvatar}
+                                        />
                                     </div>
                                     <div className={styles.userProfile}>
                                         <div>{user.nickname}</div>
