@@ -1,4 +1,4 @@
-// 레이아웃 전체 컨테이너
+/* 레이아웃 전체 컨테이너 */
 .profilepagecontainer {
     display: flex;
     flex-direction: column;
@@ -7,61 +7,162 @@
     width: 100%;
     padding: 0 6.25rem;
     padding-top: 2rem;
+    background-color: var(--background-color);
+    color: var(--font-color);
 }
 
-// 프로필 및 문제 목록 컨테이너
+/* 프로필 및 문제 목록 컨테이너 */
 .topsection {
     display: flex;
     width: 100%;
     justify-content: space-between;
-
-    .recentproblems {
-        padding: 1.25rem;
-        border-radius: 0.5rem;
-        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-    }
-
-    .profilecontainer {
-        flex: 0 0 40%;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        img {
-            width: 12.5rem;
-            height: 12.5rem;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 1.25rem;
-        }
-        .userinfo {
-            width: 100%;
-            padding: 0 2rem;
-
-            .inforow {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .infocolumn {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    }
-
-    .recentproblems {
-        flex: 0 0 60%;
-    }
 }
 
-// 활동 이력 그래프
+.recentproblems {
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    background-color: var(--background-color);
+    color: var(--font-color);
+}
+
+.profilecontainer {
+    flex: 0 0 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profilecontainer img {
+    width: 12.5rem;
+    height: 12.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1.25rem;
+}
+
+.userinfo {
+    width: 100%;
+    padding: 0 2rem;
+}
+
+.inforow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.infocol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.recentproblems {
+    flex: 0 0 60%;
+}
+
+.problemlist {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.problem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    background-color: var(--background-color);
+    color: var(--font-color);
+}
+
+/* 활동 이력 그래프 */
 .activityhistory {
     width: 100%;
     padding: 1.25rem;
     margin-top: 1.25rem;
     border-radius: 0.5rem;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    background-color: var(--background-color);
+    color: var(--font-color);
+}
+.activityhistory {
+    display: flex;
+    flex-direction: column;
+
+    .historyHeader {
+        display: flex;
+        align-items: center; // 수직 정렬
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+
+    .chart-container {
+        width: 100%;
+        height: 18rem;
+    }
+}
+
+.settings {
+    width: 100%;
+    max-width: 31.25rem;
+    padding: 1.25rem;
+    margin: 1.25rem auto;
+    border-radius: 0.5rem;
+    background-color: var(--background-color);
+    color: var(--font-color); /* 배경색 추가 */
+}
+
+.settingitem {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.settingitem label {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.settingitem input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.settingitem button {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.deleteaccount {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.closeSettings {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.closeSettings button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #007bff;
+    padding: 0.5rem 1rem;
 }
