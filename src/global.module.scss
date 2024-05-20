@@ -9,32 +9,34 @@ $xs: 1rem; // Extra Small (16px)
 $white: #ffffff;
 $black: #000000;
 $light-gray: #16181c;
+.mode {
+    &_light {
+        --background-color: #ffffff;
+        --font-color: #16181c;
+        --primary-color: #5faaff;
+        --secondary-color: #49ea5a;
+        --third-color: #ff9900;
+        --forth-color: #f2f203;
+    }
 
-:global(:root) {
-    --background-color: #ffffff;
-    --font-color: #16181c;
-    --primary-btn: #5faaff;
-    --secondary-btn: #49ea5a;
-    --third-btn: #ff9900;
-    --forth-btn: #f2f203;
-}
-:global(:root[theme='DarkTheme']) {
-    --background-color: #16181c;
-    --font-color: #ffffff;
-    --primary-btn: #0277fd;
-    --secondary-btn: #25c35e;
-    --third-btn: #fb9215;
-    --forth-btn: #f3f326;
-}
-:global(:root[theme='highcontrastTheme']) {
-    --background-color: #000000;
-    --font-color: #ffffff;
-    --primary-btn: #0000ff;
-    --secondary-btn: #03ff00;
-    --third-btn: #ff7b00;
-    --forth-btn: #ffff00;
-}
+    &_dark {
+        --background-color: #16181c;
+        --font-color: #ffffff;
+        --primary-color: #0277fd;
+        --secondary-color: #25c35e;
+        --third-color: #fb9215;
+        --forth-color: #f3f326;
+    }
 
+    &_highcontrast {
+        --background-color: #000000;
+        --font-color: #ffffff;
+        --primary-color: #0000ff;
+        --secondary-color: #03ff00;
+        --third-color: #ff7b00;
+        --forth-color: #ffff00;
+    }
+}
 // Light Themes
 $light-mode-white: #ffffff;
 $light-mode-light-gray: #16181c;

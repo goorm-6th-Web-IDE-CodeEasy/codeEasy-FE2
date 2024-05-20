@@ -9,6 +9,7 @@ import Register from './pages/Register/Register';
 import { ThemePage } from './pages/Theme/ThemePage';
 import WebIDE from './pages/IDE/webIDE';
 import { ThemeState } from './pages/Theme/ThemeState';
+import styles from './global.module.scss';
 
 const ROUTES_INFO = [
     { path: '/', element: <WebIDE /> },
@@ -35,7 +36,7 @@ const AppContent: React.FC = () => {
         <HashRouter>
             {/* 헤더와 푸터 각 페이지마다 따로 넣기 */}
             <div
-                className={`theme-page ${theme}`}
+                className={styles[`mode_${theme}`]}
                 style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
             >
                 <Routes>
