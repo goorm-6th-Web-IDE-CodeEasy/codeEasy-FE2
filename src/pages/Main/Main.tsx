@@ -8,7 +8,6 @@ import { HomeChatBtn } from '../../components/Svg/HomeChatBtn';
 import { HomeFAQBtn } from '../../components/Svg/HomeFAQBtn';
 import { HomeSoundDrawing } from '../../components/Svg/HomeSoundDrawing';
 import Footer from '../../Layout/Footer/Footer';
-import Header from '../../Layout/Header/Header';
 import { ThemeState } from '../Theme/ThemeState';
 import throttle from 'lodash/throttle';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -32,6 +31,7 @@ const Main: React.FC = () => {
     return (
         <div className={`${styles.container} ${styles[`mode_${theme}`]}`} aria-label="Coding test section">
             <div className={styles.container}>
+                {chatOpen && <ChatModal isOpen={chatOpen} onClose={() => setChatOpen(false)} />}
                 <div className={styles.mainSection1} aria-label="코드이지 사이트 안내 문구" tabIndex={0}>
                     <div className={styles.textContainer} tabIndex={-1}>
                         <h1
@@ -84,7 +84,6 @@ const Main: React.FC = () => {
                             >
                                 <HomeChatBtn />
                             </button>
-                            <ChatModal isOpen={chatOpen} onClose={() => setChatOpen(false)} />
                             <Link
                                 to="/faq"
                                 onMouseEnter={() => handleTTS('도움말')}
