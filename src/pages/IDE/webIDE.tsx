@@ -61,7 +61,7 @@ const WebIDE: React.FC = () => {
 
             for (let i = 0; i < testCaseCount; i++) {
                 resultOutput += `테스트 케이스 ${i + 1} - ${statusList[i]} : ${dataList[i]}\n `;
-                if (statusList[i] !== 'executed' || dataList[i] !== 'correct answer.') {
+                if (statusList[i] !== 'executed' || !dataList[i].includes('correct answer.')) {
                     isSuccess = false;
                 }
             }
