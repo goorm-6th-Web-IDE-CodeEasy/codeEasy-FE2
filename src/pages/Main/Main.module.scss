@@ -89,6 +89,22 @@ body {
     }
 }
 
+.shortcut2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 25.875rem; // 350px
+    align-items: center; // 중앙 정렬 추가
+}
+
+.shortcut2 svg {
+    margin: 0; // 여백 초기화
+    padding: 0; // 패딩 초기화
+    width: auto; // 자동 너비 조정
+    height: auto; // 자동 높이 조정
+}
+
 .shortcut1,
 .shortcut2 {
     display: flex;
@@ -109,7 +125,7 @@ body {
 }
 
 .faq {
-    padding-left: 0.4375rem; // 7px
+    padding-left: 0.2375rem; // 7px
 }
 
 //image size edit

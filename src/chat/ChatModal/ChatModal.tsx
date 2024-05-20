@@ -56,13 +56,13 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
     }, [isOpen]);
 
     const promptForNickname = () => {
-        const userNickname = prompt('대화명을 입력해 주세요.');
+        const userNickname = prompt('닉네임을 입력해 주세요.');
         if (userNickname) {
             setNickname(userNickname);
             fetchMessages();
             connectWebSocket(userNickname);
         } else {
-            alert('대화명을 입력해 주세요.');
+            alert('닉네임을 입력해 주세요.');
             promptForNickname();
         }
     };
