@@ -153,7 +153,8 @@ const Algorithm: React.FC = () => {
     };
 
     return (
-        <div className={`${theme}`}>
+        // <div className={`${theme}`}>
+        <div>
             <div className={styles.container}>
                 <Header />
                 <div className={styles.mainSection}>

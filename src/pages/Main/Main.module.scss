@@ -16,15 +16,14 @@ body {
     margin: 0;
     overflow-x: hidden;
     width: 100vw;
-    //background-color: var(--background-color, #16181c);
+    background-color: var(--background-color, #16181c);
     box-sizing: border-box;
 }
-
 
 .container {
     display: flex;
     flex-direction: column;
-    //color: var(--font-color, #fff);
+    color: var(--font-color, #1c1919);
     align-items: center;
     width: 100%;
     justify-content: center;
@@ -102,9 +101,9 @@ body {
 }
 
 .shortcut2 button {
-  border: 0;
-  cursor: pointer;
-  background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    background-color: transparent;
 }
 
 .faq {
@@ -191,68 +190,68 @@ body {
 }
 
 @media (max-width: 1024px) {
-  .mainSection1,
-  .mainSection2,
-  .mainSection3 {
-      margin-bottom: 1.25rem; // 20px
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-
-      .iconContainer {
-          width: 100%;
-          display: flex;
-          justify-content: space-around; // 아이콘을 균등하게 분포
-      }
-
-      .textContainer {
-          width: 100%;
-          text-align: left;
-          padding: 0.625rem; // 일관된 패딩
-          font-size: $s;
-          line-height: 1.8125rem;
-          margin-bottom: .625rem;
-      }
-
-      .h1Title {
-          font-size: $m; // $m
-          line-height: 2.1875rem; // 35px
-          margin-bottom: 0.5rem; // 패딩
-
-          span {
-              font-size: $m; // $m
-          }
-      }
-
-      .btnAlgorithm, .toSound svg, .toAlgorithm svg {
-          font-size: 1rem; // $xs
-          padding: 0.55rem 1.2rem; // 내부 여백
-          width: auto; // 자동 너비 조정
-      }
-
-      .shortcut1 svg,
-      .shortcut2 svg,
-      .toSound svg,
-      .toAlgorithm svg {
-          width: 100%; // SVG 아이콘의 너비를 100%로 조정
-          height: auto; // 높이를 자동으로 조정
-          margin-right: 1.25rem; // 일관된 마진 적용
-          margin-left: .6rem;
-      }
-
-
-      .shortcut1,
-      .shortcut2 {
+    .mainSection1,
+    .mainSection2,
+    .mainSection3 {
+        margin-bottom: 1.25rem; // 20px
         display: flex;
-        flex-direction: row;
-      }
-  }
-  .mainSection2 {
-    flex-direction: column-reverse;
-    .textContainer {
-        margin-left: 1.25rem; // 50px
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+
+        .iconContainer {
+            width: 100%;
+            display: flex;
+            justify-content: space-around; // 아이콘을 균등하게 분포
+        }
+
+        .textContainer {
+            width: 100%;
+            text-align: left;
+            padding: 0.625rem; // 일관된 패딩
+            font-size: $s;
+            line-height: 1.8125rem;
+            margin-bottom: 0.625rem;
+        }
+
+        .h1Title {
+            font-size: $m; // $m
+            line-height: 2.1875rem; // 35px
+            margin-bottom: 0.5rem; // 패딩
+
+            span {
+                font-size: $m; // $m
+            }
+        }
+
+        .btnAlgorithm,
+        .toSound svg,
+        .toAlgorithm svg {
+            font-size: 1rem; // $xs
+            padding: 0.55rem 1.2rem; // 내부 여백
+            width: auto; // 자동 너비 조정
+        }
+
+        .shortcut1 svg,
+        .shortcut2 svg,
+        .toSound svg,
+        .toAlgorithm svg {
+            width: 100%; // SVG 아이콘의 너비를 100%로 조정
+            height: auto; // 높이를 자동으로 조정
+            margin-right: 1.25rem; // 일관된 마진 적용
+            margin-left: 0.6rem;
+        }
+
+        .shortcut1,
+        .shortcut2 {
+            display: flex;
+            flex-direction: row;
+        }
+    }
+    .mainSection2 {
+        flex-direction: column-reverse;
+        .textContainer {
+            margin-left: 1.25rem; // 50px
+        }
     }
 }
-}
-
