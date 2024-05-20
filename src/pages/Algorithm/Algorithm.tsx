@@ -156,7 +156,6 @@ const Algorithm: React.FC = () => {
         // <div className={`${theme}`}>
         <div className={`${styles.container} ${styles[`mode_${theme}`]}`} aria-label="Main section">
             <div className={styles.container}>
-                <Header />
                 <div className={styles.mainSection}>
                     <div className={styles.textContainer}>
                         <h1 className={styles.h1Title}>

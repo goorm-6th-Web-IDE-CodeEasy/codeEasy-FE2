@@ -29,41 +29,9 @@ const Main: React.FC = () => {
 
     const toggleChat = () => setChatOpen((prev) => !prev);
 
-    //svg fill컬러 가져와야함
-    // 모드에 따른 색상 설정
-    const getColor = (variable: string) => getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
-
-    const [colors, setColors] = useState({
-        primaryColor: '',
-        secondaryColor: '',
-        thirdColor: '',
-        forthColor: '',
-        backgroundColor: '',
-        fontColor: '',
-    });
-
-    useEffect(() => {
-        const primaryColor = getColor('--primary-color');
-        const secondaryColor = getColor('--secondary-color');
-        const thirdColor = getColor('--third-color');
-        const forthColor = getColor('--forth-color');
-        const backgroundColor = getColor('--background-color');
-        const fontColor = getColor('--font-color');
-
-        setColors({
-            primaryColor,
-            secondaryColor,
-            thirdColor,
-            forthColor,
-            backgroundColor,
-            fontColor,
-        });
-    }, []); // 테마가 변경될 때마다 색상 값을 가져옴.
-
     return (
         <div className={`${styles.container} ${styles[`mode_${theme}`]}`} aria-label="Coding test section">
             <div className={styles.container}>
-                <Header />
                 <div className={styles.mainSection1} aria-label="코드이지 사이트 안내 문구" tabIndex={0}>
                     <div className={styles.textContainer} tabIndex={-1}>
                         <h1
@@ -95,7 +63,7 @@ const Main: React.FC = () => {
                                 aria-label="알고리즘 문제 풀이 페이지로 이동 버튼"
                                 tabIndex={0}
                             >
-                                <HomeCodingTestBtn fill={colors.primaryColor} />
+                                <HomeCodingTestBtn />
                             </Link>
                             <Link
                                 to="/theme"
@@ -104,7 +72,7 @@ const Main: React.FC = () => {
                                 aria-label="테마 설정 바꾸기"
                                 tabIndex={0}
                             >
-                                <HomeThemeBtn fill={colors.secondaryColor} />
+                                <HomeThemeBtn />
                             </Link>
                         </div>
                         <div className={styles.shortcut2}>
@@ -114,7 +82,7 @@ const Main: React.FC = () => {
                                 aria-label="채팅방 접속 버튼"
                                 tabIndex={0}
                             >
-                                <HomeChatBtn fill={colors.thirdColor} />
+                                <HomeChatBtn />
                             </button>
                             <ChatModal isOpen={chatOpen} onClose={() => setChatOpen(false)} />
                             <Link
@@ -124,7 +92,7 @@ const Main: React.FC = () => {
                                 aria-label="도움말"
                                 tabIndex={0}
                             >
-                                <HomeFAQBtn fill={colors.forthColor} />
+                                <HomeFAQBtn />
                             </Link>
                         </div>
                     </div>

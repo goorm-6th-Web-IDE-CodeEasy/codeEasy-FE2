@@ -12,6 +12,7 @@ import Mypage from './pages/Mypage/Mypage';
 import FAQ from './pages/FAQ/FAQ';
 import { ThemeState } from './pages/Theme/ThemeState';
 import styles from './global.module.scss';
+import Header from './Layout/Header/Header';
 
 const ROUTES_INFO = [
     { path: '/', element: <Main /> },
@@ -41,6 +42,7 @@ const AppContent: React.FC = () => {
 
     return (
         <HashRouter>
+            <Header />
             <div
                 className={`${styles.container} ${styles[`mode_${selectedTheme}`]}`}
                 style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}

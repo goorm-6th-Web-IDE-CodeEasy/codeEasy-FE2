@@ -1,79 +1,78 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
-import axios from 'axios'
-import styles from './Login.module.scss'
-import { Link, useNavigate } from 'react-router-dom'
-import { loggedInState } from '../../recoil/state/loggedInState'
-import { useSetRecoilState } from 'recoil'
-import InputField from '../../components/InputForm/InputForm'
-import Header from '../../Layout/Header/Header'
-import api from '../../components/Api/Api'
-import SocialLoginButton from '../../components/LoginButton/SocialLoginButton'
-import githubIcon from '../../assets/Login/깃허브.png'
-import googleIcon from '../../assets/Login/구글.png'
-import kakaoIcon from '../../assets/Login/카카오.png'
-import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader'
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import axios from 'axios';
+import styles from './Login.module.scss';
+import { Link, useNavigate } from 'react-router-dom';
+import { loggedInState } from '../../recoil/state/loggedInState';
+import { useSetRecoilState } from 'recoil';
+import InputField from '../../components/InputForm/InputForm';
+import Header from '../../Layout/Header/Header';
+import api from '../../components/Api/Api';
+import SocialLoginButton from '../../components/LoginButton/SocialLoginButton';
+import githubIcon from '../../assets/Login/깃허브.png';
+import googleIcon from '../../assets/Login/구글.png';
+import kakaoIcon from '../../assets/Login/카카오.png';
+import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
 
 const Login = () => {
-    const setLoggedIn = useSetRecoilState(loggedInState)
-    const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(true)
+    const setLoggedIn = useSetRecoilState(loggedInState);
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-    })
+    });
 
     useEffect(() => {
-        setIsLoading(false)
-    }, [])
+        setIsLoading(false);
+    }, []);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
+        const { name, value } = e.target;
         setFormData((prevState) => ({
             ...prevState,
             [name]: value,
-        }))
-    }
+        }));
+    };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        const { email, password } = formData
+        event.preventDefault();
+        const { email, password } = formData;
 
         try {
-            const response = await api.post('/login', { email, password })
-            const token = response.headers['authorization']
+            const response = await api.post('/login', { email, password });
+            const token = response.headers['authorization'];
             if (token) {
-                localStorage.setItem('authToken', token)
+                localStorage.setItem('authToken', token);
             }
-            setLoggedIn(true)
-            navigate('/')
+            setLoggedIn(true);
+            navigate('/');
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                const errorMessage = error.response.data.errorMessage
-                alert(`로그인 실패: ${errorMessage}`)
+                const errorMessage = error.response.data.errorMessage;
+                alert(`로그인 실패: ${errorMessage}`);
             } else {
-                alert('로그인 실패: 네트워크 오류 또는 서버에 접근할 수 없습니다.')
+                alert('로그인 실패: 네트워크 오류 또는 서버에 접근할 수 없습니다.');
             }
         }
-    }
+    };
 
     const handleSocialLogin = (service: 'google' | 'github' | 'kakao') => {
-        const redirectUri = import.meta.env[`VITE_REACT_APP_${service.toUpperCase()}_REDIRECT_URI`]
-        const clientId = import.meta.env[`VITE_REACT_APP_${service.toUpperCase()}_CLIENT_ID`]
+        const redirectUri = import.meta.env[`VITE_REACT_APP_${service.toUpperCase()}_REDIRECT_URI`];
+        const clientId = import.meta.env[`VITE_REACT_APP_${service.toUpperCase()}_CLIENT_ID`];
         const baseUrl = {
             google: `https://accounts.google.com/o/oauth2/v2/auth?scope=email%20openid&response_type=code&redirect_uri=${redirectUri}&client_id=${clientId}`,
             github: `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`,
             kakao: `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`,
-        }
+        };
 
-        window.location.href = baseUrl[service]
-    }
+        window.location.href = baseUrl[service];
+    };
     if (isLoading) {
-        return <SkeletonLoader />
+        return <SkeletonLoader />;
     }
 
     return (
         <div>
-            <Header />
             <div className={styles.background}>
                 <div className={styles.container}>
                     <h1>로그인</h1>
@@ -120,7 +119,7 @@ const Login = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;
