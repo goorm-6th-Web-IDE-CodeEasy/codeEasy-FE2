@@ -238,9 +238,9 @@ const Algorithm: React.FC = () => {
                                             난이도
                                             <button onClick={() => handleSort('tier')} className={styles.sortButton}>
                                                 {sortKey === 'tier' && sortOrder === 'asc' ? (
-                                                    <FaSortUp />
+                                                    <FaSortUp style={{ color: 'white !important' }} />
                                                 ) : (
-                                                    <FaSortDown />
+                                                    <FaSortDown style={{ color: 'white !important' }} />
                                                 )}
                                             </button>
                                         </th>
@@ -248,9 +248,9 @@ const Algorithm: React.FC = () => {
                                             정답률
                                             <button onClick={() => handleSort('rate')} className={styles.sortButton}>
                                                 {sortKey === 'rate' && sortOrder === 'asc' ? (
-                                                    <FaSortUp />
+                                                    <FaSortUp style={{ color: 'white !important' }} />
                                                 ) : (
-                                                    <FaSortDown />
+                                                    <FaSortDown style={{ color: 'white !important' }} />
                                                 )}
                                             </button>
                                         </th>
@@ -263,9 +263,12 @@ const Algorithm: React.FC = () => {
                                             <tr key={uuidv4()} className={styles.tr}>
                                                 <td className={styles.td}>{problem.done ? '☑' : ''}</td>
                                                 <td className={styles.td}>
-                                                    <Link to={`/ide/${problem.problemID}`}>
+                                                    <Link
+                                                        to={`/ide/${problem.problemID}`}
+                                                        style={{ textDecoration: 'none' }}
+                                                    >
                                                         <div className={styles.algorithmType}>{problem.algorithm}</div>
-                                                        <div>{problem.title}</div>
+                                                        <div style={{ color: '#000' }}>{problem.title}</div>
                                                     </Link>
                                                 </td>
                                                 <td className={styles.td}>{problem.tier}</td>
