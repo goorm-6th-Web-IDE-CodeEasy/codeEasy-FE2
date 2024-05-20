@@ -70,7 +70,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
     // 메시지 가져오기 함수
     const fetchMessages = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/chats/messages/main-room');
+            const response = await axios.get('http://localhost:8080/api/chats/messages/main-room');
             setMessages(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
             console.error('Error fetching messages:', error);
@@ -139,7 +139,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
     // 메시지 검색 함수
     const searchMessages = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/chats/search', {
+            const response = await axios.get('http://localhost:8080/api/chats/search', {
                 params: { keyword: searchKeyword },
             });
             setSearchResults(response.data);
@@ -149,16 +149,6 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
         } catch (error) {
             console.error('Error searching messages:', error);
             setSearchResults([]);
-        }
-    };
-
-    // 메시지 삭제 함수
-    const deleteMessages = async () => {
-        try {
-            await axios.delete('http://localhost:8080/chats/messages/main-room');
-            setMessages([]);
-        } catch (error) {
-            console.error('Error deleting messages:', error);
         }
     };
 
