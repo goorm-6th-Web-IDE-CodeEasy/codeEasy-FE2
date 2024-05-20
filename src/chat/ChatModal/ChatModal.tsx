@@ -38,6 +38,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
     const [searchResults, setSearchResults] = useState<ChatMessage[]>([]);
     const stompClient = useRef<Client | null>(null);
     const modalInstanceRef = useRef<boolean>(false);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     // 모달이 열릴 때와 닫힐 때 효과 설정
     useEffect(() => {
@@ -54,6 +55,13 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
             disconnectWebSocket();
         };
     }, [isOpen]);
+
+    useEffect(() => {
+        // 채팅입력시 입력메시지로 스크롤
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages]);
 
     const promptForNickname = () => {
         const userNickname = prompt('닉네임을 입력해 주세요.');
@@ -128,7 +136,6 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
                     body: JSON.stringify(messageToSend),
                 });
             }
-            // Update the messages state immediately
             setMessages((prevMessages) => [...prevMessages, messageToSend]);
             setNewMessage('');
         } catch (error) {
