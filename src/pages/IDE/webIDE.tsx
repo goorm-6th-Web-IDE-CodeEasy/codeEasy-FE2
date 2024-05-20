@@ -39,7 +39,7 @@ const WebIDE: React.FC = () => {
             const { testCaseCount, correctCount, statusList, dataList } = response.data;
             let resultOutput = '';
             for (let i = 0; i < testCaseCount; i++) {
-                resultOutput += `테스트 케이스 ${i + 1} - ${statusList[i]}: ${dataList[i]}\n`;
+                resultOutput += `테스트 케이스 ${i + 1} - ${statusList[i]} : ${dataList[i]}\n `;
             }
             setOutput(resultOutput);
         } catch (error) {
@@ -60,7 +60,7 @@ const WebIDE: React.FC = () => {
             let isSuccess = true;
 
             for (let i = 0; i < testCaseCount; i++) {
-                resultOutput += `테스트 케이스 ${i + 1} - ${statusList[i]}: ${dataList[i]}\n`;
+                resultOutput += `테스트 케이스 ${i + 1} - ${statusList[i]} : ${dataList[i]}\n `;
                 if (statusList[i] !== 'executed' || dataList[i] !== 'correct answer.') {
                     isSuccess = false;
                 }

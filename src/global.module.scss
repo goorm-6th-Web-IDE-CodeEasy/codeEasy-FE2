@@ -37,6 +37,11 @@ $light-gray: #16181c;
         --forth-color: #ffff00;
     }
 }
+
+.body {
+    background-color: var(--background-color);
+    color: var(--font-color);
+}
 // Light Themes
 $light-mode-white: #ffffff;
 $light-mode-light-gray: #16181c;

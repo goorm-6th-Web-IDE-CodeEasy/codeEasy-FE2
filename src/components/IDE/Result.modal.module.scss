@@ -1,6 +1,5 @@
 @import '../../global.module.scss';
 * {
-    color: var(--font-color);
 }
 .modal {
     display: none;
@@ -29,7 +28,7 @@
 
 .modalContent {
     position: relative;
-    background: var(--background-color);
+    background-color: var(--background-color);
     padding: 20px;
     border-radius: 10px;
     max-width: 400px;
@@ -41,7 +40,8 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background: none;
+    background-color: var(--primary-color);
+    color: var(--font-color);
     border: none;
     font-size: 20px;
     cursor: pointer;
