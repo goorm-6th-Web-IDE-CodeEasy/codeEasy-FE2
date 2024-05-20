@@ -160,6 +160,11 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
         }
     };
 
+    // 검색 결과 클릭 시 닫기 함수
+    const handleClearSearchResults = () => {
+        setSearchResults([]);
+    };
+
     if (!isOpen) return null;
 
     return (
@@ -168,7 +173,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
             onRequestClose={onClose}
             className={styles.chatModal}
             overlayClassName={styles.overlay}
-            shouldCloseOnOverlayClick={true}
+            shouldCloseOnOverlayClick={true} // 빈 공간 클릭 시 모달 닫기
         >
             <div className={styles.chatHeader}>Code Easy 채팅방</div>
             <div className={styles.messages}>
@@ -178,7 +183,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
             </div>
             <div>
                 {searchResults.length > 0 && (
-                    <div>
+                    <div className={styles.searchResults} onClick={handleClearSearchResults}>
                         <h4>검색 결과</h4>
                         <ul>
                             {searchResults.map((msg) => (
@@ -189,7 +194,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 )}
             </div>
             <div className={styles.chatInput}>
-                <div>
+                <div className="inputGroup">
                     <label>검색</label>
                     <input
                         type="text"
@@ -201,7 +206,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
                     />
                     <button onClick={searchMessages}>검색</button>
                 </div>
-                <div>
+                <div className="inputGroup">
                     <label>내용</label>
                     <input
                         type="text"

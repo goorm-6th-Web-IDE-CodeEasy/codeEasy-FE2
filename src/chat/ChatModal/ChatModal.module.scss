@@ -35,24 +35,45 @@
     gap: 10px;
 }
 
+.searchResults {
+    position: absolute;
+    top: 50px; /* 적절한 위치로 조정 */
+    left: 20px;
+    right: 20px;
+    max-height: 200px; /* 필요한 높이로 조정 */
+    overflow-y: auto;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    z-index: 1000; /* 모달 내부에서 최상위로 설정 */
+}
+
 .chatInput {
     padding: 15px;
     background-color: #f1f1f1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
     gap: 10px;
     border-top: 1px solid #ccc;
+
+    .inputGroup {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 0.0625rem;
+    }
 
     label {
         font-size: 0.9rem;
         margin-right: 10px;
         display: block;
-        margin-bottom: 5px;
     }
 
     input {
-        width: 100%; /* 입력 필드의 너비를 100%로 설정 */
+        flex: 1;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 6px;
@@ -72,10 +93,10 @@
             background-color: #0056b3;
         }
     }
-}
 
-.searchContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    .buttonGroup {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
 }
