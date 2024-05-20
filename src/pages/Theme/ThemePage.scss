@@ -1,15 +1,26 @@
+@import '../../global.module.scss';
+
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
 .theme-page {
     margin-bottom: 50px;
     display: flex;
     height: 720px;
     flex-direction: column;
+    background-color: var(--background-color);
+    color: var(--font-color);
 }
 .themeTitle {
     width: 50%;
     h1 {
         width: 20%;
         margin-bottom: 20px;
-        background-color: #23c35e;
+        background-color: var(--secondary-color);
     }
     p {
         margin-bottom: 20px;

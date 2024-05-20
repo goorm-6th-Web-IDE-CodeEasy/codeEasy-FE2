@@ -1,3 +1,12 @@
+@import '../../global.module.scss';
+
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
 .themeSwitcher {
     width: 80%;
     display: flex;
@@ -29,6 +38,7 @@
         text-align: center;
         margin-top: 30px;
         border: none;
-        background-color: #fff;
+        background-color: var(--background-color);
+        color: var(--font-color);
     }
 }
