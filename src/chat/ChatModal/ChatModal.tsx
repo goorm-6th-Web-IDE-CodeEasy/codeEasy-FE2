@@ -5,7 +5,7 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import styles from './ChatModal.module.scss';
 import { v4 as uuidv4 } from 'uuid';
-
+import NicknameModal from '../../components/Modal/NicknameModal/NicknameModal';
 // TypeScript enum 정의
 enum MessageType {
     ENTER = 'ENTER',
@@ -36,6 +36,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
     const [nickname, setNickname] = useState('');
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchResults, setSearchResults] = useState<ChatMessage[]>([]);
+    const [isNicknameModalOpen, setIsNicknameModalOpen] = useState(true); // 닉네임 모달
     const stompClient = useRef<Client | null>(null);
     const modalInstanceRef = useRef<boolean>(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -45,7 +46,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
         if (isOpen) {
             if (!modalInstanceRef.current) {
                 modalInstanceRef.current = true;
-                promptForNickname();
+                setIsNicknameModalOpen(true);
             }
         } else {
             modalInstanceRef.current = false;
@@ -63,16 +64,11 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
         }
     }, [messages]);
 
-    const promptForNickname = () => {
-        const userNickname = prompt('닉네임을 입력해 주세요.');
-        if (userNickname) {
-            setNickname(userNickname);
-            fetchMessages();
-            connectWebSocket(userNickname);
-        } else {
-            alert('닉네임을 입력해 주세요.');
-            promptForNickname();
-        }
+    const handleNicknameSubmit = (userNickname: string) => {
+        setNickname(userNickname);
+        setIsNicknameModalOpen(false); // 닉네임 모달 닫기
+        fetchMessages();
+        connectWebSocket(userNickname);
     };
 
     // 메시지 가져오기 함수
@@ -182,6 +178,11 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
             overlayClassName={styles.overlay}
             shouldCloseOnOverlayClick={true} // 빈 공간 클릭 시 모달 닫기
         >
+            <NicknameModal
+                isOpen={isNicknameModalOpen}
+                onRequestClose={() => setIsNicknameModalOpen(false)}
+                onSubmit={handleNicknameSubmit}
+            />
             <div className={styles.chatHeader}>Code Easy 채팅방</div>
             <div className={styles.messages}>
                 {messages.map((msg) => (
