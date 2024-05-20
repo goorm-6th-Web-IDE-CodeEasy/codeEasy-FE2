@@ -5,6 +5,7 @@ import ProblemScript from '../../components/IDE/ProblemScript';
 import ResultModal from '../../components/IDE/Result.modal';
 import { useParams } from 'react-router-dom';
 import api from '../../components/Api/Api';
+import styles from './webIDE.module.scss';
 
 const WebIDE: React.FC = () => {
     const [code, setCode] = useState('');
@@ -22,7 +23,12 @@ const WebIDE: React.FC = () => {
                 code,
                 language: language.toUpperCase(),
             });
-            setOutput(response.data.result);
+            const { testCaseCount, correctCount, statusList, dataList } = response.data;
+            let resultOutput = '';
+            for (let i = 0; i < testCaseCount; i++) {
+                resultOutput += `Test Case ${i + 1} - ${statusList[i]}: ${dataList[i]}\n`;
+            }
+            setOutput(resultOutput);
         } catch (error) {
             setOutput(`Error: ${error.message}`);
         }
@@ -35,7 +41,19 @@ const WebIDE: React.FC = () => {
                 code,
                 language: language.toUpperCase(),
             });
-            if (response.data.success) {
+            const { testCaseCount, correctCount, statusList, dataList } = response.data;
+
+            let resultOutput = '';
+            let isSuccess = true;
+
+            for (let i = 0; i < testCaseCount; i++) {
+                resultOutput += `Test Case ${i + 1} - ${statusList[i]}: ${dataList[i]}\n`;
+                if (statusList[i] !== 'executed' || dataList[i] !== 'correct answer.') {
+                    isSuccess = false;
+                }
+            }
+            setOutput(resultOutput);
+            if (isSuccess) {
                 setModalContent('정답입니다!');
             } else {
                 setModalContent('틀렸습니다.');
@@ -62,14 +80,12 @@ const WebIDE: React.FC = () => {
     };
 
     return (
-        <div className="web-ide">
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                {/* 왼쪽 */}
-                <div style={{ flex: 1 }}>
+        <div className={styles.webIDE}>
+            <div className={styles.problemContent}>
+                <div className={styles.script}>
                     <ProblemScript problemId={problemId} />
                 </div>
-                {/* 오른쪽 */}
-                <div style={{ flex: 1 }}>
+                <div className={styles.IDEpart}>
                     <Timer initialTime={elapsedTime} onTimeUpdate={handleTimeUpdate} />
                     <div>
                         <MonacoEditor
@@ -77,12 +93,14 @@ const WebIDE: React.FC = () => {
                             onLanguageChange={handleLanguageChange}
                             problemId={problemId}
                         />
-                        <button onClick={executeCode}>코드 실행</button>
-                        <button onClick={submitCode}>코드 제출</button>
                     </div>
-                    <div>
-                        <h2>결과</h2>
-                        <textarea readOnly value={output} rows={10} cols={100} />
+                    <div className={styles.outputContainer}>
+                        <div className={styles.outputTop}>
+                            <h2>결과</h2>
+                            <button onClick={executeCode}>코드 실행</button>
+                            <button onClick={submitCode}>코드 제출</button>
+                        </div>
+                        <div className={styles.outputBox}>{output}</div>
                     </div>
                 </div>
             </div>

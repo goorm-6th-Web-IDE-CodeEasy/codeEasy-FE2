@@ -2,7 +2,7 @@ import React from 'react';
 import throttle from 'lodash/throttle';
 import { soundState } from '../../recoil/state/soundState';
 import { useRecoilState } from 'recoil';
-
+import styles from './Result.modal.module.scss';
 interface ResultModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -19,10 +19,10 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, content }) =
     }, 3000);
 
     return (
-        <div className={`modal ${isOpen ? 'open' : ''}`}>
-            <div className="modal-overlay" onClick={onClose}></div>
-            <div className="modal-content">
-                <button className="modal-close-button" onClick={onClose}></button>
+        <div className={`${styles.modal} ${isOpen ? styles.open : ''}`}>
+            <div className={styles.modalOverlay} onClick={onClose}></div>
+            <div className={styles.modalContent}>
+                <button className={styles.modalCloseButton} onClick={onClose}></button>
                 <p onMouseEnter={() => handleTTS(content)}>{content}</p>
             </div>
         </div>

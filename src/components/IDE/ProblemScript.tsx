@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import { soundState } from '../../recoil/state/soundState';
 import throttle from 'lodash/throttle';
 import api from '../Api/Api';
+import styles from './ProblemScript.module.scss';
 
 interface ProblemScriptProps {
     problemId: string | undefined;
@@ -94,41 +95,45 @@ const ProblemScript: React.FC<ProblemScriptProps> = ({ problemId }) => {
         }
     }, 3000);
     return (
-        <div>
-            <div>
-                <h2>문제 설명</h2>
-                <button onClick={handleFavorite}>{isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}</button>
-                <button onClick={handleShare}>공유</button>
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h2 className={styles.title}>문제 설명</h2>
+                <div className={styles.buttons}>
+                    <button onClick={handleFavorite}>{isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}</button>
+                    <button onClick={handleShare}>공유</button>
+                </div>
             </div>
             {problem && (
                 <>
-                    <p onMouseEnter={() => handleTTS(`${problem.problemContent}`)}>{problem.problemContent}</p>
-                    <div>
+                    <div className={styles.section}>
+                        <p onMouseEnter={() => handleTTS(problem.problemContent)}>{problem.problemContent}</p>
+                    </div>
+                    <div className={styles.section}>
                         <h3>입력</h3>
                         <p>{problem.problemInputContent}</p>
                     </div>
-                    <div>
+                    <div className={styles.section}>
                         <h3>출력</h3>
                         <p>{problem.problemOutputContent}</p>
                     </div>
-                    <div>
+                    <div className={styles.section}>
                         <h3>제약 조건</h3>
                         <p>시간 제한: {problem.timeLimit}ms</p>
                         <p>메모리 제한: {problem.memoryLimit}KB</p>
                     </div>
-                    <div>
+                    <div className={styles.section}>
                         <h3>알고리즘</h3>
                         <p>{problem.algorithm}</p>
                     </div>
-                    <div>
+                    <div className={styles.section}>
                         <h3>난이도</h3>
                         <p>{problem.tier}</p>
                     </div>
-                    <div>
+                    <div className={styles.section}>
                         <h3>예제 입력</h3>
                         <p>{problem.basicInputTestCase}</p>
                     </div>
-                    <div>
+                    <div className={styles.section}>
                         <h3>예제 출력</h3>
                         <p>{problem.basicOutputTestCase}</p>
                     </div>

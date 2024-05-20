@@ -1,0 +1,42 @@
+$L: 2.5625rem; // Large (41px)
+$m: 1.75rem; // Medium (28px)
+$ms: 1.3125rem; // Medium Small (21px)
+$s: 1.16rem; // Small (20px)
+$xs: 1rem; // Extra Small (16px)
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+.webIDE {
+    .problemContent {
+        display: flex;
+        flex-direction: row;
+    }
+    .script {
+        flex: 1;
+    }
+    .IDEpart {
+        flex: 1;
+    }
+    .outputContainer {
+        .outputTop {
+            display: flex;
+            h2 {
+                margin-top: 0;
+            }
+        }
+
+        .outputBox {
+            width: 100%;
+            height: 10rem;
+            border: 1px solid black;
+            padding: 10px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+        }
+    }
+}

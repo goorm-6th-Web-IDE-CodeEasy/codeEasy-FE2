@@ -29,7 +29,7 @@ const Timer: React.FC<TimerProps> = ({ initialTime, onTimeUpdate }) => {
     return (
         <div>
             <h2>
-                타이머 이미지 {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+                남은 시간: {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
             </h2>
         </div>
     );
