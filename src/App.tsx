@@ -14,7 +14,7 @@ import { ThemeState } from './pages/Theme/ThemeState';
 import styles from './global.module.scss';
 
 const ROUTES_INFO = [
-    { path: '/', element: <WebIDE /> },
+    { path: '/', element: <Main /> },
     { path: '/algorithm', element: <Algorithm /> },
     { path: '/login', element: <Login /> },
     { path: '/mypage', element: <Mypage /> },
@@ -23,7 +23,6 @@ const ROUTES_INFO = [
     { path: '/theme', element: <ThemePage /> },
 
     { path: '/ide/:problemID', element: <WebIDE /> },
-
 ];
 
 const App: React.FC = () => {
