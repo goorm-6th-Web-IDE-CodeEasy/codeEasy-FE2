@@ -25,7 +25,7 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, content }) =
             <div className={`${styles.modal} ${isOpen ? styles.open : ''}`}>
                 <div className={styles.modalOverlay} onClick={onClose}></div>
                 <div className={styles.modalContent}>
-                    <p onMouseDown={() => handleTTS(content)}>{content}</p>
+                    <p onMouseEnter={() => handleTTS(content)}>{content}</p>
                     <button className={styles.modalCloseButton} onClick={onClose}>
                         닫기
                     </button>
