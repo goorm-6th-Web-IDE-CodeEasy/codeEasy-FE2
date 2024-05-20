@@ -58,10 +58,10 @@ const Main: React.FC = () => {
             backgroundColor,
             fontColor,
         });
-    }, []); // 테마가 변경될 때마다 색상 값을 가져옵니다.
+    }, []); // 테마가 변경될 때마다 색상 값을 가져옴.
 
     return (
-        <div className={`${styles.container} ${styles[`mode_${theme}`]}`} aria-label="Main section">
+        <div className={`${styles.container} ${styles[`mode_${theme}`]}`} aria-label="Coding test section">
             <div className={styles.container}>
                 <Header />
                 <div className={styles.mainSection1} aria-label="코드이지 사이트 안내 문구" tabIndex={0}>

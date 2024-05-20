@@ -10,6 +10,8 @@ import { ThemePage } from './pages/Theme/ThemePage';
 import WebIDE from './pages/IDE/webIDE';
 import Mypage from './pages/Mypage/Mypage';
 import FAQ from './pages/FAQ/FAQ';
+import { ThemeState } from './pages/Theme/ThemeState';
+import styles from './global.module.scss';
 
 const ROUTES_INFO = [
     { path: '/', element: <Main /> },
@@ -19,8 +21,7 @@ const ROUTES_INFO = [
     { path: '/register', element: <Register /> },
     { path: '/faq', element: <FAQ /> },
     { path: '/theme', element: <ThemePage /> },
-    { path: '/ide/:problemID', element: <WebIDE /> }, //IDE 경로 추가
-    // 추가 라우트 경로들
+    { path: '/ide/:problemID', element: <WebIDE /> },
 ];
 
 const App: React.FC = () => {
@@ -35,11 +36,14 @@ const App: React.FC = () => {
 
 const AppContent: React.FC = () => {
     const scale = useRecoilValue<number>(scaleState);
+    const selectedTheme = useRecoilValue<string>(ThemeState);
 
     return (
         <HashRouter>
-            {/* 헤더와 푸터 각 페이지마다 따로 넣기 */}
-            <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+            <div
+                className={`${styles.container} ${styles[`mode_${selectedTheme}`]}`}
+                style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
+            >
                 <Routes>
                     {ROUTES_INFO.map((route) => (
                         <Route key={route.path} path={route.path} element={route.element} />
