@@ -30,7 +30,7 @@ const Main: React.FC = () => {
     const toggleChat = () => setChatOpen((prev) => !prev);
 
     return (
-        <div className={`${theme}`} aria-label="Main section">
+        <div aria-label="Main section">
             <div className={styles.container}>
                 <Header />
                 <div className={styles.mainSection1} aria-label="코드이지 사이트 안내 문구" tabIndex={0}>
