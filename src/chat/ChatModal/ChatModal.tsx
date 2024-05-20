@@ -40,6 +40,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
     const stompClient = useRef<Client | null>(null);
     const modalInstanceRef = useRef<boolean>(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [isSending, setIsSending] = useState(false); // 메시지 전송 상태
 
     // 모달이 열릴 때와 닫힐 때 효과 설정
     useEffect(() => {
@@ -117,7 +118,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
     // 메시지 전송 함수
     const sendMessage = async () => {
-        if (!newMessage.trim()) return;
+        if (!newMessage.trim() || isSending) return;
         const messageToSend = {
             type: 'TALK',
             roomId: 'main-room',
@@ -126,6 +127,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
         };
 
         try {
+            setIsSending(true);
             if (stompClient.current && stompClient.current.connected) {
                 stompClient.current.publish({
                     destination: '/pub/chat/send',
@@ -136,6 +138,8 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
             setNewMessage('');
         } catch (error) {
             console.error('Error sending message:', error);
+        } finally {
+            setIsSending(false); // 전송 종료
         }
     };
 
@@ -188,6 +192,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 {messages.map((msg) => (
                     <p key={uuidv4()}>{`${msg.sender}: ${msg.message}`}</p>
                 ))}
+                <div ref={messagesEndRef} />
             </div>
             <div>
                 {searchResults.length > 0 && (

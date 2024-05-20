@@ -6,6 +6,7 @@ interface NicknameModalProps {
     isOpen: boolean;
     onRequestClose: () => void;
     onSubmit: (nickname: string) => void;
+    initialNickname?: string;
 }
 
 const NicknameModal: React.FC<NicknameModalProps> = ({ isOpen, onRequestClose, onSubmit }) => {
@@ -46,7 +47,7 @@ const NicknameModal: React.FC<NicknameModalProps> = ({ isOpen, onRequestClose, o
             <div className={styles.modalContent}>
                 <h2>닉네임을 입력해 주세요</h2>
                 <input
-                    ref={inputRef} // ref 입력값에
+                    ref={inputRef}
                     type="text"
                     value={nickname}
                     onChange={handleNicknameChange}
