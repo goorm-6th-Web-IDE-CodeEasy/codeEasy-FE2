@@ -37,19 +37,19 @@
 
 .searchResults {
     position: absolute;
-    top: 50px; /* 적절한 위치로 조정 */
-    left: 20px;
-    right: 20px;
-    max-height: 200px; /* 필요한 높이로 조정 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-height: 200px;
     overflow-y: auto;
     margin: 10px 0;
     padding: 10px;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 6px;
-    z-index: 1000; /* 모달 내부에서 최상위로 설정 */
+    z-index: 1000;
 }
-
 .chatInput {
     padding: 15px;
     background-color: #f1f1f1;
