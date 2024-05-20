@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { RecoilRoot, useRecoilValue } from 'recoil';
 import { scaleState } from './recoil/state/scaleState';
@@ -8,6 +8,8 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import { ThemePage } from './pages/Theme/ThemePage';
 import WebIDE from './pages/IDE/webIDE';
+import Mypage from './pages/Mypage/Mypage';
+import FAQ from './pages/FAQ/FAQ';
 import { ThemeState } from './pages/Theme/ThemeState';
 import styles from './global.module.scss';
 
@@ -15,28 +17,33 @@ const ROUTES_INFO = [
     { path: '/', element: <WebIDE /> },
     { path: '/algorithm', element: <Algorithm /> },
     { path: '/login', element: <Login /> },
+    { path: '/mypage', element: <Mypage /> },
     { path: '/register', element: <Register /> },
+    { path: '/faq', element: <FAQ /> },
     { path: '/theme', element: <ThemePage /> },
-    { path: '/WebIDE', element: <WebIDE /> },
-    // 추가 라우트 경로들
+
+    { path: '/ide/:problemID', element: <WebIDE /> },
+
 ];
 
 const App: React.FC = () => {
     return (
         <RecoilRoot>
-            <AppContent />
+            <Suspense fallback={<div>Loading...</div>}>
+                <AppContent />
+            </Suspense>
         </RecoilRoot>
     );
 };
 
 const AppContent: React.FC = () => {
     const scale = useRecoilValue<number>(scaleState);
-    const theme = useRecoilValue(ThemeState);
+    const selectedTheme = useRecoilValue<string>(ThemeState);
+
     return (
         <HashRouter>
-            {/* 헤더와 푸터 각 페이지마다 따로 넣기 */}
             <div
-                className={styles[`mode_${theme}`]}
+                className={`${styles.container} ${styles[`mode_${selectedTheme}`]}`}
                 style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
             >
                 <Routes>

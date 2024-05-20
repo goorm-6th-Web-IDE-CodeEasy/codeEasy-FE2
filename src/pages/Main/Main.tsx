@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { soundState } from '../../recoil/state/soundState';
 import styles from './Main.module.scss';
@@ -9,8 +9,8 @@ import { HomeFAQBtn } from '../../components/Svg/HomeFAQBtn';
 import { HomeSoundDrawing } from '../../components/Svg/HomeSoundDrawing';
 import Footer from '../../Layout/Footer/Footer';
 import Header from '../../Layout/Header/Header';
-import throttle from 'lodash/throttle';
 import { ThemeState } from '../Theme/ThemeState';
+import throttle from 'lodash/throttle';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
 import ChatModal from '../../chat/ChatModal/ChatModal';
@@ -29,14 +29,45 @@ const Main: React.FC = () => {
 
     const toggleChat = () => setChatOpen((prev) => !prev);
 
+    //svg fill컬러 가져와야함
+    // 모드에 따른 색상 설정
+    const getColor = (variable: string) => getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+
+    const [colors, setColors] = useState({
+        primaryColor: '',
+        secondaryColor: '',
+        thirdColor: '',
+        forthColor: '',
+        backgroundColor: '',
+        fontColor: '',
+    });
+
+    useEffect(() => {
+        const primaryColor = getColor('--primary-color');
+        const secondaryColor = getColor('--secondary-color');
+        const thirdColor = getColor('--third-color');
+        const forthColor = getColor('--forth-color');
+        const backgroundColor = getColor('--background-color');
+        const fontColor = getColor('--font-color');
+
+        setColors({
+            primaryColor,
+            secondaryColor,
+            thirdColor,
+            forthColor,
+            backgroundColor,
+            fontColor,
+        });
+    }, []); // 테마가 변경될 때마다 색상 값을 가져옴.
+
     return (
-        <div className={`${theme}`} aria-label="Main section">
+        <div className={`${styles.container} ${styles[`mode_${theme}`]}`} aria-label="Coding test section">
             <div className={styles.container}>
                 <Header />
                 <div className={styles.mainSection1} aria-label="코드이지 사이트 안내 문구" tabIndex={0}>
                     <div className={styles.textContainer} tabIndex={-1}>
                         <h1
-                            onMouseEnter={() => handleTTS('알고리즘 코드이지와 함께 이제 누구나 쉽게 정복하세요')}
+                            onClick={() => handleTTS('알고리즘 코드이지와 함께 이제 누구나 쉽게 정복하세요')}
                             className={styles.h1Title}
                             tabIndex={0}
                         >
@@ -64,7 +95,7 @@ const Main: React.FC = () => {
                                 aria-label="알고리즘 문제 풀이 페이지로 이동 버튼"
                                 tabIndex={0}
                             >
-                                <HomeCodingTestBtn />
+                                <HomeCodingTestBtn fill={colors.primaryColor} />
                             </Link>
                             <Link
                                 to="/theme"
@@ -73,7 +104,7 @@ const Main: React.FC = () => {
                                 aria-label="테마 설정 바꾸기"
                                 tabIndex={0}
                             >
-                                <HomeThemeBtn />
+                                <HomeThemeBtn fill={colors.secondaryColor} />
                             </Link>
                         </div>
                         <div className={styles.shortcut2}>
@@ -83,7 +114,7 @@ const Main: React.FC = () => {
                                 aria-label="채팅방 접속 버튼"
                                 tabIndex={0}
                             >
-                                <HomeChatBtn />
+                                <HomeChatBtn fill={colors.thirdColor} />
                             </button>
                             <ChatModal isOpen={chatOpen} onClose={() => setChatOpen(false)} />
                             <Link
@@ -93,7 +124,7 @@ const Main: React.FC = () => {
                                 aria-label="도움말"
                                 tabIndex={0}
                             >
-                                <HomeFAQBtn />
+                                <HomeFAQBtn fill={colors.forthColor} />
                             </Link>
                         </div>
                     </div>
@@ -113,7 +144,7 @@ const Main: React.FC = () => {
                     </div>
                     <div className={styles.textContainer}>
                         <h1
-                            onMouseEnter={() => handleTTS('다양한 난이도의 문제를 코드이지에서 풀어보세요')}
+                            onClick={() => handleTTS('다양한 난이도의 문제를 코드이지에서 풀어보세요')}
                             className={styles.h1Title}
                         >
                             <span className={styles.bgAlgorithm}>다양한 난이도의 문제</span>를 <br />
@@ -134,7 +165,7 @@ const Main: React.FC = () => {
                 <div className={styles.mainSection3} aria-label="음성 기능 활용 안내 문구" tabIndex={0}>
                     <div className={styles.textContainer}>
                         <h1
-                            onMouseEnter={() => handleTTS('음성 기능을 활용하여 문제를 풀 수 있어요.')}
+                            onClick={() => handleTTS('음성 기능을 활용하여 문제를 풀 수 있어요.')}
                             className={styles.h1Title}
                             tabIndex={0}
                         >

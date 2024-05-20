@@ -6,27 +6,31 @@ import { loggedInState, userState } from '../../recoil/state/loggedInState';
 import styles from './Algorithm.module.scss';
 import Footer from '../../Layout/Footer/Footer';
 import AlgorithmMainSvg from '../../components/Svg/AlgorithmMainSvg';
+import { v4 as uuidv4 } from 'uuid'; // uuid import
 import { ThemeState } from '../Theme/ThemeState';
 import Header from '../../Layout/Header/Header';
 import throttle from 'lodash/throttle';
 import axios from 'axios';
+import api from '../../components/Api/Api'; // axios 인스턴스 사용
 import SkeletonLoader from '../../components/SkeletonLoader/SkeletonLoader';
 import { Tooltip } from 'react-tooltip';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 
 interface User {
+    id: number;
     nickname: string;
     tier: string;
-    doneProblem: number;
     avatar: string;
+    solvedproblems: number;
 }
 
 interface Problem {
+    problemID: number;
     title: string;
     tier: string;
     algorithm: string;
     done: boolean;
-    rate: string;
+    rate: number;
 }
 
 interface Filter {
@@ -36,24 +40,24 @@ interface Filter {
 }
 
 const tierOrder: { [key: string]: number } = {
-    브론즈: 1,
-    실버: 2,
-    골드: 3,
-    플래티넘: 4,
-    다이아: 5,
+    BRONZE: 1,
+    SILVER: 2,
+    GOLD: 3,
+    PLATINUM: 4,
+    DIAMOND: 5,
 };
 
 const Algorithm: React.FC = () => {
     const theme = useRecoilValue(ThemeState);
     const isLoggedIn = useRecoilValue(loggedInState);
-    const user = useRecoilValue(userState);
-    const [isVolumeOn] = useRecoilState<boolean>(soundState);
-    const [loading, setLoading] = useState(true);
+    const user = useRecoilValue(userState) as User;
+    const [isVolumeOn] = useRecoilState(soundState);
+    const [loading, setLoading] = useState<boolean>(true);
     const [problems, setProblems] = useState<Problem[]>([]);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState<string>('');
     const [filter, setFilter] = useState<Filter>({ tier: '', algorithm: '', done: '' });
     const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [sortKey, setSortKey] = useState<keyof Problem | null>(null);
 
@@ -61,27 +65,39 @@ const Algorithm: React.FC = () => {
         const fetchProblems = async () => {
             setLoading(true);
             try {
-                const headers = isLoggedIn ? { 'X-User-ID': user?.id.toString() } : {};
-                let query = '/api/problems?';
-                if (filter.tier) query += `tier=${filter.tier}&`;
-                if (filter.algorithm) query += `algorithm=${filter.algorithm}&`;
-                if (filter.done) query += `done=${filter.done}&`;
+                const headers = isLoggedIn ? { Authorization: localStorage.getItem('authToken') } : {};
+                let query = '/problemlist';
+                const params = new URLSearchParams();
+                if (filter.tier) params.append('tier', filter.tier);
+                if (filter.algorithm) params.append('algorithm', filter.algorithm);
+                if (filter.done) params.append('done', filter.done);
 
-                const responseProblems = await axios.get<{ problems: Problem[] }>(query, { headers });
-                setProblems(responseProblems.data?.problems ?? []);
-                if (responseProblems.data?.problems?.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * responseProblems.data.problems.length);
-                    setRandomProblem(responseProblems.data.problems[randomIndex]);
+                if (params.toString()) query += `?${params.toString()}`;
+
+                console.log(`Fetching problems with query: ${query}`);
+
+                const response = await api.get<{ problems: Problem[] }>(query, { headers });
+                const responseProblems = response.data ?? [];
+
+                if (responseProblems.length === 0) {
+                    throw new Error('No problems found');
                 }
+
+                setProblems(responseProblems);
+                const randomIndex = Math.floor(Math.random() * responseProblems.length);
+                setRandomProblem(responseProblems[randomIndex]);
             } catch (error) {
                 console.error('Error fetching problems:', error);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
+
         fetchProblems();
     }, [isLoggedIn, user?.id, filter]);
 
     const filteredProblems = useMemo(() => {
+        if (!Array.isArray(problems)) return []; // 문제가 배열인지 확인
         let sortedProblems = problems.filter(
             (problem) =>
                 problem.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -95,19 +111,11 @@ const Algorithm: React.FC = () => {
                 if (sortKey === 'rate') {
                     const rateA = parseFloat(a.rate);
                     const rateB = parseFloat(b.rate);
-                    if (sortOrder === 'asc') {
-                        return rateA - rateB;
-                    } else {
-                        return rateB - rateA;
-                    }
+                    return sortOrder === 'asc' ? rateA - rateB : rateB - rateA;
                 } else if (sortKey === 'tier') {
                     const tierA = tierOrder[a.tier];
                     const tierB = tierOrder[b.tier];
-                    if (sortOrder === 'asc') {
-                        return tierA - tierB;
-                    } else {
-                        return tierB - tierA;
-                    }
+                    return sortOrder === 'asc' ? tierA - tierB : tierB - tierA;
                 }
                 return 0;
             });
@@ -145,14 +153,15 @@ const Algorithm: React.FC = () => {
     };
 
     return (
-        <div className={`${theme}`}>
+        // <div className={`${theme}`}>
+        <div className={`${styles.container} ${styles[`mode_${theme}`]}`} aria-label="Main section">
             <div className={styles.container}>
                 <Header />
                 <div className={styles.mainSection}>
                     <div className={styles.textContainer}>
                         <h1 className={styles.h1Title}>
-                            반갑습니다, {isLoggedIn && user ? user.nickname : '게스트'}님<br></br>오늘도 힘차게
-                            시작해볼까요?
+                            반갑습니다, {isLoggedIn && user ? user.nickname : '게스트'}님<br />
+                            오늘도 힘차게 시작해볼까요?
                         </h1>
                         <div>
                             <button className={styles.btnAlgorithm}>문제 풀어보기</button>
@@ -197,13 +206,15 @@ const Algorithm: React.FC = () => {
                                         className={styles.filterSelect}
                                     >
                                         <option value="">알고리즘 유형</option>
-                                        <option value="정렬">정렬</option>
-                                        <option value="구현">구현</option>
-                                        <option value="자료구조">자료구조</option>
-                                        <option value="그리디 알고리즘">그리디 알고리즘</option>
-                                        <option value="다이나믹 프로그래밍">다이나믹 프로그래밍</option>
-                                        <option value="너비 우선 탐색">너비 우선 탐색</option>
-                                        <option value="백트래킹">백트래킹</option>
+                                        <option value="DFS">깊이 우선 탐색</option>
+                                        <option value="BFS">너비 우선 탐색</option>
+                                        <option value="GREEDY">그리디 알고리즘</option>
+                                        <option value="DYNAMIC_GRAMMING">동적 계획법</option>
+                                        <option value="BACKTRACKING">백트래킹</option>
+                                        <option value="STRING">문자열</option>
+                                        <option value="SORT">정렬</option>
+                                        <option value="IMPLEMENTATION">구현</option>
+                                        <option value="DATA_STRUCTURE">자료구조</option>
                                     </select>
                                     <select
                                         value={filter.tier}
@@ -211,11 +222,11 @@ const Algorithm: React.FC = () => {
                                         className={styles.filterSelect}
                                     >
                                         <option value="">티어</option>
-                                        <option value="브론즈">브론즈</option>
-                                        <option value="실버">실버</option>
-                                        <option value="골드">골드</option>
-                                        <option value="플래티넘">플래티넘</option>
-                                        <option value="다이아">다이아</option>
+                                        <option value="BRONZE">브론즈</option>
+                                        <option value="SILVER">실버</option>
+                                        <option value="GOLD">골드</option>
+                                        <option value="PLATINUM">플래티넘</option>
+                                        <option value="DIAMOND">다이아</option>
                                     </select>
                                 </div>
                             </div>
@@ -249,15 +260,17 @@ const Algorithm: React.FC = () => {
                                 <tbody>
                                     {filteredProblems
                                         .slice((currentPage - 1) * problemsPerPage, currentPage * problemsPerPage)
-                                        .map((problem, problemID) => (
-                                            <tr key={problemID} className={styles.tr}>
+                                        .map((problem) => (
+                                            <tr key={uuidv4()} className={styles.tr}>
                                                 <td className={styles.td}>{problem.done ? '☑' : ''}</td>
                                                 <td className={styles.td}>
-                                                    <div className={styles.algorithmType}>{problem.algorithm}</div>
-                                                    <div>{problem.title}</div>
+                                                    <Link to={`/ide/${problem.problemID}`}>
+                                                        <div className={styles.algorithmType}>{problem.algorithm}</div>
+                                                        <div>{problem.title}</div>
+                                                    </Link>
                                                 </td>
                                                 <td className={styles.td}>{problem.tier}</td>
-                                                <td className={styles.td}>{problem.rate}</td>
+                                                <td className={styles.td}>{problem.rate}%</td>
                                             </tr>
                                         ))}
                                 </tbody>
@@ -293,7 +306,7 @@ const Algorithm: React.FC = () => {
                                 {randomProblem && (
                                     <div className={styles.todayAlgorithm}>
                                         <p className={styles.title}>
-                                            {user.nickname}님을 위한 <br></br>
+                                            {user.nickname}님을 위한 <br />
                                             <span>오늘의 추천 알고리즘</span>
                                         </p>
                                         <h3>{randomProblem.algorithm}</h3>
@@ -304,7 +317,7 @@ const Algorithm: React.FC = () => {
                         ) : (
                             <div className={styles.todayAlgorithm}>
                                 <p className={styles.title}>
-                                    게스트님을 위한 <br></br>
+                                    게스트님을 위한 <br />
                                     <span>오늘의 추천 알고리즘</span>
                                 </p>
                                 <Link to="/login">

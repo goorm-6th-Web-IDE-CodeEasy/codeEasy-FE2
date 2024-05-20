@@ -1,3 +1,9 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
 //fontSize
 $L: 2.5625rem; // Large (41px)
 $m: 1.75rem; // Medium (28px)
@@ -13,7 +19,7 @@ $light-gray: #16181c;
     &_light {
         --background-color: #ffffff;
         --font-color: #16181c;
-        --primary-color: #5faaff;
+        --primary-color: #067aff;
         --secondary-color: #49ea5a;
         --third-color: #ff9900;
         --forth-color: #f2f203;
@@ -38,38 +44,10 @@ $light-gray: #16181c;
     }
 }
 
-.body {
+.temp {
+    height: 6.25rem;
+    width: 6.25rem;
     background-color: var(--background-color);
     color: var(--font-color);
+    border: 0.0625rem solid var(--primary-color);
 }
-// Light Themes
-$light-mode-white: #ffffff;
-$light-mode-light-gray: #16181c;
-$light-mode-orange: #ff9900;
-$light-mode-yellow: #fafa4f;
-$light-mode-green: #2f9e35;
-$light-mode-blue: #4e9e5a;
-$light-mode-red: #f82915;
-
-// Dark Theme
-$dark-mode-dark-gray: #16181c;
-$dark-mode-dark-blue: #00009f;
-$dark-mode-dark-green: #017e17;
-$dark-mode-dark-orange: #fb8f1b;
-$dark-mode-dark-yellow: #faff00;
-
-// High Contrast Dark Theme
-$high-contrast-dark-white: #ffffff;
-$high-contrast-dark-gray: #16181c;
-$high-contrast-dark-blue: #0000ff;
-$high-contrast-dark-green: #03ff00;
-$high-contrast-dark-red: #ff0000;
-
-// High Contrast Light Theme
-$high-contrast-light-white: #ffffff;
-$high-contrast-light-light-gray: #16181c;
-$high-contrast-light-orange: #ff9900;
-$high-contrast-light-yellow: #fafa4f;
-$high-contrast-light-green: #2f9e35;
-$high-contrast-light-blue: #4e9e5a;
-$high-contrast-light-red: #f82915;

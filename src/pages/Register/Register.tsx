@@ -19,7 +19,7 @@ const Register = () => {
         password: '',
         confirmPassword: '',
         nickname: '',
-        verificationCode: '',
+        certificationCode: '',
     })
     const [availability, setAvailability] = useState<Availability>({
         nicknameAvailable: true,
@@ -65,7 +65,7 @@ const Register = () => {
         try {
             const response = await api.post<ApiResponse<VerificationData>>('/register/certificate-code', {
                 email: formData.email,
-                verificationCode: formData.verificationCode,
+                certificationCode: formData.certificationCode,
             })
             if (response.data.success) {
                 setAvailability((prev) => ({ ...prev, emailVerified: true }))
@@ -81,13 +81,16 @@ const Register = () => {
 
     //닉네임의 중복 여부를 확인하기
     const checkAvailability = async (nickname: string) => {
-        if (!nickname) return //닉네임이 비어있으면 바로 반환
+        if (!nickname) return // 닉네임이 비어있으면 바로 반환
         try {
-            const response = await api.get<ApiResponse<AvailabilityCheck>>(`/nickname-check`, {
+            const response = await api.get<ApiResponse<AvailabilityCheck>>(`/register/nickname-check`, {
                 params: { nickname },
             })
             setAvailability((prev) => ({ ...prev, [`nicknameAvailable`]: response.data.data.available }))
-            if (!response.data.data.available) {
+
+            if (response.data.data.available) {
+                alert('사용 가능한 닉네임입니다.') // 사용 가능한 경우 메시지
+            } else {
                 alert('닉네임이 이미 사용 중입니다.') // 닉네임 중복 메시지
             }
         } catch (error) {
@@ -98,7 +101,7 @@ const Register = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const { email, password, confirmPassword, nickname, verificationCode } = formData
+        const { email, password, confirmPassword, nickname } = formData
         const { nicknameAvailable, emailVerified } = availability
 
         if (!nicknameAvailable || !emailVerified) {
@@ -115,11 +118,10 @@ const Register = () => {
         }
 
         try {
-            await api.post('/api/register', {
+            await api.post('/register', {
                 email,
                 password,
                 nickname,
-                verificationCode,
             })
             navigate('/login')
         } catch (error) {
@@ -189,9 +191,9 @@ const Register = () => {
                                 <InputField
                                     label="인증 코드"
                                     type="text"
-                                    name="verificationCode"
+                                    name="certificationCode"
                                     placeholder="인증 코드를 입력하세요"
-                                    value={formData.verificationCode}
+                                    value={formData.certificationCode}
                                     onChange={handleInputChange}
                                 />
                                 <button type="button" onClick={verifyCode}>

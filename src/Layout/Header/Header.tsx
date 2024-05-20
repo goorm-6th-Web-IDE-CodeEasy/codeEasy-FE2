@@ -1,49 +1,62 @@
-import { Link } from 'react-router-dom'
-import React from 'react'
-import { useRecoilState } from 'recoil'
-import { soundState } from '../../recoil/state/soundState'
-import { scaleState } from '../../recoil/state/scaleState'
-import { loggedInState, userState } from '../../recoil/state/loggedInState'
-import styles from './Header.module.scss' // 스타일 시트 임포트
-import Logo from '../../components/Svg/Logo'
-import { HeaderSoundOnBtn } from '../../components/Svg/HeaderSoundOnBtn'
-import { HeaderSoundOffBtn } from '../../components/Svg/HeaderSoundOffBtn'
-import { HeaderPlusBtn } from '../../components/Svg/HeaderPlusBtn'
-import { HeaderMinusBtn } from '../../components/Svg/HeaderMinusBtn'
-import { HeaderClientBtn } from '../../components/Svg/HeaderClientBtn'
-import throttle from 'lodash/throttle'
+import React, { useEffect, startTransition } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { soundState } from '../../recoil/state/soundState';
+import { scaleState } from '../../recoil/state/scaleState';
+import { fetchUserState, loggedInState, userState } from '../../recoil/state/loggedInState';
+import styles from './Header.module.scss';
+import Logo from '../../components/Svg/Logo';
+import { HeaderSoundOnBtn } from '../../components/Svg/HeaderSoundOnBtn';
+import { HeaderSoundOffBtn } from '../../components/Svg/HeaderSoundOffBtn';
+import { HeaderPlusBtn } from '../../components/Svg/HeaderPlusBtn';
+import { HeaderMinusBtn } from '../../components/Svg/HeaderMinusBtn';
+import { HeaderClientBtn } from '../../components/Svg/HeaderClientBtn';
+import throttle from 'lodash/throttle';
 
 const Header: React.FC = () => {
-    const [isLoggedIn, setIsLoggedIn] = useRecoilState(loggedInState) //로그인 상태여부
-    const [user, setUser] = useRecoilState(userState) //로그인 시 정보
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(loggedInState); // 로그인 상태 여부
+    const [user, setUser] = useRecoilState(userState); // 로그인 시 정보
+    const fetchedUser = useRecoilValue(fetchUserState); // 초기화 시 사용자 정보 가져오기
+    const [isVolumeOn, setVolumeOn] = useRecoilState<boolean>(soundState); // useRecoilState 사용하여 전역 상태 관리
+    const [scale, setScale] = useRecoilState<number>(scaleState); // 확대/축소 상태
+    const navigate = useNavigate();
 
-    const [isVolumeOn, setVolumeOn] = useRecoilState<boolean>(soundState) // useRecoilState 사용하여 전역 상태 관리
-    const [scale, setScale] = useRecoilState<number>(scaleState) // 확대/축소 상태
+    useEffect(() => {
+        startTransition(() => {
+            if (isLoggedIn) {
+                setUser(fetchedUser);
+            } else {
+                setUser(null);
+            }
+        });
+    }, [isLoggedIn, fetchedUser, setUser]);
 
     const handleLogout = () => {
-        //로그아웃 상태
-        setIsLoggedIn(false)
-        setUser(null)
-    }
+        // 로그아웃 상태
+        setIsLoggedIn(false);
+        setUser(null);
+        localStorage.removeItem('authToken');
+        navigate('/login'); // 로그아웃 후 로그인 페이지로 이동
+    };
 
     const increaseScale = (): void => {
-        setScale((scale) => scale * 1.1) // 10%씩 확대
-    }
+        setScale((scale) => scale * 1.1); // 10%씩 확대
+    };
 
     const decreaseScale = (): void => {
-        setScale((scale) => scale * 0.9) // 10%씩 축소
-    }
+        setScale((scale) => scale * 0.9); // 10%씩 축소
+    };
 
     const toggleVolume = (): void => {
-        setVolumeOn(!isVolumeOn)
-    }
+        setVolumeOn(!isVolumeOn);
+    };
 
     const handleTTS = throttle((text: string): void => {
         if (isVolumeOn) {
-            const speech = new SpeechSynthesisUtterance(text)
-            window.speechSynthesis.speak(speech)
+            const speech = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(speech);
         }
-    }, 2000)
+    }, 2000);
 
     return (
         <>
@@ -76,16 +89,16 @@ const Header: React.FC = () => {
                                 <HeaderMinusBtn />
                             </button>
                             <button onMouseEnter={() => handleTTS('사용자 정보')} className={styles.clientIcon}>
-                                {isLoggedIn ? (
+                                {isLoggedIn && user ? (
                                     <img
-                                        src={user.avatar}
+                                        src={user?.imageUrl} // 옵셔널 체이닝 사용
                                         style={{
                                             width: '2.1875rem',
                                             height: '2.1875rem',
                                             objectFit: 'cover',
                                             borderRadius: '50%',
                                         }}
-                                        className={styles.avatar} //임시로 적용시킴.
+                                        className={styles.avatar}
                                     />
                                 ) : (
                                     <HeaderClientBtn />
@@ -112,6 +125,9 @@ const Header: React.FC = () => {
                                 className={styles.menuItem}
                             >
                                 테마
+                            </Link>
+                            <Link to="/FAQ" onMouseEnter={() => handleTTS('도움말')} className={styles.menuItem}>
+                                FAQ/도움말
                             </Link>
                         </div>
                         <div className={styles.userSection}>
@@ -159,7 +175,7 @@ const Header: React.FC = () => {
                 </nav>
             </header>
         </>
-    )
-}
+    );
+};
 
-export default Header
+export default Header;
