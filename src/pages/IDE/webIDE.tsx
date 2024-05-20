@@ -96,7 +96,6 @@ const WebIDE: React.FC = () => {
 
     return (
         <div className={styles[`mode_${theme}`]}>
-            <Header />
             <div className={styles.webIDE}>
                 <div className={styles.problemContent}>
                     <div className={styles.script}>
