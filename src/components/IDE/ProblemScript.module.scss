@@ -1,6 +1,10 @@
+@import '../../global.module.scss';
+* {
+    color: var(--font-color);
+}
 .container {
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: var(--background-color);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -27,8 +31,8 @@
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        background-color: #007bff;
-        color: #fff;
+        background-color: var(--primary-color);
+        color: var(--background-color);
         font-size: 14px;
 
         &:hover {
@@ -49,8 +53,8 @@
     p {
         margin: 0;
         padding: 10px;
-        background-color: #fff;
-        border: 1px solid #dee2e6;
+        background-color: var(--background-color);
+        border: 1px solid var(--background-color);
         border-radius: 4px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
