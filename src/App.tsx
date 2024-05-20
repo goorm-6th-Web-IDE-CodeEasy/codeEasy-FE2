@@ -14,14 +14,16 @@ import { ThemeState } from './pages/Theme/ThemeState';
 import styles from './global.module.scss';
 
 const ROUTES_INFO = [
-    { path: '/', element: <Main /> },
+    { path: '/', element: <WebIDE /> },
     { path: '/algorithm', element: <Algorithm /> },
     { path: '/login', element: <Login /> },
     { path: '/mypage', element: <Mypage /> },
     { path: '/register', element: <Register /> },
     { path: '/faq', element: <FAQ /> },
     { path: '/theme', element: <ThemePage /> },
+
     { path: '/ide/:problemID', element: <WebIDE /> },
+
 ];
 
 const App: React.FC = () => {

@@ -4,7 +4,6 @@ html {
     padding: 0;
     height: 100%;
 }
-
 //fontSize
 $L: 2.5625rem; // Large (41px)
 $m: 1.75rem; // Medium (28px)
@@ -16,7 +15,6 @@ $xs: 1rem; // Extra Small (16px)
 $white: #ffffff;
 $black: #000000;
 $light-gray: #16181c;
-
 .mode {
     &_light {
         --background-color: #ffffff;
