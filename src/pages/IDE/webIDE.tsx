@@ -131,7 +131,6 @@ const WebIDE: React.FC = () => {
                 </div>
                 <ResultModal isOpen={showModal} onClose={closeModal} content={modalContent} />
             </div>
-            <Footer />
         </div>
     );
 };
