@@ -238,9 +238,9 @@ const Algorithm: React.FC = () => {
                                             난이도
                                             <button onClick={() => handleSort('tier')} className={styles.sortButton}>
                                                 {sortKey === 'tier' && sortOrder === 'asc' ? (
-                                                    <FaSortUp style={{ color: '#fff' }} />
+                                                    <FaSortUp style={{ color: 'white !important' }} />
                                                 ) : (
-                                                    <FaSortDown style={{ color: '#fff' }} />
+                                                    <FaSortDown style={{ color: 'white !important' }} />
                                                 )}
                                             </button>
                                         </th>
@@ -248,9 +248,9 @@ const Algorithm: React.FC = () => {
                                             정답률
                                             <button onClick={() => handleSort('rate')} className={styles.sortButton}>
                                                 {sortKey === 'rate' && sortOrder === 'asc' ? (
-                                                    <FaSortUp style={{ color: '#fff' }} />
+                                                    <FaSortUp style={{ color: 'white !important' }} />
                                                 ) : (
-                                                    <FaSortDown style={{ color: '#fff' }} />
+                                                    <FaSortDown style={{ color: 'white !important' }} />
                                                 )}
                                             </button>
                                         </th>
