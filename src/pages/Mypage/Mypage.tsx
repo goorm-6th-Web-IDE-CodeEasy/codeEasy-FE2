@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { fetchUserState, loggedInState, userState } from '../../recoil/state/loggedInState'
 import Header from '../../Layout/Header/Header'
 import Footer from '../../Layout/Footer/Footer'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styles from './Mypage.module.scss'
 import api from '../../components/Api/Api'
 import { ProblemHistoryChart } from '../../components/Chart/Chart'
@@ -18,7 +18,7 @@ const Mypage = () => {
     const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
-    const [recentProblems, setRecentProblems] = useState([
+    const [recentProblems] = useState([
         { id: 1, title: '최단 경로 찾기' },
         { id: 2, title: '게임의 승자는 누구' },
         { id: 3, title: 'A + B' },
@@ -52,7 +52,7 @@ const Mypage = () => {
     useEffect(() => {
         startTransition(() => {
             if (isLoggedIn) {
-                setUser(null)
+                setUser(fetchedUser)
             } else {
                 setUser(null)
             }
