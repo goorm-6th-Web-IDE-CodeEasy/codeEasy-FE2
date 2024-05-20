@@ -9,6 +9,7 @@ import Register from './pages/Register/Register';
 import { ThemePage } from './pages/Theme/ThemePage';
 import WebIDE from './pages/IDE/webIDE';
 import Mypage from './pages/Mypage/Mypage';
+import FAQ from './pages/FAQ/FAQ';
 
 const ROUTES_INFO = [
     { path: '/', element: <Main /> },
@@ -16,6 +17,7 @@ const ROUTES_INFO = [
     { path: '/login', element: <Login /> },
     { path: '/mypage', element: <Mypage /> },
     { path: '/register', element: <Register /> },
+    { path: '/faq', element: <FAQ /> },
     { path: '/theme', element: <ThemePage /> },
     { path: '/ide/:problemID', element: <WebIDE /> }, //IDE 경로 추가
     // 추가 라우트 경로들

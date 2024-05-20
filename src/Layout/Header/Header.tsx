@@ -126,6 +126,9 @@ const Header: React.FC = () => {
                             >
                                 테마
                             </Link>
+                            <Link to="/FAQ" onMouseEnter={() => handleTTS('도움말')} className={styles.menuItem}>
+                                FAQ/도움말
+                            </Link>
                         </div>
                         <div className={styles.userSection}>
                             <p className={styles.greeting}>
