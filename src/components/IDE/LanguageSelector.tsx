@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeState } from '../../pages/Theme/ThemeState';
 import { useRecoilValue } from 'recoil';
-import styles from '../../global.module.scss';
+import styles from './LanguageSelector.module.scss';
 interface LanguageSelectorProps {
     onSelect: (selectedLanguage: string) => void;
 }

@@ -1,0 +1,11 @@
+@import '../../global.module.scss';
+
+select {
+    color: black;
+    option {
+        color: black;
+    }
+}
+label {
+    color: var(--font-color);
+}
