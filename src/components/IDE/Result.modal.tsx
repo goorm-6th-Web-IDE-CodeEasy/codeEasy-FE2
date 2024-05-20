@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import throttle from 'lodash/throttle';
 import { soundState } from '../../recoil/state/soundState';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -20,21 +20,15 @@ const ResultModal: React.FC<ResultModalProps> = ({ isOpen, onClose, content }) =
         }
     }, 3000);
 
-    useEffect(() => {
-        if (isOpen) {
-            handleTTS(content);
-        }
-    }, [isOpen, content, handleTTS]);
-
     return (
         <div className={styles[`mode_${theme}`]}>
             <div className={`${styles.modal} ${isOpen ? styles.open : ''}`}>
                 <div className={styles.modalOverlay} onClick={onClose}></div>
                 <div className={styles.modalContent}>
+                    <p onMouseDown={() => handleTTS(content)}>{content}</p>
                     <button className={styles.modalCloseButton} onClick={onClose}>
                         닫기
                     </button>
-                    <p>{content}</p>
                 </div>
             </div>
         </div>
