@@ -263,7 +263,10 @@ const Algorithm: React.FC = () => {
                                             <tr key={uuidv4()} className={styles.tr}>
                                                 <td className={styles.td}>{problem.done ? '☑' : ''}</td>
                                                 <td className={styles.td}>
-                                                    <Link to={`/ide/${problem.problemID}`}>
+                                                    <Link
+                                                        to={`/ide/${problem.problemID}`}
+                                                        style={{ textDecoration: 'none' }}
+                                                    >
                                                         <div className={styles.algorithmType}>{problem.algorithm}</div>
                                                         <div style={{ color: '#000' }}>{problem.title}</div>
                                                     </Link>
