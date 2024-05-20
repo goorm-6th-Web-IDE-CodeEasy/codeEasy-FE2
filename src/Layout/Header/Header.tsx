@@ -131,7 +131,7 @@ const Header: React.FC = () => {
                             </Link>
                         </div>
                         <div className={styles.userSection}>
-                            <p className={styles.greeting}>
+                            <p className={styles.greeting} style={{ color: 'white' }}>
                                 안녕하세요, {isLoggedIn && user ? user.nickname : '게스트'}님
                             </p>
                             {isLoggedIn && user ? (
@@ -140,6 +140,7 @@ const Header: React.FC = () => {
                                         to="/mypage"
                                         onMouseEnter={() => handleTTS('마이 페이지')}
                                         className={styles.loginLink}
+                                        style={{ color: 'white' }}
                                     >
                                         마이 페이지
                                     </Link>
@@ -148,6 +149,7 @@ const Header: React.FC = () => {
                                         onClick={handleLogout}
                                         onMouseEnter={() => handleTTS('로그아웃')}
                                         className={styles.logout}
+                                        style={{ color: 'white' }}
                                     >
                                         로그아웃
                                     </Link>

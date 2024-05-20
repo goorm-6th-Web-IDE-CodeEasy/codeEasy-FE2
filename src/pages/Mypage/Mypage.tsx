@@ -95,7 +95,6 @@ const Mypage = () => {
 
     return (
         <div className={`${styles[`mode_${theme}`]}`} aria-label="Main section">
-            <Header />
             <div className={styles.profilepagecontainer}>
                 <div className={styles.topsection}>
                     <div className={styles.profilecontainer}>
