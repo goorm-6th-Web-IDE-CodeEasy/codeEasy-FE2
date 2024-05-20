@@ -104,7 +104,6 @@ const WebIDE: React.FC = () => {
                     <div className={styles.IDEpart}>
                         <div className={styles.timer}>
                             <Timer onTimeUpdate={handleTimeUpdate} />
-                            <ResultModal isOpen={showModal} onClose={closeModal} content={modalContent} />
                         </div>
                         <div className={styles.editorContainer}>
                             <div className={styles.editor}>
@@ -129,6 +128,7 @@ const WebIDE: React.FC = () => {
                         </div>
                     </div>
                 </div>
+                <ResultModal isOpen={showModal} onClose={closeModal} content={modalContent} />
             </div>
         </div>
     );
