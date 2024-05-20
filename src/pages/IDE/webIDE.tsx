@@ -10,6 +10,8 @@ import { soundState } from '../../recoil/state/soundState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import throttle from 'lodash/throttle';
 import { ThemeState } from '../Theme/ThemeState';
+import Header from '../../Layout/Header/Header';
+import Footer from '../../Layout/Footer/Footer';
 
 const WebIDE: React.FC = () => {
     const [code, setCode] = useState('');
@@ -94,6 +96,7 @@ const WebIDE: React.FC = () => {
 
     return (
         <div className={styles[`mode_${theme}`]}>
+            <Header />
             <div className={styles.webIDE}>
                 <div className={styles.problemContent}>
                     <div className={styles.script}>
@@ -128,6 +131,7 @@ const WebIDE: React.FC = () => {
                 </div>
                 <ResultModal isOpen={showModal} onClose={closeModal} content={modalContent} />
             </div>
+            <Footer />
         </div>
     );
 };
