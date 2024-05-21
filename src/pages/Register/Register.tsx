@@ -67,7 +67,7 @@ const Register = () => {
                 email: formData.email,
                 certificationCode: formData.certificationCode,
             });
-            if (response.data.success) {
+            if (response.data.result) {
                 setAvailability((prev) => ({ ...prev, emailVerified: true }));
                 alert('이메일 인증 성공!');
             } else {
