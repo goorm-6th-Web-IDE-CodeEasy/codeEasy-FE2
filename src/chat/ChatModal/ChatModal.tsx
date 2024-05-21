@@ -118,7 +118,7 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
     // 메시지 전송 함수
     const sendMessage = async () => {
-        if (!newMessage.trim() || isSending) return;
+        if (!newMessage.trim() || isSending) return; // isSending 상태 확인
         const messageToSend = {
             type: 'TALK',
             roomId: 'main-room',
@@ -127,7 +127,6 @@ const ChatModal: React.FC<Props> = ({ isOpen, onClose }) => {
         };
 
         try {
-            setIsSending(true);
             if (stompClient.current && stompClient.current.connected) {
                 stompClient.current.publish({
                     destination: '/pub/chat/send',
