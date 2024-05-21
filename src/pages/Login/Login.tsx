@@ -60,9 +60,9 @@ const Login = () => {
         const redirectUri = import.meta.env[`VITE_REACT_APP_${service.toUpperCase()}_REDIRECT_URI`];
         const clientId = import.meta.env[`VITE_REACT_APP_${service.toUpperCase()}_CLIENT_ID`];
         const baseUrl = {
-            google: `https://accounts.google.com/o/oauth2/v2/auth?scope=email%20openid&response_type=code&redirect_uri=${redirectUri}&client_id=${clientId}`,
+            google: `http://localhost:8080/oauth2/authorization/google`,
             github: `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`,
-            kakao: `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`,
+            kakao: `http://localhost:8080/oauth2/authorization/kakao`,
         };
 
         window.location.href = baseUrl[service];
