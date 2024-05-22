@@ -29,7 +29,7 @@
 
 | 이소연 | 김한율 | 장유태 |
 | --- | --- | --- |
-|  [@leeyirie](https://github.com/leeyirie) |  [@hanyulrich](https://github.com/hanyulrich)|  [@jangyootae](https://github.com/jangyootae) |
+|  [@leeyirie](https://github.com/leeyirie) |  [@gimhanyul](https://github.com/gimhanyul)|  [@jangyootae](https://github.com/jangyootae) |
 
 
 
