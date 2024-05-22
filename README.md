@@ -30,3 +30,14 @@
 | 이소연 | 김한율 | 장유태 |
 | --- | --- | --- |
 |  [@leeyirie](https://github.com/leeyirie) | [@gimhanyul](https://github.com/hanyulrich) |  [@jangyootae](https://github.com/jangyootae) |
+
+
+
+## 사용 기술 스택(프론트)
+
+<img width="344" alt="기술 스택" src="https://github.com/goorm-6th-Web-IDE-CodeEasy/codeEasy-FE2/assets/84645739/f44876a1-eee5-4e86-8e0f-2bf794d7fa27">
+
+- React, TypeScript
+- CSS : SCSS
+- 상태관리 : Recoil
+
