@@ -7,6 +7,7 @@
 - 프로젝트 개발 기간: 2024.05.01 - 2024.05.20
 - 프로젝트 인원: 프론트엔드 3명(김한율, 이소연, 장유태), 백엔드 3명(최준, 이건호, 윤진경)
 - 프로젝트 시연 영상: [유튜브 링크](https://www.youtube.com/watch?v=6yafEg4OOfE)
+- 프로젝트 PPT: [링크](https://www.canva.com/design/DAGFrEnZFFo/h8Uzylpo8qSuphyKfTOmOQ/view?utm_content=DAGFrEnZFFo&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 ## 프로젝트 개요
 
